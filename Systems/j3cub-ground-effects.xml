@@ -580,7 +580,7 @@
         <!-- Friction factors per gear changout for summer, winter or snow      -->
         <!-- ================================================================== -->
 
-        <!-- Normalize snow depth to a usable value 1 + (m-0.0)/(0.6-0.0)*(40-1) -->
+        <!-- Normalize snow depth to a usable value 1 + (m-0.0)/(0.6-0.0)*(10-1) -->
         <fcs_function name="normalized-snow-depth">
             <output>ground/normalized-snow-depth</output>
             <function>
@@ -597,7 +597,7 @@
                             </difference>
                         </quotient>
                         <difference>
-                            <v>40.0</v>
+                            <v>60.0</v>
                             <v>1.0</v>
                         </difference>
                     </product>
@@ -690,9 +690,50 @@
                 <ifthen>
                     <p>gear/unit[0]/broken</p>
                     <p>gear/unit[0]/static_friction_coeff</p>
-                    <!-- not winter and not above snow line -->
+                    <!-- winter or above snow line -->
                     <ifthen>
-                        <not><p>ground/snow-possible</p></not>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <p>/environment/surface/snow-thickness-factor</p>
+                            <or>
+                                <gt>
+                                    <p>gear/unit[0]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>gear/unit[0]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <product>
+                            <switch>
+                                <property>bushkit</property>
+
+                                <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
+                                <quotient>
+                                    <value>0.2</value>
+                                    <p>gear/unit[0]/static-friction-factor</p>
+                                </quotient>
+                                <quotient>
+                                    <value>0.225</value>
+                                    <p>gear/unit[0]/static-friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.225</value>
+                                    <p>gear/unit[0]/static-friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.225</value>
+                                    <p>gear/unit[0]/static-friction-factor</p>
+                                </quotient>
+                            </switch>
+                            <p>ground/snow_friction-factor</p>
+                        </product>
+                        <!-- not winter and not above snow line -->
                         <switch>
                             <property>bushkit</property>
 
@@ -705,41 +746,6 @@
                             <value>0.0</value> <!-- contact 26-28 lski-->
                             <value>0.9</value> <!-- bogie (29 nose} tri-->
                         </switch>
-                        <!-- winter or above snow line -->
-                        <ifthen>
-                            <and>
-                               <p>ground/snow-possible</p>
-                                <or>
-                                    <gt>
-                                        <p>gear/unit[0]/rolling_friction-factor</p>
-                                        <v>2</v>
-                                    </gt>
-                                    <lt>
-                                        <p>gear/unit[0]/rolling_friction-factor</p>
-                                        <v>1</v>
-                                    </lt>
-                                </or>
-                            </and>
-                            <product>
-                                <switch>
-                                    <property>bushkit</property>
-
-                                    <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
-                                    <value>0.24</value>
-                                    <value>0.27</value>
-                                    <value>0.0</value>
-                                    <value>0.0</value>
-                                    <quotient>
-                                        <value>0.50</value>
-                                        <p>gear/unit[0]/static-friction-factor</p>
-                                    </quotient>
-                                    <value>0.0</value>
-                                    <value>0.27</value>
-                                </switch>
-                                <p>ground/snow_friction-factor</p>
-                            </product>
-                            <p>gear/unit[0]/static_friction_coeff</p>
-                        </ifthen>
                     </ifthen>
                 </ifthen>
             </function>
@@ -750,9 +756,50 @@
                 <ifthen>
                     <p>gear/unit[0]/broken</p>
                     <p>gear/unit[0]/dynamic_friction_coeff</p>
-                    <!-- not winter and not above snow line -->
+                    <!-- winter or above snow line -->
                     <ifthen>
-                        <not><p>ground/snow-possible</p></not>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <p>/environment/surface/snow-thickness-factor</p>
+                            <or>
+                                <gt>
+                                    <p>gear/unit[0]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>gear/unit[0]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <product>
+                            <switch>
+                                <property>bushkit</property>
+
+                                <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
+                                <quotient>
+                                    <value>0.125</value>
+                                    <p>gear/unit[0]/static-friction-factor</p>
+                                </quotient>
+                                <quotient>
+                                    <value>0.15</value>
+                                    <p>gear/unit[0]/static-friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.15</value>
+                                    <p>gear/unit[0]/static-friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.15</value>
+                                    <p>gear/unit[0]/static-friction-factor</p>
+                                </quotient>
+                            </switch>
+                            <p>ground/snow_friction-factor</p>
+                        </product>
+                        <!-- not winter and not above snow line -->
                         <switch>
                             <property>bushkit</property>
 
@@ -765,41 +812,6 @@
                             <value>0.0</value>
                             <value>0.6</value>
                         </switch>
-                        <!-- winter or above snow line -->
-                        <ifthen>
-                            <and>
-                                <p>ground/snow-possible</p>
-                                <or>
-                                    <gt>
-                                        <p>gear/unit[0]/rolling_friction-factor</p>
-                                        <v>2</v>
-                                    </gt>
-                                    <lt>
-                                        <p>gear/unit[0]/rolling_friction-factor</p>
-                                        <v>1</v>
-                                    </lt>
-                                </or>
-                            </and>
-                            <product>
-                                <switch>
-                                    <property>bushkit</property>
-
-                                    <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
-                                    <value>0.1</value>
-                                    <value>0.12</value>
-                                    <value>0.0</value>
-                                    <value>0.0</value>
-                                    <quotient>
-                                        <value>0.249</value>
-                                        <p>gear/unit[0]/static-friction-factor</p>
-                                    </quotient>
-                                    <value>0.0</value>
-                                    <value>0.12</value>
-                                </switch>
-                                <p>ground/snow_friction-factor</p>
-                            </product>
-                            <p>gear/unit[0]/dynamic_friction_coeff</p>
-                        </ifthen>
                     </ifthen>
                 </ifthen>
             </function>
@@ -810,56 +822,62 @@
                 <ifthen>
                     <p>gear/unit[0]/broken</p>
                     <p>gear/unit[0]/rolling_friction_coeff</p>
-                    <!-- not winter and not above snow line -->
+                    <!-- winter or above snow line -->
                     <ifthen>
-                        <not><p>ground/snow-possible</p></not>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <p>/environment/surface/snow-thickness-factor</p>
+                            <or>
+                                <gt>
+                                    <p>gear/unit[0]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>gear/unit[0]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <product>
+                          <switch>
+                              <property>bushkit</property>
+
+                              <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
+                              <quotient>
+                                  <value>0.006</value>
+                                  <p>gear/unit[0]/rolling_friction-factor</p>
+                              </quotient>
+                              <quotient>
+                                  <value>0.003</value>
+                                  <p>gear/unit[0]/rolling_friction-factor</p>
+                              </quotient>
+                              <value>0.0</value>
+                              <value>0.0</value>
+                              <quotient>
+                                  <value>0.003</value>
+                                  <p>gear/unit[0]/rolling_friction-factor</p>
+                              </quotient>
+                              <value>0.0</value>
+                              <quotient>
+                                  <value>0.003</value>
+                                  <p>gear/unit[0]/rolling_friction-factor</p>
+                              </quotient>
+                          </switch>
+                          <p>ground/snow_friction-factor</p>
+                        </product>
+                        <!-- not winter and not above snow line -->
                         <switch>
                             <property>bushkit</property>
 
                             <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
                             <value>0.022</value>
-                            <value>0.0015</value>
+                            <value>0.022</value>
                             <value>0.0</value>
                             <value>0.0</value>
-                            <value>0.0015</value>
+                            <value>0.022</value>
                             <value>0.0</value>
-                            <value>0.0015</value>
+                            <value>0.022</value>
                         </switch>
-                        <!-- winter or above snow line -->
-                        <ifthen>
-                            <and>
-                                <p>ground/snow-possible</p>
-                                <or>
-                                    <gt>
-                                        <p>gear/unit[0]/rolling_friction-factor</p>
-                                        <v>2</v>
-                                    </gt>
-                                    <lt>
-                                        <p>gear/unit[0]/rolling_friction-factor</p>
-                                        <v>1</v>
-                                    </lt>
-                                </or>
-                            </and>
-                            <product>
-                              <switch>
-                                  <property>bushkit</property>
-
-                                  <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
-                                  <value>0.022</value>
-                                  <value>0.0015</value>
-                                  <value>0.0</value>
-                                  <value>0.0</value>
-                                  <quotient>
-                                      <value>0.06</value>
-                                      <p>gear/unit[0]/rolling_friction-factor</p>
-                                  </quotient>
-                                  <value>0.0</value>
-                                  <value>0.0015</value>
-                              </switch>
-                              <p>ground/snow_friction-factor</p>
-                            </product>
-                            <p>gear/unit[0]/rolling_friction_coeff</p>
-                        </ifthen>
                     </ifthen>
                  </ifthen>
             </function>
@@ -871,9 +889,50 @@
                 <ifthen>
                     <p>gear/unit[29]/broken</p>
                     <p>gear/unit[29]/static_friction_coeff</p>
-                    <!-- not winter and not above snow line -->
+                    <!-- winter or above snow line -->
                     <ifthen>
-                        <not><p>ground/snow-possible</p></not>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <p>/environment/surface/snow-thickness-factor</p>
+                            <or>
+                                <gt>
+                                    <p>gear/unit[29]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>gear/unit[29]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <product>
+                            <switch>
+                                <property>bushkit</property>
+
+                                <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
+                                <quotient>
+                                    <value>0.2</value>
+                                    <p>gear/unit[29]/static-friction-factor</p>
+                                </quotient>
+                                <quotient>
+                                    <value>0.225</value>
+                                    <p>gear/unit[29]/static-friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.225</value>
+                                    <p>gear/unit[29]/static-friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.225</value>
+                                    <p>gear/unit[29]/static-friction-factor</p>
+                                </quotient>
+                            </switch>
+                            <p>ground/snow_friction-factor</p>
+                        </product>
+                        <!-- not winter and not above snow line -->
                         <switch>
                             <property>bushkit</property>
 
@@ -884,40 +943,8 @@
                             <value>0.0</value>
                             <value>0.9</value>
                             <value>0.0</value>
-                            <value>0.9</value>
+                            <value>0.85</value>
                         </switch>
-                        <!-- winter or above snow line -->
-                        <ifthen>
-                            <and>
-                                <p>ground/snow-possible</p>
-                                <or>
-                                    <gt>
-                                        <p>gear/unit[29]/rolling_friction-factor</p>
-                                        <v>2</v>
-                                    </gt>
-                                    <lt>
-                                        <p>gear/unit[29]/rolling_friction-factor</p>
-                                        <v>1</v>
-                                    </lt>
-                                </or>
-                            </and>
-                            <product>
-                                <switch>
-                                    <property>bushkit</property>
-
-                                    <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
-                                    <value>0.24</value>
-                                    <value>0.27</value>
-                                    <value>0.0</value>
-                                    <value>0.0</value>
-                                    <value>0.27</value>
-                                    <value>0.0</value>
-                                    <value>0.27</value>
-                                </switch>
-                                <p>ground/snow_friction-factor</p>
-                            </product>
-                            <p>gear/unit[29]/static_friction_coeff</p>
-                        </ifthen>
                     </ifthen>
                 </ifthen>
             </function>
@@ -928,9 +955,50 @@
                 <ifthen>
                     <p>gear/unit[29]/broken</p>
                     <p>gear/unit[29]/dynamic_friction_coeff</p>
-                    <!-- not winter and not above snow line -->
+                    <!-- winter or above snow line -->
                     <ifthen>
-                        <not><p>ground/snow-possible</p></not>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <p>/environment/surface/snow-thickness-factor</p>
+                            <or>
+                                <gt>
+                                    <p>gear/unit[29]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>gear/unit[29]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <product>
+                            <switch>
+                                <property>bushkit</property>
+
+                                <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
+                                <quotient>
+                                    <value>0.125</value>
+                                    <p>gear/unit[29]/static-friction-factor</p>
+                                </quotient>
+                                <quotient>
+                                    <value>0.15</value>
+                                    <p>gear/unit[29]/static-friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.15</value>
+                                    <p>gear/unit[29]/static-friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.15</value>
+                                    <p>gear/unit[29]/static-friction-factor</p>
+                                </quotient>
+                            </switch>
+                            <p>ground/snow_friction-factor</p>
+                        </product>
+                        <!-- not winter and not above snow line -->
                         <switch>
                             <property>bushkit</property>
 
@@ -943,38 +1011,6 @@
                             <value>0.0</value>
                             <value>0.6</value>
                         </switch>
-                        <!-- winter or above snow line -->
-                        <ifthen>
-                            <and>
-                                <p>ground/snow-possible</p>
-                                <or>
-                                    <gt>
-                                        <p>gear/unit[29]/rolling_friction-factor</p>
-                                        <v>2</v>
-                                    </gt>
-                                    <lt>
-                                        <p>gear/unit[29]/rolling_friction-factor</p>
-                                        <v>1</v>
-                                    </lt>
-                                </or>
-                            </and>
-                            <product>
-                                <switch>
-                                    <property>bushkit</property>
-
-                                    <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
-                                    <value>0.1</value>
-                                    <value>0.12</value>
-                                    <value>0.0</value>
-                                    <value>0.0</value>
-                                    <value>0.12</value>
-                                    <value>0.0</value>
-                                    <value>0.12</value>
-                                </switch>
-                                <p>ground/snow_friction-factor</p>
-                            </product>
-                            <p>gear/unit[29]/dynamic_friction_coeff</p>
-                        </ifthen>
                     </ifthen>
                 </ifthen>
             </function>
@@ -985,53 +1021,62 @@
                 <ifthen>
                     <p>gear/unit[29]/broken</p>
                     <p>gear/unit[29]/rolling_friction_coeff</p>
-                    <!-- not winter and not above snow line -->
+                    <!-- winter or above snow line -->
                     <ifthen>
-                        <not><p>ground/snow-possible</p></not>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <p>/environment/surface/snow-thickness-factor</p>
+                            <or>
+                                <gt>
+                                    <p>gear/unit[29]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>gear/unit[29]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <product>
+                            <switch>
+                                <property>bushkit</property>
+
+                                <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
+                                <quotient>
+                                    <value>0.006</value>
+                                    <p>gear/unit[29]/rolling_friction-factor</p>
+                                </quotient>
+                                <quotient>
+                                    <value>0.003</value>
+                                    <p>gear/unit[29]/rolling_friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.003</value>
+                                    <p>gear/unit[29]/rolling_friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.003</value>
+                                    <p>gear/unit[29]/rolling_friction-factor</p>
+                                </quotient>
+                            </switch>
+                            <p>ground/snow_friction-factor</p>
+                        </product>
+                        <!-- not winter and not above snow line -->
                         <switch>
                             <property>bushkit</property>
 
                             <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
-                            <value>0.022</value>
-                            <value>0.0015</value>
+                            <value>0.02</value>
+                            <value>0.01</value>
                             <value>0.0</value>
                             <value>0.0</value>
-                            <value>0.0015</value>
+                            <value>0.01</value>
                             <value>0.0</value>
-                            <value>0.0015</value>
+                            <value>0.015</value>
                         </switch>
-                        <!-- winter or above snow line -->
-                        <ifthen>
-                            <and>
-                                <p>ground/snow-possible</p>
-                                <or>
-                                    <gt>
-                                        <p>gear/unit[29]/rolling_friction-factor</p>
-                                        <v>2</v>
-                                    </gt>
-                                    <lt>
-                                        <p>gear/unit[29]/rolling_friction-factor</p>
-                                        <v>1</v>
-                                    </lt>
-                                </or>
-                            </and>
-                            <product>
-                                <switch>
-                                    <property>bushkit</property>
-
-                                    <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
-                                    <value>0.022</value>
-                                    <value>0.0015</value>
-                                    <value>0.0</value>
-                                    <value>0.0</value>
-                                    <value>0.0015</value>
-                                    <value>0.0</value>
-                                    <value>0.0015</value>
-                                </switch>
-                                <p>ground/snow_friction-factor</p>
-                            </product>    
-                            <p>gear/unit[29]/rolling_friction_coeff</p>
-                        </ifthen>
                     </ifthen>
                 </ifthen>
             </function>
@@ -1045,8 +1090,50 @@
                 <ifthen>
                     <p>gear/unit[1]/broken</p>
                     <p>gear/unit[1]/static_friction_coeff</p>
+                    <!-- winter or above snow line -->
                     <ifthen>
-                        <not><p>ground/snow-possible</p></not>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <p>/environment/surface/snow-thickness-factor</p>
+                            <or>
+                                <gt>
+                                    <p>gear/unit[1]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>gear/unit[1]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <product>
+                            <switch>
+                                <property>bushkit</property>
+
+                                <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
+                                <quotient>
+                                    <value>0.2</value>
+                                    <p>gear/unit[1]/static-friction-factor</p>
+                                </quotient>
+                                <quotient>
+                                    <value>0.225</value>
+                                    <p>gear/unit[1]/static-friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.225</value>
+                                    <p>gear/unit[1]/static-friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.225</value>
+                                    <p>gear/unit[1]/static-friction-factor</p>
+                                </quotient>
+                            </switch>
+                            <p>ground/snow_friction-factor</p>
+                        </product>
+                        <!-- not winter and not above snow line -->
                         <switch>
                             <property>bushkit</property>
 
@@ -1059,40 +1146,6 @@
                             <value>0.0</value>
                             <value>0.9</value>
                         </switch>
-                        <ifthen>
-                            <and>
-                                <p>ground/snow-possible</p>
-                                <or>
-                                    <gt>
-                                        <p>gear/unit[1]/rolling_friction-factor</p>
-                                        <v>2</v>
-                                    </gt>
-                                    <lt>
-                                        <p>gear/unit[1]/rolling_friction-factor</p>
-                                        <v>1</v>
-                                    </lt>
-                                </or>
-                            </and>
-                            <product>
-                                <switch>
-                                    <property>bushkit</property>
-
-                                    <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
-                                    <value>0.24</value>
-                                    <value>0.27</value>
-                                    <value>0.0</value>
-                                    <value>0.0</value>
-                                    <quotient>
-                                        <value>0.55</value>
-                                        <p>gear/unit[1]/static-friction-factor</p>
-                                    </quotient>
-                                    <value>0.0</value>
-                                    <value>0.27</value>
-                                </switch>
-                                <p>ground/snow_friction-factor</p>
-                            </product>   
-                            <p>gear/unit[1]/static_friction_coeff</p>
-                        </ifthen>
                     </ifthen>
                 </ifthen>
             </function>
@@ -1104,8 +1157,50 @@
                 <ifthen>
                     <p>gear/unit[1]/broken</p>
                     <p>gear/unit[1]/dynamic_friction_coeff</p>
+                    <!-- winter or above snow line -->
                     <ifthen>
-                        <not><p>ground/snow-possible</p></not>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <p>/environment/surface/snow-thickness-factor</p>
+                            <or>
+                                <gt>
+                                    <p>gear/unit[1]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>gear/unit[1]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <product>
+                            <switch>
+                                <property>bushkit</property>
+
+                                <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
+                                <quotient>
+                                    <value>0.125</value>
+                                    <p>gear/unit[1]/static-friction-factor</p>
+                                </quotient>
+                                <quotient>
+                                    <value>0.15</value>
+                                    <p>gear/unit[1]/static-friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.15</value>
+                                    <p>gear/unit[1]/static-friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.15</value>
+                                    <p>gear/unit[1]/static-friction-factor</p>
+                                </quotient>
+                            </switch>
+                            <p>ground/snow_friction-factor</p>
+                        </product>
+                        <!-- not winter and not above snow line -->
                         <switch>
                             <property>bushkit</property>
 
@@ -1118,40 +1213,6 @@
                             <value>0.0</value>
                             <value>0.6</value>
                         </switch>
-                        <ifthen>
-                            <and>
-                                <p>ground/snow-possible</p>
-                                <or>
-                                    <gt>
-                                        <p>gear/unit[1]/rolling_friction-factor</p>
-                                        <v>2</v>
-                                    </gt>
-                                    <lt>
-                                        <p>gear/unit[1]/rolling_friction-factor</p>
-                                        <v>1</v>
-                                    </lt>
-                                </or>
-                            </and>
-                            <product>
-                                <switch>
-                                    <property>bushkit</property>
-
-                                    <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
-                                    <value>0.1</value>
-                                    <value>0.12</value>
-                                    <value>0.0</value>
-                                    <value>0.0</value>
-                                    <quotient>
-                                        <value>0.275</value>
-                                        <p>gear/unit[1]/static-friction-factor</p>
-                                    </quotient>
-                                    <value>0.0</value>
-                                    <value>0.12</value>
-                                </switch>
-                                <p>ground/snow_friction-factor</p>
-                            </product>   
-                            <p>gear/unit[1]/dynamic_friction_coeff</p>
-                        </ifthen>
                     </ifthen>
                 </ifthen>
             </function>
@@ -1163,54 +1224,62 @@
                 <ifthen>
                     <p>gear/unit[1]/broken</p>
                     <p>gear/unit[1]/rolling_friction_coeff</p>
+                    <!-- winter or above snow line -->
                     <ifthen>
-                        <not><p>ground/snow-possible</p></not>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <p>/environment/surface/snow-thickness-factor</p>
+                            <or>
+                                <gt>
+                                    <p>gear/unit[1]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>gear/unit[1]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <product>
+                            <switch>
+                                <property>bushkit</property>
+
+                                <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
+                                <quotient>
+                                    <value>0.006</value>
+                                    <p>gear/unit[1]/rolling_friction-factor</p>
+                                </quotient>
+                                <quotient>
+                                    <value>0.003</value>
+                                    <p>gear/unit[1]/rolling_friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.003</value>
+                                    <p>gear/unit[1]/rolling_friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.003</value>
+                                    <p>gear/unit[1]/rolling_friction-factor</p>
+                                </quotient>
+                            </switch>
+                            <p>ground/snow_friction-factor</p>
+                        </product>
+                        <!-- not winter and not above snow line -->
                         <switch>
                             <property>bushkit</property>
 
                             <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
                             <value>0.02</value>
-                            <value>0.0008</value>
+                            <value>0.01</value>
                             <value>0.0</value>
                             <value>0.0</value>
-                            <value>0.0008</value>
+                            <value>0.01</value>
                             <value>0.0</value>
-                            <value>0.0008</value>
+                            <value>0.01</value>
                         </switch>
-                        <ifthen>
-                            <and>
-                                <p>ground/snow-possible</p>
-                                <or>
-                                    <gt>
-                                        <p>gear/unit[1]/rolling_friction-factor</p>
-                                        <v>2</v>
-                                    </gt>
-                                    <lt>
-                                        <p>gear/unit[1]/rolling_friction-factor</p>
-                                        <v>1</v>
-                                    </lt>
-                                </or>
-                            </and>
-                            <product>
-                                <switch>
-                                    <property>bushkit</property>
-
-                                    <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
-                                    <value>0.02</value>
-                                    <value>0.0008</value>
-                                    <value>0.0</value>
-                                    <value>0.0</value>
-                                    <quotient>
-                                        <value>0.06</value>
-                                        <p>gear/unit[1]/rolling_friction-factor</p>
-                                    </quotient>
-                                    <value>0.0</value>
-                                    <value>0.0008</value>
-                                </switch>
-                                <p>ground/snow_friction-factor</p>
-                            </product>   
-                            <p>gear/unit[1]/rolling_friction_coeff</p>
-                        </ifthen>
                     </ifthen>
                 </ifthen>
             </function>
@@ -1224,8 +1293,50 @@
                 <ifthen>
                     <p>gear/unit[2]/broken</p>
                     <p>gear/unit[2]/static_friction_coeff</p>
+                    <!-- winter or above snow line -->
                     <ifthen>
-                        <not><p>ground/snow-possible</p></not>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <p>/environment/surface/snow-thickness-factor</p>
+                            <or>
+                                <gt>
+                                    <p>gear/unit[2]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>gear/unit[2]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <product>
+                            <switch>
+                                <property>bushkit</property>
+
+                                <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
+                                <quotient>
+                                    <value>0.2</value>
+                                    <p>gear/unit[2]/static-friction-factor</p>
+                                </quotient>
+                                <quotient>
+                                    <value>0.225</value>
+                                    <p>gear/unit[2]/static-friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.225</value>
+                                    <p>gear/unit[2]/static-friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.225</value>
+                                    <p>gear/unit[2]/static-friction-factor</p>
+                                </quotient>
+                            </switch>
+                            <p>ground/snow_friction-factor</p>
+                        </product>
+                        <!-- not winter and not above snow line -->
                         <switch>
                             <property>bushkit</property>
 
@@ -1238,40 +1349,6 @@
                             <value>0.0</value>
                             <value>0.9</value>
                         </switch>
-                        <ifthen>
-                            <and>
-                                <p>ground/snow-possible</p>
-                                <or>
-                                    <gt>
-                                        <p>gear/unit[2]/rolling_friction-factor</p>
-                                        <v>2</v>
-                                    </gt>
-                                    <lt>
-                                        <p>gear/unit[2]/rolling_friction-factor</p>
-                                        <v>1</v>
-                                    </lt>
-                                </or>
-                            </and>
-                            <product>
-                                <switch>
-                                    <property>bushkit</property>
-
-                                    <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
-                                    <value>0.24</value>
-                                    <value>0.27</value>
-                                    <value>0.0</value>
-                                    <value>0.0</value>
-                                    <quotient>
-                                        <value>0.55</value>
-                                        <p>gear/unit[2]/static-friction-factor</p>
-                                    </quotient>
-                                    <value>0.0</value>
-                                    <value>0.27</value>
-                                </switch>
-                                <p>ground/snow_friction-factor</p>
-                            </product>   
-                            <p>gear/unit[2]/static_friction_coeff</p>
-                        </ifthen>
                     </ifthen>
                 </ifthen>
             </function>
@@ -1283,8 +1360,50 @@
                 <ifthen>
                     <p>gear/unit[2]/broken</p>
                     <p>gear/unit[2]/dynamic_friction_coeff</p>
+                    <!-- winter or above snow line -->
                     <ifthen>
-                        <not><p>ground/snow-possible</p></not>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <p>/environment/surface/snow-thickness-factor</p>
+                            <or>
+                                <gt>
+                                    <p>gear/unit[2]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>gear/unit[2]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <product>
+                            <switch>
+                                <property>bushkit</property>
+
+                                <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
+                                <quotient>
+                                    <value>0.125</value>
+                                    <p>gear/unit[2]/static-friction-factor</p>
+                                </quotient>
+                                <quotient>
+                                    <value>0.15</value>
+                                    <p>gear/unit[2]/static-friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.15</value>
+                                    <p>gear/unit[2]/static-friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.15</value>
+                                    <p>gear/unit[2]/static-friction-factor</p>
+                                </quotient>
+                            </switch>
+                            <p>ground/snow_friction-factor</p>
+                        </product>
+                        <!-- not winter and not above snow line -->
                         <switch>
                             <property>bushkit</property>
 
@@ -1297,40 +1416,6 @@
                             <value>0.0</value>
                             <value>0.6</value>
                         </switch>
-                        <ifthen>
-                            <and>
-                                <p>ground/snow-possible</p>
-                                <or>
-                                    <gt>
-                                        <p>gear/unit[2]/rolling_friction-factor</p>
-                                        <v>2</v>
-                                    </gt>
-                                    <lt>
-                                        <p>gear/unit[2]/rolling_friction-factor</p>
-                                        <v>1</v>
-                                    </lt>
-                                </or>
-                            </and>
-                            <product>
-                                <switch>
-                                    <property>bushkit</property>
-
-                                    <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
-                                    <value>0.1</value>
-                                    <value>0.12</value>
-                                    <value>0.0</value>
-                                    <value>0.0</value>
-                                    <quotient>
-                                        <value>0.275</value>
-                                        <p>gear/unit[2]/static-friction-factor</p>
-                                    </quotient>
-                                    <value>0.0</value>
-                                    <value>0.12</value>
-                                </switch>
-                                <p>ground/snow_friction-factor</p>
-                            </product>   
-                            <p>gear/unit[2]/dynamic_friction_coeff</p>
-                        </ifthen>
                     </ifthen>
                 </ifthen>
             </function>
@@ -1342,55 +1427,62 @@
                 <ifthen>
                     <p>gear/unit[2]/broken</p>
                     <p>gear/unit[2]/rolling_friction_coeff</p>
+                    <!-- winter or above snow line -->
                     <ifthen>
-                        <not><p>ground/snow-possible</p></not>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <p>/environment/surface/snow-thickness-factor</p>
+                            <or>
+                                <gt>
+                                    <p>gear/unit[2]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>gear/unit[2]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <product>
+                            <switch>
+                                <property>bushkit</property>
+
+                                <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
+                                <quotient>
+                                    <value>0.006</value>
+                                    <p>gear/unit[2]/rolling_friction-factor</p>
+                                </quotient>
+                                <quotient>
+                                    <value>0.003</value>
+                                    <p>gear/unit[2]/rolling_friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.003</value>
+                                    <p>gear/unit[2]/rolling_friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.003</value>
+                                    <p>gear/unit[2]/rolling_friction-factor</p>
+                                </quotient>
+                            </switch>
+                            <p>ground/snow_friction-factor</p>
+                        </product>
+                        <!-- not winter and not above snow line -->
                         <switch>
                             <property>bushkit</property>
 
                             <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
                             <value>0.02</value>
-                            <value>0.0008</value>
+                            <value>0.01</value>
                             <value>0.0</value>
                             <value>0.0</value>
-                            <value>0.0008</value>
+                            <value>0.01</value>
                             <value>0.0</value>
-                            <value>0.0008</value>
+                            <value>0.01</value>
                         </switch>
-                        <ifthen>
-                            <and>
-                                <p>ground/snow-possible</p>
-                                <or>
-                                    <gt>
-                                        <p>gear/unit[2]/rolling_friction-factor</p>
-                                        <v>2</v>
-                                    </gt>
-                                    <lt>
-                                        <p>gear/unit[2]/rolling_friction-factor</p>
-                                        <v>1</v>
-                                    </lt>
-                                </or>
-                            </and>
-                            <product>
-                                <switch>
-                                    <property>bushkit</property>
-
-                                    <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
-                                    <value>0.02</value>   <!-- bogie 0-2 defalut -->
-                                    <value>0.0008</value> <!-- bogie 0-2 tundra -->
-                                    <value>0.0</value>    <!-- contact 13-18 float -->
-                                    <value>0.0</value>    <!-- bogie 19-22 amph -->
-                                    <!--value>0.0008</value--> <!-- bogie 23-25 wski -->
-                                    <quotient>
-                                        <value>0.06</value>
-                                        <p>gear/unit[2]/rolling_friction-factor</p>
-                                    </quotient>
-                                    <value>0.0</value>    <!-- contact 26-28 lski-->
-                                    <value>0.0008</value> <!-- bogie (29 nose} tri-->
-                                </switch>
-                                <p>ground/snow_friction-factor</p>
-                            </product>   
-                            <p>gear/unit[2]/rolling_friction_coeff</p>
-                        </ifthen>
                     </ifthen>
                 </ifthen>
             </function>
