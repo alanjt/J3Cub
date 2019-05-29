@@ -78,17 +78,34 @@
 		<htailarm  unit="FT" >	13.20 </htailarm>
 		<vtailarea  unit="FT2">	10.20 </vtailarea>
 		<vtailarm  unit="FT" > 	13.40 </vtailarm>
+		
+<!-- These positions are all relative to the datum used in the main 3D view - see file Models/Cub.ac.
+     This is under the wing leading edge, level with the wing undersurface.
+     It is also used to position and animate objects in the aircraft model. -->
+	 
 		<location name="AERORP" unit="IN">
-			<x>    18.90 </x>
+		 <!-- Datum used by Erik Hofman´s FDM -->
+		 <!-- <x>    18.90 </x>
 			<y>     0.00 </y>
-			<z>     0.00 </z>
+			<z>     0.00 </z> -->
+ <!-- Datum used by Datcom FDM.  This is based on the aircraft horizontal datum, passing through the
+ propeller spinner. All dimensions in the Dactom input file are relative to this position.
+ To this is added the default CG position defined by the Datcom variables XCG and ZCG.  
+ All moments and rotary derivatives in the Datcom output file are defineted about this position. -->
+ 			<x>     18.90 </x> 
+			<y>     0.00 </y>
+			<z>     -19.685 </z>
 		</location>
+		
 		<location name="EYEPOINT" unit="IN">
+		 <!-- Eye position of pilot in rear cockpit  -->
 			<x>    30.63 </x>
 			<y>     0.00 </y>
 			<z>   -11.00 </z>
 		</location>
+		
 		<location name="VRP" unit="IN">
+		 <!-- Used when reporting aircraft position  -->
 			<x>    -9.86 </x>
 			<y>     0.00 </y>
 			<z>    -0.97 </z>
@@ -96,10 +113,13 @@
 	</metrics>
 
 	<mass_balance>
+	<!-- The empty weight and inertias are for the aircraft wirhout any elements defined below as <pointmass> 
+	To find the actual weight and inertia for a given flight condition examine properties /fdm/jsbsim/inertia 
+    or the menu item Equipment -> Fuel and Payload	at run time -->
 		<ixx unit="SLUG*FT2"> 538.01 </ixx>
 		<iyy unit="SLUG*FT2"> 386.81 </iyy>
 		<izz unit="SLUG*FT2"> 871.03 </izz> 
-		<!-- wihtout any rims or tires, default rims and tires 12.5 X 2 = 25 lb-->
+		<!-- wihthout any rims or tires, default rims and tires 12.5 X 2 = 25 lb-->
 		<emptywt unit="LBS" > 760.00 </emptywt>
 		<location name="CG" unit="IN">
 			<x>    13.80 </x>

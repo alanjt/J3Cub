@@ -13,6 +13,8 @@ var UPDATE_PERIOD = 0.3;
 # =============== Variables ================
 
 controls.incThrottle = func {
+print("controls.incThrottle");
+print("controls.THROTTLE_RATE",controls.THROTTLE_RATE );
     var delta = arg[1] * controls.THROTTLE_RATE * getprop("/sim/time/delta-realtime-sec");
     var old_value = getprop("/controls/engines/current-engine/throttle");
     var new_value = std.max(0.0, std.min(old_value + delta, 1.0));
@@ -20,6 +22,7 @@ controls.incThrottle = func {
 };
 
 controls.throttleMouse = func {
+print("controls.throttleMouse");
     if (!getprop("/devices/status/mice/mouse[0]/button[1]")) {
         return;
     }
@@ -33,12 +36,13 @@ controls.throttleMouse = func {
 # this is the correct way to interface with the axis based controls - use a listener
 # on the *-all property
 _setlistener("/controls/engines/throttle-all", func{
+print("listener throttle-all");
     var value = (1 - getprop("/controls/engines/throttle-all")) / 2;
     var new_value = std.max(0.0, std.min(value, 1.0));
     setprop("/controls/engines/current-engine/throttle", new_value);
 },0,0);
 _setlistener("/controls/engines/mixture-all", func{
-
+print("listener mixture-all");
     var value = (1 - getprop("/controls/engines/mixture-all")) / 2;
     var new_value = std.max(0.0, std.min(value, 1.0));
     setprop("/controls/engines/current-engine/mixture", new_value);
@@ -47,6 +51,7 @@ _setlistener("/controls/engines/mixture-all", func{
 # backwards compatibility only - the controls.throttleAxis should not be overridden like this. The joystick binding Throttle (all) has 
 # been replaced and controls.throttleAxis will not be called from the controls binding
 controls.throttleAxis = func {
+print("controls.throttleAxis");
     var value = (1 - cmdarg().getNode("setting").getValue()) / 2;
     var new_value = std.max(0.0, std.min(value, 1.0));
     setprop("/controls/engines/current-engine/throttle", new_value);
