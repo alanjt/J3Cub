@@ -113,7 +113,7 @@
 	</metrics>
 
 	<mass_balance>
-	<!-- The empty weight and inertias are for the aircraft wirhout any elements defined below as <pointmass> 
+	<!-- The empty weight and inertias are for the aircraft without any elements defined below as pointmass 
 	To find the actual weight and inertia for a given flight condition examine properties /fdm/jsbsim/inertia 
     or the menu item Equipment -> Fuel and Payload	at run time -->
 		<ixx unit="SLUG*FT2"> 538.01 </ixx>
@@ -488,9 +488,13 @@
 
 		<contact type="BOGEY" name="LEFT_MAIN">
 			<location unit="IN">
-				<x> -13.00 </x>
+			<!--	<x> -13.00 </x>
 				<y> -49.00 </y>
-				<z> -78.70 </z>
+				<z> -78.70 </z> -->
+				<!-- Replace with dimensions from Cub.ac -->
+				<x> 1.2 </x>
+				<y> -39.5 </y>
+				<z> -72.0 </z>
 			</location>
 			<static_friction>  0.80 </static_friction>
 			<dynamic_friction> 0.50 </dynamic_friction>
@@ -505,9 +509,13 @@
 
 		<contact type="BOGEY" name="RIGHT_MAIN">
 			<location unit="IN">
-				<x> -13.00 </x>
+			<!--	<x> -13.00 </x>
 				<y>  49.00 </y>
-				<z> -78.70 </z>
+				<z> -78.70 </z> -->
+				<!-- Replace with dimensions from Cub.ac -->
+				<x> 1.2 </x>
+				<y> 39.5 </y>
+				<z> -72.0 </z>
 			</location>
 			<static_friction>  0.80 </static_friction>
 			<dynamic_friction> 0.50 </dynamic_friction>
