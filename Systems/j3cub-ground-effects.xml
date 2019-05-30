@@ -239,7 +239,7 @@
                     <value>0.0</value>
                     <switch>
                         <property>bushkit</property>
-                        <value> -78.70 </value>
+                        <value> -72.0 </value>
                         <value> -86.00 </value>
                         <value>   0.00 </value>
                         <value>   0.00 </value>
@@ -329,7 +329,7 @@
                     <value>0.0</value>
                     <switch>
                         <property>bushkit</property>
-                        <value> -78.70 </value>
+                        <value> -72.0</value>
                         <value> -86.00 </value>
                         <value>   0.00 </value>
                         <value>   0.00 </value>
@@ -414,7 +414,7 @@
         <!--Move x pos for tri gear-->
         <switch name="x-position-left-gear">
             <output>gear/unit[1]/x-position</output>
-            <default value="-13"/>
+            <default value="1.0"/>
 
             <!-- Not Damaged -->
             <test logic="AND" value="30">
@@ -425,7 +425,7 @@
 
         <switch name="x-position-right-gear">
             <output>gear/unit[2]/x-position</output>
-            <default value="-13"/>
+            <default value="-1.0"/>
 
             <!-- Not Damaged -->
             <test logic="AND" value="30">

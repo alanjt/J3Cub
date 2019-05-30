@@ -106,7 +106,7 @@
 		
 		<location name="VRP" unit="IN">
 		 <!-- Used when reporting aircraft position  -->
-			<x>    -9.86 </x>
+            <x>    -9.86 </x>
 			<y>     0.00 </y>
 			<z>    -0.97 </z>
 		</location>
@@ -490,19 +490,19 @@
 			<location unit="IN">
 			<!--	<x> -13.00 </x>
 				<y> -49.00 </y>
-				<z> -78.70 </z> -->
-				<!-- Replace with dimensions from Cub.ac -->
-				<x> 1.2 </x>
+				<z> -78.70 </z> 
+				Replace with dimensions from Cub.ac -->
+				<x> 1.0 </x>
 				<y> -39.5 </y>
 				<z> -72.0 </z>
 			</location>
 			<static_friction>  0.80 </static_friction>
 			<dynamic_friction> 0.50 </dynamic_friction>
-			<rolling_friction> 0.02 </rolling_friction>
+			<rolling_friction> 0.005 </rolling_friction>
 			<spring_coeff  unit="LBS/FT">     1200.00 </spring_coeff>
 			<damping_coeff unit="LBS/FT/SEC">  400.00 </damping_coeff>
 			<damping_coeff_rebound unit="LBS/FT/SEC">850</damping_coeff_rebound>
-			<max_steer unit="DEG">0</max_steer>
+			<max_steer unit="DEG">360</max_steer> <!-- experiment with castering set -->
 			<brake_group> LEFT </brake_group>
 			<retractable> 0 </retractable>
 		</contact>
@@ -511,23 +511,23 @@
 			<location unit="IN">
 			<!--	<x> -13.00 </x>
 				<y>  49.00 </y>
-				<z> -78.70 </z> -->
-				<!-- Replace with dimensions from Cub.ac -->
-				<x> 1.2 </x>
+				<z> -78.70 </z>
+				Replace with dimensions from Cub.ac -->
+				<x> 1.0 </x>
 				<y> 39.5 </y>
 				<z> -72.0 </z>
 			</location>
 			<static_friction>  0.80 </static_friction>
 			<dynamic_friction> 0.50 </dynamic_friction>
-			<rolling_friction> 0.02 </rolling_friction>
+			<rolling_friction> 0.005 </rolling_friction>
 			<spring_coeff  unit="LBS/FT">     1200.00 </spring_coeff>
 			<damping_coeff unit="LBS/FT/SEC">  400.00 </damping_coeff>
 			<damping_coeff_rebound unit="LBS/FT/SEC">850</damping_coeff_rebound>
-			<max_steer unit="DEG">0</max_steer>
+			<max_steer unit="DEG">360</max_steer> <!-- experiment with castering set -->
 			<brake_group> RIGHT </brake_group>
 			<retractable> 0 </retractable>
 		</contact>
-
+B
 		<!-- contact 3, 4, 5 -->
 		<contact type="STRUCTURE" name="TAIL_SKID">
 			<location unit="IN">
