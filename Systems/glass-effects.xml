@@ -178,7 +178,7 @@
         <gain><property>/environment/aircraft-effects/panel-glass-reflection-factor</property></gain>
         <input>
             <property>/rendering/scene/diffuse/red</property>
-        </input> 
+        </input>
         <output>
             <property>/environment/aircraft-effects/panel-glass-reflection</property>
         </output>
