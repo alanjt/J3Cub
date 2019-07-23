@@ -9,7 +9,7 @@
         <dial-100-khz>instrumentation/adf[0]/frequencies/dial-100-khz</dial-100-khz>
     </params>
 
-    <path>kr87.ac</path>
+    <path>kr87_pa18.ac</path>
 
     <effect>
         <inherits-from>../../Effects/interior/j3cub-interior</inherits-from>
@@ -82,7 +82,7 @@
                     <property>sim/rendering/rembrandt/enabled</property>
                 </not>
                 <greater-than>
-                    <property>/sim/model/c172p/lighting/adf</property>
+                    <property>/sim/model/j3cub/lighting/adf</property>
                     <value>0.0</value>
                 </greater-than>
             </and>
@@ -91,12 +91,12 @@
             <red>1.0</red>
             <green>1.0</green>
             <blue>1.0</blue>
-            <factor-prop>/sim/model/c172p/lighting/adf</factor-prop>
+            <factor-prop>/sim/model/j3cub/lighting/adf</factor-prop>
         </emission>
     </animation>
 
     <animation>
-        <property>/sim/model/c172p/lighting/adf</property>
+        <property>/sim/model/j3cub/lighting/adf</property>
     </animation>
 
     <animation>
@@ -114,7 +114,7 @@
             <red>0.5</red>
             <green>0.1</green>
             <blue>0.00005</blue>
-            <factor-prop>/sim/model/c172p/lighting/adf</factor-prop>
+            <factor-prop>/sim/model/j3cub/lighting/adf</factor-prop>
         </emission>
     </animation>
 
@@ -353,7 +353,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>c172p.click("kr87-adf")</script>
+                <script>j3cub.click("kr87-adf")</script>
             </binding>
         </action>
         <hovered>
@@ -392,7 +392,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>c172p.click("kr87-adf")</script>
+                <script>j3cub.click("kr87-adf")</script>
             </binding>
         </action>
         <hovered>
@@ -452,7 +452,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>c172p.click("kr87-adf")</script>
+                <script>j3cub.click("kr87-adf")</script>
             </binding>
             <mod-up>
                 <binding>
@@ -462,7 +462,7 @@
                 </binding>
                 <binding>
                     <command>nasal</command>
-                    <script>c172p.click("kr87-adf")</script>
+                    <script>j3cub.click("kr87-adf")</script>
                 </binding>
             </mod-up>
         </action>
@@ -508,7 +508,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>c172p.click("kr87-adf")</script>
+                <script>j3cub.click("kr87-adf")</script>
             </binding>
             <mod-up>
                 <binding>
@@ -518,7 +518,7 @@
                 </binding>
                 <binding>
                     <command>nasal</command>
-                    <script>c172p.click("kr87-adf")</script>
+                    <script>j3cub.click("kr87-adf")</script>
                 </binding>
             </mod-up>
         </action>
@@ -556,7 +556,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>c172p.click("kr87-adf")</script>
+                <script>j3cub.click("kr87-adf")</script>
             </binding>
             <mod-up>
                 <binding>
@@ -566,7 +566,7 @@
                 </binding>
                 <binding>
                     <command>nasal</command>
-                    <script>c172p.click("kr87-adf")</script>
+                    <script>j3cub.click("kr87-adf")</script>
                 </binding>
             </mod-up>
         </action>
@@ -591,9 +591,9 @@
             <z>0</z>
         </axis>
         <center>
-            <x-m>-0.35034</x-m>
-            <y-m> 0.14736</y-m>
-            <z-m>-0.01904</z-m>
+            <x-m>-0.16312</x-m>
+            <y-m> 0.21287</y-m>
+            <z-m>-0.45059</z-m>
         </center>
         <action>
             <binding>
@@ -629,7 +629,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>c172p.click("kr87-adf-dial")</script>
+                <script>j3cub.click("kr87-adf-dial")</script>
             </binding>
         </action>
         <hovered>
@@ -655,9 +655,9 @@
             <z>0</z>
         </axis>
         <center>
-            <x-m>-0.33714</x-m>
-            <y-m> 0.17663</y-m>
-            <z-m>-0.01618</z-m>
+            <x-m>-0.14992</x-m>
+            <y-m> 0.24214</y-m>
+            <z-m>-0.44772</z-m>
         </center>
         <action>
             <binding>
@@ -679,7 +679,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>c172p.click("kr87-adf-dial")</script>
+                <script>j3cub.click("kr87-adf-dial")</script>
             </binding>
         </action>
         <hovered>
@@ -703,9 +703,9 @@
             <z>0</z>
         </axis>
         <center>
-            <x-m>-0.33714</x-m>
-            <y-m> 0.17663</y-m>
-            <z-m>-0.01618</z-m>
+            <x-m>-0.15508</x-m>
+            <y-m> 0.24214</y-m>
+            <z-m>-0.44772</z-m>
         </center>
         <action>
             <binding>
@@ -727,7 +727,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>c172p.click("kr87-adf-dial")</script>
+                <script>j3cub.click("kr87-adf-dial")</script>
             </binding>
         </action>
         <hovered>
