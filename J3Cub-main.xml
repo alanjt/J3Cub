@@ -388,7 +388,7 @@ version 2.0  090410-->
                 <y-offset-m archive="y" type="double">-0.2 </y-offset-m><!--z-->
                 <z-offset-m archive="y" type="double"> 0.98 </z-offset-m><!--x-->
                 <pitch-offset-deg type="double">5</pitch-offset-deg>
-                <default-field-of-view-deg>100</default-field-of-view-deg>
+                <default-field-of-view-deg>88</default-field-of-view-deg>
             </config>
         </view>
 
@@ -400,10 +400,10 @@ version 2.0  090410-->
                 <from-model type="bool">true</from-model>
                 <from-model-idx type="int">0</from-model-idx>
                 <x-offset-m type="double">-0.0 </x-offset-m><!--y-->
-                <y-offset-m type="double">-0.2 </y-offset-m><!--z-->
+                <y-offset-m type="double">-0.25 </y-offset-m><!--z-->
                 <z-offset-m type="double"> 0.32 </z-offset-m><!--x-->
-                <pitch-offset-deg type="double">-12</pitch-offset-deg>
-                <default-field-of-view-deg>100</default-field-of-view-deg>
+                <pitch-offset-deg type="double">-4</pitch-offset-deg>
+                <default-field-of-view-deg>88</default-field-of-view-deg>
                 <limits>
                     <enabled type="bool">true</enabled>
                     <left>
@@ -915,7 +915,9 @@ version 2.0  090410-->
             <file>Nasal/tiedowns.nas</file>
             <file>Nasal/tanks.nas</file>
             <file>Nasal/ki266.nas</file>
+            <file>Nasal/kx165a.nas</file>
             <file>Nasal/engine.nas</file>
+            <file>Nasal/avionics.nas</file>
             <file>Nasal/light-manager.nas</file>
             <file>Nasal/particle-effects-manager.nas</file>
             <file>Nasal/immat.nas</file>
@@ -1099,23 +1101,14 @@ version 2.0  090410-->
                 <selected-khz type="double">200.0</selected-khz>
             </frequencies>
         </adf>
-        <!--comm n="0">
-            <power-btn type="bool">0</power-btn>
+        <comm n="0">
+            <power-btn type="bool">1</power-btn>
             <frequencies>
                 <dial-khz type="int">0</dial-khz>
                 <dial-mhz type="int">0</dial-mhz>
-                <selected-mhz>125.25</selected-mhz>
             </frequencies>
             <volume-selected type="double">0.7</volume-selected>
-        </comm>
-        <comm n="1">
-            <power-btn type="bool">0</power-btn>
-            <frequencies>
-                <dial-khz type="int">0</dial-khz>
-                <dial-mhz type="int">0</dial-mhz>
-                <selected-mhz>125.25</selected-mhz>
-            </frequencies>
-            <volume-selected type="double">0.7</volume-selected>
+            <channel-mode-selector type="bool">1</channel-mode-selector>
         </comm>
         <nav n="0">
             <volume type="double">0.7</volume>
@@ -1125,14 +1118,6 @@ version 2.0  090410-->
             </frequencies>
             <ident-audible type="bool">false</ident-audible>
         </nav>
-        <nav n="1">
-            <volume type="double">0.7</volume>
-            <frequencies>
-                <dial-khz type="int">0</dial-khz>
-                <dial-mhz type="int">0</dial-mhz>
-            </frequencies>
-            <ident-audible type="bool">false</ident-audible>
-        </nav-->
         <magnetic-compass>
             <pitch-offset-deg type="double">-2.7</pitch-offset-deg>
         </magnetic-compass>   

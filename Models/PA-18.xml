@@ -93,6 +93,7 @@
         <object-name>cabin_cable_r_p18</object-name>
         <object-name>Cylinder_0_p18</object-name>
         <object-name>Cylinder_1_p18</object-name>
+        <object-name>panel_screws</object-name>
         <object-name>stick_front_p18</object-name>
         <object-name>panel_p18_fg1000</object-name>
         <object-name>brake_front_l_p18</object-name>
@@ -105,7 +106,6 @@
         <object-name>mixture_p18_base</object-name>
         <object-name>flap_handle_p18</object-name>
         <object-name>flap_handle_mount_p18</object-name>
-        <object-name>Cylinder.000</object-name>
         <object-name>fuel_selector_p18</object-name>
         <object-name>primer_p18</object-name>
         <object-name>primer_p18_base</object-name>
@@ -315,6 +315,27 @@
     </model>
 
     <model>
+        <name>ai</name>
+        <path>Models/Interior/vor/vor_pa18.xml</path>
+        <condition>
+            <and>
+                <or>
+                    <property>sim/model/j3cub/pa-18</property>
+                    <property>sim/model/preload</property>
+                </or>
+                <not>
+                    <property>sim/model/j3cub/fg1000</property>
+                </not>
+            </and>
+        </condition>
+        <offsets>
+            <x-m>0.0</x-m>
+            <y-m>0.0</y-m>
+            <z-m>0.0</z-m>
+        </offsets>
+    </model>
+
+    <model>
         <name>tc</name>
         <path>Models/Interior/tc/tc_pa18.xml</path>
         <condition>
@@ -380,6 +401,48 @@
     <model>
         <name>transponder</name>
         <path>Models/Interior/kt76a/kt76a_pa18.xml</path>
+        <condition>
+            <and>
+                <or>
+                    <property>sim/model/j3cub/pa-18</property>
+                    <property>sim/model/preload</property>
+                </or>
+                <not>
+                    <property>sim/model/j3cub/fg1000</property>
+                </not>
+            </and>
+        </condition>
+        <offsets>
+            <x-m>0.0</x-m>
+            <y-m>0.0</y-m>
+            <z-m>0.0</z-m>
+        </offsets>
+    </model>
+
+    <model>
+        <name>transponder</name>
+        <path>Models/Interior/kx165/kx165_pa18.xml</path>
+        <condition>
+            <and>
+                <or>
+                    <property>sim/model/j3cub/pa-18</property>
+                    <property>sim/model/preload</property>
+                </or>
+                <not>
+                    <property>sim/model/j3cub/fg1000</property>
+                </not>
+            </and>
+        </condition>
+        <offsets>
+            <x-m>0.0</x-m>
+            <y-m>0.0</y-m>
+            <z-m>0.0</z-m>
+        </offsets>
+    </model>
+
+    <model>
+        <name>dme</name>
+        <path>Models/Interior/ki266/ki266_pa18.xml</path>
         <condition>
             <and>
                 <or>
@@ -610,32 +673,6 @@
         <object-name>flaps_p18</object-name>
         <object-name>flap_handle_p18</object-name>
         <object-name>flap_handle_mount_p18</object-name>
-        <!--object-name>switch_master_p18</object-name>
-        <object-name>switch_alt_p18</object-name>
-        <object-name>switch_avionics_p18</object-name>
-        <object-name>switch_strobe_p18</object-name>
-        <object-name>switch_beacon_p18</object-name>
-        <object-name>switch_nav_p18</object-name>
-        <object-name>switch_landing_p18</object-name>
-        <object-name>switch_taxi_p18</object-name>
-        <object-name>switch_aux_p18</object-name>
-        <object-name>key</object-name>
-        <object-name>start</object-name>
-        <object-name>magsw</object-name>
-        <object-name>click-L</object-name>
-        <object-name>click-R</object-name>
-        <object-name>click-S</object-name>
-        <object-name>breakers-base</object-name>
-        <object-name>autopilot_breaker</object-name>
-        <object-name>turn-coordinator_breaker</object-name>
-        <object-name>strobe_breaker</object-name>
-        <object-name>bcnlt_breaker</object-name>
-        <object-name>landing_breaker</object-name>
-        <object-name>navlt_breaker</object-name>
-        <object-name>intlt_breaker</object-name>
-        <object-name>instr_breaker</object-name>
-        <object-name>pitot-heat_breaker</object-name>
-        <object-name>master_breaker</object-name-->
         <object-name>brake_front_l_p18</object-name>
         <object-name>brake_front_r_p18</object-name>
         <object-name>rudderpedal_l_p18</object-name>

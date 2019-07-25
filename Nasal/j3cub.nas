@@ -23,6 +23,9 @@ var autostart = func (msg=1) {
     setprop("/controls/flight/elevator-trim", 0.0);
     setprop("/controls/switches/master-bat", 1);
     setprop("controls/switches/avionics", 1);
+    setprop("/controls/switches/master-bat", 1);
+    setprop("/controls/switches/master-alt", 1);
+    setprop("/controls/switches/master-avionics", 1);
     setprop("/controls/circuit-breakers/master", 1);
     setprop("/controls/circuit-breakers/pitot-heat", 1);
     setprop("/controls/circuit-breakers/instr", 1);
@@ -33,9 +36,7 @@ var autostart = func (msg=1) {
     setprop("/controls/circuit-breakers/bcnlt", 1);
     setprop("/controls/circuit-breakers/strobe", 1);
     setprop("/controls/circuit-breakers/turn-coordinator", 1);
-    setprop("/controls/switches/master-bat", 1);
-    setprop("/controls/switches/master-alt", 1);
-    setprop("/controls/switches/master-avionics", 1);
+
     if (getprop("/fdm/jsbsim/bushkit") == 3) {
         setprop("/controls/circuit-breakers/gear-select", 1);
         setprop("/controls/circuit-breakers/gear-advisory", 1);
@@ -630,10 +631,24 @@ setlistener("/sim/signals/fdm-initialized", func {
         click("engine-repair", 6.0);
     }, 0, 0);
 
-    setlistener("/sim/model/j3cub/pa-18", func {
+    var currentview = getprop("/sim/current-view/view-number");
+    if (getprop("/sim/model/j3cub/pa-18")==1) {
+        setprop("/sim/current-view/view-number", 8);
+    } else {
+        setprop("/sim/current-view/view-number", 0);
+    }
+    setlistener("/sim/model/j3cub/pa-18", func (node) {
+        # Set view to front seat if pa-18
+        if (getprop("/sim/current-view/interior")) {
+            if (node.getValue()==1) {
+                setprop("/sim/current-view/view-number", 8);
+            } else {
+                setprop("/sim/current-view/view-number", 0);
+            }
+        }
         # Set new mass limits for Fuel and Payload Settings dialog
-        set_limits(getprop("/controls/engines/active-engine"), getprop("/sim/model/j3cub/pa-18"));   
-        set_fuel();       
+        set_limits(getprop("/controls/engines/active-engine"), node.getValue());   
+        set_fuel();      
     }, 0, 0);
     
     setlistener("/engines/active-engine/running", func (node) {
