@@ -172,21 +172,25 @@ var reset_battery_and_circuit_breakers = func {
     setprop("/controls/circuit-breakers/pitot-heat", 1);
     setprop("/controls/circuit-breakers/instr", 1);
     setprop("/controls/circuit-breakers/intlt", 1);
-    setprop("/controls/circuit-breakers/avi", 1);
+    setprop("/controls/circuit-breakers/avionics", 1);
     setprop("/controls/circuit-breakers/navlt", 1);
     setprop("/controls/circuit-breakers/landing", 1);
     setprop("/controls/circuit-breakers/bcnlt", 1);
     setprop("/controls/circuit-breakers/strobe", 1);
     setprop("/controls/circuit-breakers/turn-coordinator", 1);
-    setprop("/controls/circuit-breakers/gear-select", 1);
-    setprop("/controls/circuit-breakers/gear-advisory", 1);
-    setprop("/controls/circuit-breakers/hydraulic-pump", 1);
+
     #setprop("/controls/circuit-breakers/radio1", 1);
     #setprop("/controls/circuit-breakers/radio2", 1);
     #setprop("/controls/circuit-breakers/radio3", 1);
     #setprop("/controls/circuit-breakers/radio4", 1);
     #setprop("/controls/circuit-breakers/radio5", 1);
     #setprop("/controls/circuit-breakers/autopilot", 1);
+
+    if (getprop("/fdm/jsbsim/bushkit") == 3) {
+        setprop("/controls/circuit-breakers/gear-select", 1);
+        setprop("/controls/circuit-breakers/gear-advisory", 1);
+        setprop("/controls/circuit-breakers/hydraulic-pump", 1);
+    }
 }
 
 ##
@@ -419,31 +423,25 @@ var electrical_bus_1 = func() {
     # Gear Select Power
     if ( getprop("/controls/circuit-breakers/gear-select") ) {
         setprop("/systems/electrical/outputs/gear-select", bus_volts);
-        setprop("/systems/electrical/outputs/DG", bus_volts);
         load += bus_volts / 5;
     } else {
         setprop("/systems/electrical/outputs/gear-select", 0.0);
-        setprop("/systems/electrical/outputs/DG", 0.0);
     }
 
     # Gear Advisory Power
     if ( getprop("/controls/circuit-breakers/gear-advisory") ) {
         setprop("/systems/electrical/outputs/gear-advisory", bus_volts);
-        setprop("/systems/electrical/outputs/DG", bus_volts);
         load += bus_volts / 2;
     } else {
         setprop("/systems/electrical/outputs/gear-advisory", 0.0);
-        setprop("/systems/electrical/outputs/DG", 0.0);
     }
 
     # Hydraulic Pump Power
     if ( getprop("/controls/circuit-breakers/hydraulic-pump") ) {
         setprop("/systems/electrical/outputs/hydraulic-pump", bus_volts);
-        setprop("/systems/electrical/outputs/DG", bus_volts);
         load += bus_volts / 40;
     } else {
         setprop("/systems/electrical/outputs/hydraulic-pump", 0.0);
-        setprop("/systems/electrical/outputs/DG", 0.0);
     }
 
     # register bus voltage
@@ -476,7 +474,7 @@ var avionics_bus_1 = func() {
     #}
 
     # Com and Nav 1 Power
-    if ( getprop("/controls/circuit-breakers/avi") ) {
+    if ( getprop("/controls/circuit-breakers/avionics") ) {
       setprop("/systems/electrical/outputs/nav[0]", bus_volts);
       setprop("systems/electrical/outputs/comm[0]", bus_volts);
     } else {
@@ -485,7 +483,7 @@ var avionics_bus_1 = func() {
     }
 
     # Com and Nav 2 Power
-    #if ( getprop("/controls/circuit-breakers/avi") ) {
+    #if ( getprop("/controls/circuit-breakers/avionics") ) {
     #  setprop("/systems/electrical/outputs/nav[1]", bus_volts);
     #  setprop("systems/electrical/outputs/comm[1]", bus_volts);
     #} else {
@@ -494,14 +492,14 @@ var avionics_bus_1 = func() {
     #}
 
     # Transponder Power
-    if ( getprop("/controls/circuit-breakers/avi") ) {
+    if ( getprop("/controls/circuit-breakers/avionics") ) {
       setprop("/systems/electrical/outputs/transponder", bus_volts);
     } else {
       setprop("/systems/electrical/outputs/transponder", 0.0);
     }
 
     # DME and ADF Power
-    if ( getprop("/controls/circuit-breakers/avi") ) {
+    if ( getprop("/controls/circuit-breakers/avionics") ) {
       setprop("/systems/electrical/outputs/dme", bus_volts);
       setprop("/systems/electrical/outputs/adf", bus_volts);
     } else {

@@ -9,7 +9,7 @@ var autostart = func (msg=1) {
         return;
     }
 
-    setprop("/controls/switches/magnetos", 4);
+    setprop("/controls/switches/magnetos", 3);
     setprop("/controls/engines/current-engine/throttle", 0.2);
 
     var engine_regime = getprop("/controls/engines/active-engine");
@@ -20,28 +20,8 @@ var autostart = func (msg=1) {
         setprop("/controls/engines/current-engine/mixture", 0.88);
     }
 
-    setprop("/controls/flight/elevator-trim", 0.0);
-    setprop("/controls/switches/master-bat", 1);
-    setprop("controls/switches/avionics", 1);
-    setprop("/controls/switches/master-bat", 1);
-    setprop("/controls/switches/master-alt", 1);
-    setprop("/controls/switches/master-avionics", 1);
-    setprop("/controls/circuit-breakers/master", 1);
-    setprop("/controls/circuit-breakers/pitot-heat", 1);
-    setprop("/controls/circuit-breakers/instr", 1);
-    setprop("/controls/circuit-breakers/intlt", 1);
-    setprop("/controls/circuit-breakers/avi", 1);
-    setprop("/controls/circuit-breakers/navlt", 1);
-    setprop("/controls/circuit-breakers/landing", 1);
-    setprop("/controls/circuit-breakers/bcnlt", 1);
-    setprop("/controls/circuit-breakers/strobe", 1);
-    setprop("/controls/circuit-breakers/turn-coordinator", 1);
-
-    if (getprop("/fdm/jsbsim/bushkit") == 3) {
-        setprop("/controls/circuit-breakers/gear-select", 1);
-        setprop("/controls/circuit-breakers/gear-advisory", 1);
-        setprop("/controls/circuit-breakers/hydraulic-pump", 1);
-    }
+    # Reset battery charge and circuit breakers
+    electrical.reset_battery_and_circuit_breakers();
 
     if (getprop("/sim/model/j3cub/pa-18")) {
 
@@ -49,20 +29,21 @@ var autostart = func (msg=1) {
         setprop("/controls/lighting/nav-lights", 1);
         setprop("/controls/lighting/strobe-lights", 1);
         setprop("/controls/lighting/beacon-light", 1);
-        setprop("/controls/lighting/landing-light", 0);
 
         # Setting instrument lights if needed
         var light_level = 1-getprop("/rendering/scene/diffuse/red");
         if (light_level > .6) {
             setprop("/controls/lighting/instruments-norm", 1);
             setprop("/controls/lighting/taxi-light", 1);
+            setprop("/controls/lighting/landing-light", 1);
         } else {
             setprop("/controls/lighting/instruments-norm", 0);
             setprop("/controls/lighting/taxi-light", 0);
+            setprop("/controls/lighting/landing-light", 0);
         }
 
         # Setting flaps to 0
-        setprop("/controls/flight/flaps", 0.0);
+        #setprop("/controls/flight/flaps", 0.0);
     }
 
     # Set the altimeter
@@ -82,7 +63,7 @@ var autostart = func (msg=1) {
     setprop("/instrumentation/altimeter/setting-inhg", pressure_sea_level);
 
     # Pre-flight inspection
-    setprop("/sim/model/j3cub/brake-parking", 0);
+    #setprop("/sim/model/j3cub/brake-parking", 0);
     setprop("/sim/model/j3cub/securing/chock", 0);
     setprop("/sim/model/j3cub/securing/pitot-cover-visible", 0);
     setprop("/sim/model/j3cub/securing/tiedownL-visible", 0);
@@ -99,16 +80,18 @@ var autostart = func (msg=1) {
     
         ############################
     # All set, starting engine
-    setprop("/controls/engines/current-engine/starter", 1);
+    setprop("/controls/switches/starter", 1);
     setprop("/engines/active-engine/auto-start", 1);
+
 
     var engine_running_check_delay = 6.0;
     settimer(func {
         if (!getprop("/engines/active-engine/running")) {
             gui.popupTip("The autostart failed to start the engine. You can lean the mixture and try to start the engine manually.", 5);
         }
-        setprop("/controls/engines/current-engine/starter", 0);
+        #setprop("/controls/engines/current-engine/starter", 0);
         setprop("/engines/active-engine/auto-start", 0);
+        setprop("/controls/switches/starter", 0);
     }, engine_running_check_delay);
     
     #if (msg)
@@ -659,8 +642,8 @@ setlistener("/sim/signals/fdm-initialized", func {
     setlistener("/controls/switches/magnetos", func (node) {
         var cranking  = getprop("/engines/active-engine/cranking");
         if (node.getValue() == 0 and cranking) {
-            setprop("/controls/engines/current-engine/starter", 0);
             setprop("/engines/active-engine/auto-start", 0);
+            setprop("/controls/switches/starter", 0);
         }
     }, 0, 0);
 
@@ -669,6 +652,12 @@ setlistener("/sim/signals/fdm-initialized", func {
     setprop("/sim/rendering/als-secondary-lights/landing-light3-offset-deg", 3);
 
     reset_system();
+
+    var onground = getprop("/sim/presets/onground") or "";
+    if (!onground) {
+        state_manager();
+    }
+
     j3cub.rightWindow.toggle();
     j3cub.rightDoor.toggle();
 
