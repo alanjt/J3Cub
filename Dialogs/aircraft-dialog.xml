@@ -249,7 +249,7 @@
                     </script>
                   </binding>
                 </radio>
-			      </group>          
+			      </group>
 	      </group>
 
         <hrule/>
@@ -333,8 +333,7 @@
 		        <binding>
 			        <command>nasal</command>
 			        <script>
-				        if (getprop("sim/model/payload-package") == 2 and 
-					        getprop("sim/model/payload") == 1 and (getprop("fdm/jsbsim/bushkit") != 2 and getprop("fdm/jsbsim/bushkit") != 3))
+				        if (getprop("sim/model/payload-package") == 2 and getprop("sim/model/payload") == 1 and (getprop("fdm/jsbsim/bushkit") != 2 and getprop("fdm/jsbsim/bushkit") != 3))
 				        {
 					        setprop("sim/model/payload-package", 1);
 					        setprop("sim/model/j3cub/payload-package_flag_0",0);
@@ -632,8 +631,8 @@
         <layout>vbox</layout>
         <padding>6</padding>
 
-        <group>  
-          <layout>vbox</layout>                  
+        <group>
+          <layout>vbox</layout>
           <text>
 	          <label>Landing Gear Options</label>
 	          <halign>center</halign>
@@ -678,7 +677,7 @@
 			        </script>
 		        </binding>
 	        </radio>
-           
+
 	        <radio>
 		        <row>0</row>
 		        <col>1</col>
@@ -688,13 +687,13 @@
 		        <live>true</live>
 		        <enable>
 			        <and>
-                            <not>
-                                <property>/sim/freeze/replay-state</property>
-                            </not>
-                            <not>
-                                <property>fdm/jsbsim/hydro/active-norm</property>
-                            </not>
-                        </and>
+                <not>
+                    <property>/sim/freeze/replay-state</property>
+                </not>
+                <not>
+                    <property>fdm/jsbsim/hydro/active-norm</property>
+                </not>
+              </and>
 		        </enable>
 		        <binding>
 			        <command>dialog-apply</command>
@@ -714,7 +713,7 @@
 			        </script>
 		        </binding>
 	        </radio>
-           
+
 	        <radio>
 		        <row>1</row>
 		        <col>0</col>
@@ -765,7 +764,7 @@
 			        <value>false</value>
 		        </binding>
 	        </radio>
-          
+
 	        <radio>
 		        <row>1</row>
 		        <col>1</col>
@@ -801,7 +800,7 @@
 			        <value>false</value>
 		        </binding>
 	        </radio>
-	
+
 	        <radio>
 		        <row>2</row>
 		        <col>0</col>
