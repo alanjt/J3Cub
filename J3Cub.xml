@@ -81,18 +81,17 @@
 		
 <!-- These positions are all relative to the datum used in the main 3D view - see file Models/Cub.ac.
      This is under the wing leading edge, level with the wing undersurface.
-     It is also used to position and animate objects in the aircraft model. -->
+     This datum is also used as a reference when positioning and animating objects in the aircraft model. -->
 	 
 		<location name="AERORP" unit="IN">
 		 <!-- Datum used by Erik Hofman´s FDM -->
 		 <!-- <x>    18.90 </x>
 			<y>     0.00 </y>
 			<z>     0.00 </z> -->
- <!-- Datum used by Datcom FDM.  This is based on the aircraft horizontal datum, passing through the
- propeller spinner. All dimensions in the Dactom input file are relative to this position.
- To this is added the default CG position defined by the Datcom variables XCG and ZCG.  
- All moments and rotary derivatives in the Datcom output file are defineted about this position. -->
- 			<x>     18.90 </x> 
+ <!-- Datum used by Datcom FDM.  This is based on the 3D view datum, but is lowered to a plane passing through the
+ propeller spinner. The origin is then moved aft and vertically by the Datcom variables XCG and ZCG.  
+ All moments and rotary coefficients/derivatives in the Datcom output file are defined about this position. -->
+ 			<x>     18.90 </x>  <!-- 1.575 ft -->
 			<y>     0.00 </y>
 			<z>     -19.685 </z>
 		</location>
@@ -106,16 +105,20 @@
 		
 		<location name="VRP" unit="IN">
 		 <!-- Used when reporting aircraft position  -->
-			<x>    -9.86 </x>
+<!--            <x>    -9.86 </x>
 			<y>     0.00 </y>
-			<z>    -0.97 </z>
+			<z>    -0.97 </z>  -->
+            <x>     0.0 </x>
+			<y>     0.0 </y>
+			<z>     0.0 </z>
 		</location>
 	</metrics>
 
 	<mass_balance>
-	<!-- The empty weight and inertias are for the aircraft without any elements defined below as pointmass 
+	<!-- The empty weight and inertias are for the aircraft without any of the elements defined below as pointmass.
 	To find the actual weight and inertia for a given flight condition examine properties /fdm/jsbsim/inertia 
-    or the menu item Equipment -> Fuel and Payload	at run time -->
+    or the menu item Equipment -> Fuel and Payload at run time.
+    The aircraft CG limits (at run time) are 9.0" to 18.6", aft of the wing LE datum	-->
 		<ixx unit="SLUG*FT2"> 538.01 </ixx>
 		<iyy unit="SLUG*FT2"> 386.81 </iyy>
 		<izz unit="SLUG*FT2"> 871.03 </izz> 
@@ -252,7 +255,7 @@
 				<z> -63.32 </z>
 			</location>
 		</pointmass>
-		<pointmass name="Defaut right wheel">
+		<pointmass name="Default right wheel">
 			<!-- 12.5 lb -->
 			<weight unit="LBS"> 0 </weight>
 			<location name="POINTMASS" unit="IN">
@@ -490,19 +493,22 @@
 			<location unit="IN">
 			<!--	<x> -13.00 </x>
 				<y> -49.00 </y>
-				<z> -78.70 </z> -->
-				<!-- Replace with dimensions from Cub.ac -->
-				<x> 1.2 </x>
+				<z> -78.70 </z> 
+				Replace with dimensions from Cub.ac  and Weight and Balance sheet-->
+				<x> 2.5 </x>
 				<y> -39.5 </y>
 				<z> -72.0 </z>
 			</location>
 			<static_friction>  0.80 </static_friction>
 			<dynamic_friction> 0.50 </dynamic_friction>
-			<rolling_friction> 0.02 </rolling_friction>
-			<spring_coeff  unit="LBS/FT">     1200.00 </spring_coeff>
+			<rolling_friction> 0.005 </rolling_friction>
+		<!--	<spring_coeff  unit="LBS/FT">     1200.00 </spring_coeff>
 			<damping_coeff unit="LBS/FT/SEC">  400.00 </damping_coeff>
-			<damping_coeff_rebound unit="LBS/FT/SEC">850</damping_coeff_rebound>
-			<max_steer unit="DEG">0</max_steer>
+			<damping_coeff_rebound unit="LBS/FT/SEC">850</damping_coeff_rebound> -->
+			<spring_coeff  unit="LBS/FT">     500.00 </spring_coeff>
+			<damping_coeff unit="LBS/FT/SEC">  200.00 </damping_coeff>
+		<!--	<damping_coeff_rebound unit="LBS/FT/SEC">850</damping_coeff_rebound> -->
+			<max_steer unit="DEG">0</max_steer> <!-- experiment with castering set -->
 			<brake_group> LEFT </brake_group>
 			<retractable> 0 </retractable>
 		</contact>
@@ -511,23 +517,26 @@
 			<location unit="IN">
 			<!--	<x> -13.00 </x>
 				<y>  49.00 </y>
-				<z> -78.70 </z> -->
-				<!-- Replace with dimensions from Cub.ac -->
-				<x> 1.2 </x>
+				<z> -78.70 </z>
+				Replace with dimensions from Cub.ac  and Weight and Balance sheet-->
+				<x> 2.5 </x>
 				<y> 39.5 </y>
 				<z> -72.0 </z>
 			</location>
 			<static_friction>  0.80 </static_friction>
 			<dynamic_friction> 0.50 </dynamic_friction>
-			<rolling_friction> 0.02 </rolling_friction>
-			<spring_coeff  unit="LBS/FT">     1200.00 </spring_coeff>
+			<rolling_friction> 0.005 </rolling_friction>
+		<!--	<spring_coeff  unit="LBS/FT">     1200.00 </spring_coeff>
 			<damping_coeff unit="LBS/FT/SEC">  400.00 </damping_coeff>
-			<damping_coeff_rebound unit="LBS/FT/SEC">850</damping_coeff_rebound>
-			<max_steer unit="DEG">0</max_steer>
+			<damping_coeff_rebound unit="LBS/FT/SEC">850</damping_coeff_rebound> -->
+			<spring_coeff  unit="LBS/FT">     500.00 </spring_coeff>
+			<damping_coeff unit="LBS/FT/SEC">  200.00 </damping_coeff>
+		<!--	<damping_coeff_rebound unit="LBS/FT/SEC">850</damping_coeff_rebound> -->
+			<max_steer unit="DEG">0</max_steer> <!-- experiment with castering set -->
 			<brake_group> RIGHT </brake_group>
 			<retractable> 0 </retractable>
 		</contact>
-
+B
 		<!-- contact 3, 4, 5 -->
 		<contact type="STRUCTURE" name="TAIL_SKID">
 			<location unit="IN">
