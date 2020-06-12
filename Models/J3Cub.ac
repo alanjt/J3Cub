@@ -15,7 +15,7 @@ MATERIAL "clear_glass" rgb 0.163 0.163 0.163  amb 1.000 1.000 1.000  emis 0.000 
 MATERIAL "invisible" rgb 0.000 0.000 0.000  amb 0.000 0.000 0.000  emis 0.000 0.000 0.000  spec 0.000 0.000 0.000  shi 0 trans 1.000
 OBJECT world
 name "Blender_exporter_v2.26__J3Cub.ac"
-kids 208
+kids 209
 OBJECT poly
 name "aileron_cable_centre"
 data 20
@@ -148897,6 +148897,64 @@ numvert 8
 0.20064 0.04271 -3.40492
 0.33615 0.03181 -3.42066
 0.34355 -0.04132 -3.30625
+numsurf 6
+SURF 0X0
+mat 13
+refs 4
+4 0 0
+5 0 0
+1 0 0
+0 0 0
+SURF 0X0
+mat 13
+refs 4
+5 0 0
+6 0 0
+2 0 0
+1 0 0
+SURF 0X0
+mat 13
+refs 4
+6 0 0
+7 0 0
+3 0 0
+2 0 0
+SURF 0X0
+mat 13
+refs 4
+7 0 0
+4 0 0
+0 0 0
+3 0 0
+SURF 0X0
+mat 13
+refs 4
+0 0 0
+1 0 0
+2 0 0
+3 0 0
+SURF 0X0
+mat 13
+refs 4
+7 0 0
+6 0 0
+5 0 0
+4 0 0
+kids 0
+OBJECT poly
+name "TiedownHotSpotTail"
+data 8
+Cube.020
+crease 40.0
+numvert 8
+4.76257 -0.5586 0.06589
+4.76042 -0.5584 -0.07009
+4.8969 -0.54842 -0.07223
+4.89905 -0.54862 0.06374
+4.7607 -0.53293 0.06595
+4.75854 -0.53273 -0.07002
+4.89502 -0.52275 -0.07216
+4.89718 -0.52295 0.06381
 numsurf 6
 SURF 0X0
 mat 13

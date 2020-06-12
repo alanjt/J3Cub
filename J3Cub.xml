@@ -1235,6 +1235,19 @@
 				<z> 0.0 </z>
 			</direction>
 		</force>
+
+    <force name="aerotow" frame="BODY" unit="LBS">
+        <location unit="M">
+           <x>5.15</x>
+           <y>0.0</y>
+           <z>0.0</z>
+        </location>
+        <direction>
+            <x>0.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+         </direction>
+    </force>
 	</external_reactions>
 
 	<system file="Conventional Controls.xml"/>
