@@ -109,6 +109,22 @@
 
     <animation>
         <type>select</type>
+        <object-name>panel_j3cub_fg1000</object-name>
+        <condition>
+            <or>
+                <and>
+                    <property>sim/model/j3cub/fg1000</property>
+                    <not>
+                        <property>sim/model/j3cub/pa-18</property>
+                    </not>
+                </and>
+                <property>sim/model/preload</property>
+            </or>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
         <object-name>door</object-name>
         <object-name>door_interior</object-name>
         <object-name>door_handle</object-name>
@@ -516,6 +532,7 @@
         <object-name>cabin_cable_l</object-name>
         <object-name>cabin_cable_r</object-name>
         <object-name>cabin_heat</object-name>
+        <object-name>cabin_heat_base</object-name>
         <object-name>cabin_rudder_cable_l</object-name>
         <object-name>cabin_rudder_cable_r</object-name>
         <object-name>fuselage_interior</object-name>
@@ -524,6 +541,7 @@
         <object-name>FuelCutoff</object-name>
         <object-name>FuelCutoffBase</object-name>
         <object-name>panel</object-name>
+        <object-name>panel_j3cub_fg1000</object-name>
         <object-name>placard</object-name>
         <object-name>primer</object-name>
         <object-name>rudderpedal_rear_l</object-name>
@@ -669,187 +687,19 @@
           <not>
             <property>sim/model/j3cub/fg1000</property>
           </not>
+          <property>sim/model/j3cub/pa-18</property>
           <or>
-            <!--property>sim/model/j3cub/pa-18</property-->
-            <property>/it-stec55x/input/ap-debug</property>
+            <property>sim/model/j3cub/autopilot</property>
             <property>sim/model/preload</property>
           </or>
         </and>
       </condition>
       <offsets>
-        <x-m>-0.175</x-m>
-        <y-m> 0.13478</y-m>
-        <z-m>-0.60519</z-m>
+        <x-m>-0.17373</x-m>
+        <y-m>-0.000092</y-m>
+        <z-m>-0.612795</z-m>
       </offsets>
     </model>
-
-    <animation>
-        <type>select</type>
-        <object-name>autopilot-switch-base</object-name>
-        <object-name>autopilot-trim-switch</object-name>
-        <object-name>autopilot-switch</object-name>
-        <object-name>autopilot-heading-knob</object-name>
-        <condition>
-            <and>
-              <not>
-                <property>sim/model/j3cub/fg1000</property>
-              </not>
-              <or>
-                  <!--property>sim/model/j3cub/pa-18</property-->
-                  <property>/it-stec55x/input/ap-debug</property>
-                  <property>sim/model/preload</property>
-              </or>
-            </and>
-        </condition>
-    </animation>
-
-    <animation>
-        <type>knob</type>
-        <object-name>autopilot-switch</object-name>
-        <property>/it-stec55x/input/ap-master-switch</property>
-        <factor>45</factor>
-        <offset-deg>-20</offset-deg>
-        <center>
-            <x-m>-0.179</x-m>
-            <y-m> 0.25835</y-m>
-            <z-m>-0.57923</z-m>
-        </center>
-        <axis>
-            <x>0</x>
-            <y>1</y>
-            <z>0</z>
-        </axis>
-        <action>
-            <binding>
-                <command>property-adjust</command>
-                <property>/it-stec55x/input/ap-master-switch</property>
-                <factor>1</factor>
-                <min>0</min>
-                <max>1</max>
-                <wrap>false</wrap>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>
-                    if (getprop("/it-stec55x/input/ap-master-switch") == 1) {
-                      setprop("/it-stec55x/input/ap-master-sw", 0);
-                      stec55x.button.DISC();
-                    } else
-                      setprop("/it-stec55x/input/ap-master-sw", 1);
-                </script>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>j3cub.click("light")</script>
-            </binding>
-        </action>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>autopilot-switch</tooltip-id>
-                <label>Position: %s</label>
-                <property>/it-stec55x/input/ap-master-sw</property>
-                <mapping>nasal</mapping>
-                <script>
-                    var modes = ['Off', 'On'];
-                    return modes[arg[0]];
-                </script>
-            </binding>
-        </hovered>
-    </animation>
-
-    <!-- Electric Trim "spring switch" -->
-    <animation>
-        <type>knob</type>
-        <object-name>autopilot-trim-switch</object-name>
-        <property>/it-stec55x/input/man-trim</property>
-        <factor>35</factor>
-        <offset-deg>10</offset-deg>
-        <center>
-            <x-m>-0.179</x-m>
-            <y-m> 0.28369</y-m>
-            <z-m>-0.57923</z-m>
-        </center>
-        <axis>
-            <x>0</x>
-            <y>1</y>
-            <z>0</z>
-        </axis>
-        <action>
-            <binding>
-                <command>property-adjust</command>
-                <property>/it-stec55x/input/man-trim</property>
-                <factor>1</factor>
-                <min>-1</min>
-                <max>1</max>
-                <wrap>false</wrap>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>j3cub.click("light")</script>
-            </binding>
-        </action>
-        <release>
-            <binding>
-                <command>property-assign</command>
-                <property>/it-stec55x/input/man-trim</property>
-                <value>0</value>
-            </binding>
-        </release>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>direct-drive</tooltip-id>
-                <label>Trim: %s</label>
-                <property>/it-stec55x/input/man-trim</property>
-                <mapping>nasal</mapping>
-                <script>
-                    var modes = ['Neutral', 'Increase', 'Decrease'];
-                    return modes[arg[0]];
-                </script>
-            </binding>
-        </hovered>
-    </animation>
-
-    <!-- Heading Offset -->
-    <animation>
-        <type>knob</type>
-        <object-name>autopilot-heading-knob</object-name>
-        <property>instrumentation/heading-indicator/offset-deg</property>
-        <factor>6</factor>
-        <axis>
-            <x>-1</x>
-            <y> 0</y>
-            <z> 0</z>
-        </axis>
-        <center>
-            <x-m>-0.17055</x-m>
-            <y-m> 0.2714</y-m>
-            <z-m>-0.56701</z-m>
-        </center>
-        <action>
-            <binding>
-                <command>property-adjust</command>
-                <property>instrumentation/heading-indicator/offset-deg</property>
-                <factor>1</factor>
-                <min>0</min>
-                <max>360</max>
-                <wrap>1</wrap>
-            </binding>
-        </action>
-        <!-- Faster rate of change than the default -->
-        <drag-scale-px>4</drag-scale-px>
-        <shift-repeat type="int">5</shift-repeat>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>heading-offset</tooltip-id>
-                <label>Heading Offset: %3d</label>
-                <mapping>heading</mapping>
-                <property>instrumentation/heading-indicator/offset-deg</property>
-            </binding>
-        </hovered>
-    </animation>
 
     <model>
         <name>elt</name>
@@ -1008,14 +858,19 @@
 
     <model>
         <name>fg10001</name>
-        <path>Models/Interior/GDU104X/GDU-1044B.1.xml</path>
+        <path>Aircraft/Instruments-3d/FG1000/GDU104X/GDU-1044B.1.xml</path>
         <condition>
-           <property>sim/model/j3cub/fg1000</property>
+            <and>
+                <property>sim/model/j3cub/fg1000</property>
+                <not>
+                    <property>sim/model/j3cub/pa-18</property>
+                </not>
+            </and>
         </condition>
         <offsets>
-            <x-m>-0.24 </x-m>
+            <x-m>-0.214 </x-m>
             <y-m>-0.145</y-m>
-            <z-m>-0.575</z-m>
+            <z-m>-0.59</z-m>
         </offsets>
     </model>
 
@@ -1025,21 +880,26 @@
         <condition>
            <property>sim/model/j3cub/fg1000</property>
         </condition>
-        <x-offset>0.70</x-offset>
-        <y-offset>0.75</y-offset>
+        <x-offset>0.80</x-offset>
+        <y-offset>0.80</y-offset>
         <z-offset>0.80</z-offset>
      </animation>
 
     <model>
         <name>fg10002</name>
-        <path>Models/Interior/GDU104X/GDU-1040.2.xml</path>
+        <path>Aircraft/Instruments-3d/FG1000/GDU104X/GDU-1040.2.xml</path>
         <condition>
-           <property>sim/model/j3cub/fg1000</property>
+            <and>
+                <property>sim/model/j3cub/fg1000</property>
+                <not>
+                    <property>sim/model/j3cub/pa-18</property>
+                </not>
+            </and>
         </condition>
         <offsets>
-            <x-m>-0.24 </x-m>
+            <x-m>-0.214 </x-m>
             <y-m> 0.155</y-m>
-            <z-m>-0.575</z-m>
+            <z-m>-0.59</z-m>
         </offsets>
     </model>
 
@@ -1049,8 +909,8 @@
         <condition>
            <property>sim/model/j3cub/fg1000</property>
         </condition>
-        <x-offset>0.70</x-offset>
-        <y-offset>0.75</y-offset>
+        <x-offset>0.80</x-offset>
+        <y-offset>0.80</y-offset>
         <z-offset>0.80</z-offset>
      </animation>
  
@@ -1222,6 +1082,7 @@
     <animation>
         <type>select</type>
         <object-name>cabin_heat</object-name>
+        <object-name>cabin_heat_base</object-name>
         <condition>
             <equals>
                 <property>sim/model/j3cub/pa-18</property>

@@ -12,6 +12,8 @@
         <inherits-from>../../Effects/interior/lm-interior-panel</inherits-from>
         <object-name>panel_p18</object-name>
         <object-name>panel_amp_p18</object-name>
+        <object-name>panel_p18_fg1000</object-name>
+        <object-name>panel_amp_p18_fg1000</object-name>
     </effect>
 
     <animation>
@@ -27,6 +29,9 @@
                     <property>sim/model/j3cub/pa-18</property>
                     <property>sim/model/preload</property>
                 </or>
+                <not>
+                    <property>sim/model/j3cub/fg1000</property>
+                </not>
             </and>
         </condition>
     </animation>
@@ -44,6 +49,45 @@
                     <property>sim/model/j3cub/pa-18</property>
                     <property>sim/model/preload</property>
                 </or>
+                <not>
+                    <property>sim/model/j3cub/fg1000</property>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>panel_amp_p18_fg1000</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/bushkit"/>
+                    <value>3</value>
+                </equals>
+                <or>
+                    <property>sim/model/j3cub/pa-18</property>
+                    <property>sim/model/preload</property>
+                </or>
+                <property>sim/model/j3cub/fg1000</property>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>panel_p18_fg1000</object-name>
+        <condition>
+            <and>
+                <not-equals>
+                    <property alias="/params/bushkit"/>
+                    <value>3</value>
+                </not-equals>
+                <or>
+                    <property>sim/model/j3cub/pa-18</property>
+                    <property>sim/model/preload</property>
+                </or>
+                <property>sim/model/j3cub/fg1000</property>
             </and>
         </condition>
     </animation>

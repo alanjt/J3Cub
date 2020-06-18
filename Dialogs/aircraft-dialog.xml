@@ -263,18 +263,29 @@
                 <command>dialog-apply</command>
             </binding>
         </checkbox>
-
         <checkbox>
-		      <halign>left</halign>
-		      <label>FG1000</label>
-		      <property>/sim/model/j3cub/fg1000</property>
-		      <live>true</live>
-          <enable>
-              <property>/sim/model/j3cub/fg1000-available</property>
-	        </enable>
-		      <binding>
-			      <command>dialog-apply</command>
-		      </binding>
+            <halign>left</halign>
+            <label>S-TEC 55X</label>
+            <property>/sim/model/j3cub/autopilot</property>
+            <live>true</live>
+            <enable>
+                <property>sim/model/j3cub/pa-18</property>
+	          </enable>
+            <binding>
+                <command>dialog-apply</command>
+            </binding>
+        </checkbox>
+        <checkbox>
+		        <halign>left</halign>
+		        <label>FG1000</label>
+		        <property>/sim/model/j3cub/fg1000</property>
+		        <live>true</live>
+            <enable>
+                <property>/sim/model/j3cub/fg1000-available</property>
+	          </enable>
+		        <binding>
+			        <command>dialog-apply</command>
+		        </binding>
 	      </checkbox>
 
         <checkbox>
@@ -929,6 +940,17 @@
 		    <halign>left</halign>
 		    <label>Tail gear</label>
 		    <property>/sim/model/j3cub/tailgear</property>
+		    <live>true</live>
+		    <binding>
+			    <command>dialog-apply</command>
+		    </binding>
+	    </checkbox>
+      <checkbox>
+		    <row>4</row>
+		    <col>0</col>
+		    <halign>left</halign>
+		    <label>Aerotow Hitch</label>
+		    <property>/sim/model/j3cub/aerotowhitch</property>
 		    <live>true</live>
 		    <binding>
 			    <command>dialog-apply</command>

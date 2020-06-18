@@ -131,11 +131,10 @@ var update = func {
                 print("Flooded engine!");
                 gui.popupTip("Flooded engine!");
             }
-            elsif (magneto_settings == 0) {
+            elsif (magneto_settings < 1) {
                 print("Check Magnetos Switch!");
                 gui.popupTip("Check Magnetos Switch!");
-            }
-            else {
+            } else {
                 print("Check the throttle!");
                 gui.popupTip("Check the throttle!");
             }
