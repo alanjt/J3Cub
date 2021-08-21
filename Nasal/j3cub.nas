@@ -590,7 +590,6 @@ setlistener("/sim/signals/fdm-initialized", func {
 
     # Use Nasal to make some properties persistent. <aircraft-data> does
     # not work reliably.
-    aircraft.data.add("/sim/rendering/shadow-volume");
     aircraft.data.add("/sim/model/occupants");
     aircraft.data.add("/sim/model/j3cub/securing/allow-securing-aircraft");
     aircraft.data.add("/sim/model/j3cub/securing/pitot-cover-visible");
@@ -615,7 +614,8 @@ setlistener("/sim/signals/fdm-initialized", func {
     aircraft.data.add("/sim/model/immat");
     aircraft.data.add("/sim/model/j3cub/airtemp");
     aircraft.data.add("/sim/model/j3cub/autopilot");
-    aircraft.data.add("it-stec55x/input/hdg");
+    aircraft.data.add("/it-stec55x/input/hdg");
+    aircraft.data.add("/sim/model/pa-18/variable-prop");
     aircraft.data.load();
 
     set_fuel();

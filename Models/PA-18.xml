@@ -118,6 +118,7 @@
         <object-name>cabin_heat_p18_base</object-name>
         <object-name>cabin_def_p18_base</object-name>
         <object-name>carb_heat_p18_base</object-name>
+        <object-name>proppitch_p18_base</object-name>
         <object-name>wing_r_interior_p18</object-name>
         <object-name>wing_l_interior_p18</object-name>
     </effect>
@@ -128,6 +129,7 @@
         <object-name>cabin_heat_p18</object-name>
         <object-name>cabin_def_p18</object-name>
         <object-name>carb_heat_p18</object-name>
+        <object-name>proppitch_p18</object-name>
     </effect>
     <effect>
         <inherits-from>Aircraft/J3Cub/Models/Effects/interior/lm-placard</inherits-from>
@@ -218,36 +220,891 @@
         <offsets>
             <x-m> 3.3005</x-m>
             <y-m> 0.0003</y-m>
-            <z-m>-0.7881</z-m>
+            <z-m>-0.8</z-m>
         </offsets>
     </model>
 
-    <model>
-
-        <path>Models/Interior/panel/panel_pa18.xml</path>
-
+    <!-- Landing Light -->
+    <animation>
+        <type>select</type>
+        <object-name>landinglight_p18</object-name>
+        <nopreview/>
         <condition>
-
-            <or>
-
-                <property>sim/model/j3cub/pa-18</property>
-
-                <property>sim/model/preload</property>
-
-            </or>
-
+            <and>
+                <property alias="/params/lighting/landing/property"/>
+                <not>
+                    <property>sim/rendering/rembrandt/enabled</property>
+                </not>
+            </and>
         </condition>
+    </animation>
 
+    <!-- Taxi Light -->
+    <animation>
+        <type>select</type>
+        <object-name>taxilight_p18</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/taxi/property"/>
+                <not>
+                    <property>sim/rendering/rembrandt/enabled</property>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
+    <!-- Recessed Light -->
+    <animation>
+        <type>select</type>
+        <object-name>landinglight2_p18</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <or>
+                    <property alias="/params/lighting/landing/property"/>
+                    <property alias="/params/lighting/taxi/property"/>
+                </or>
+                <not>
+                    <property>sim/rendering/rembrandt/enabled</property>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>landinglightcover_p18</object-name>
+        <condition>
+            <not>
+                <property alias="/params/lighting/landing/property"/>
+            </not>
+        </condition>
+    </animation>
+
+    <!--Landing Light-->
+    <animation>
+        <type>flash</type>
+        <object-name>landinglight_p18</object-name>
+        <center>
+            <x-m>-0.0061</x-m>
+            <y-m>-3.6943</y-m>
+            <z-m> 0.0714</z-m>
+        </center>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <power>8</power>
+        <factor>6</factor>
+        <offset>0</offset>
+        <two-sides type="bool">false</two-sides>
+        <min>0.5</min>
+        <max>80</max>
+    </animation>
+
+    <!--Taxi Light-->
+    <animation>
+        <type>flash</type>
+        <object-name>taxilight_p18</object-name>
+        <center>
+            <x-m>-0.0061</x-m>
+            <y-m>-3.5659</y-m>
+            <z-m> 0.0639</z-m>
+        </center>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <power>8</power>
+        <factor>5</factor>
+        <offset>0</offset>
+        <two-sides type="bool">false</two-sides>
+        <min>0.5</min>
+        <max>80</max>
+    </animation>
+
+    <!-- ================================================================== -->
+    <!-- Basic                                                              -->
+    <!-- ================================================================== -->
+
+    <animation>
+        <type>select</type>
+        <object-name>navlight_left_p18</object-name><!-- TODO Drop Rembrandt or add a real Rembrandt light -->
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/navigation"/>
+                <not>
+                    <property>sim/rendering/shaders/skydome</property>
+                </not>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>navlight_right_p18</object-name><!-- TODO Drop Rembrandt or add a real Rembrandt light -->
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/navigation"/>
+                <not>
+                    <property>sim/rendering/shaders/skydome</property>
+                </not>
+                <not-equals>
+                    <property alias="/params/wing_right_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>navlight_back_p18</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/navigation"/>
+                <not>
+                    <property>sim/rendering/shaders/skydome</property>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
+    <!-- ================================================================== -->
+    <!-- ALS Lighting                                                       -->
+    <!-- ================================================================== -->
+    <animation>
+        <type>select</type>
+        <object-name>nav-light-left</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/navigation"/>
+                <property>sim/rendering/shaders/skydome</property>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>nav-light-right</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/navigation"/>
+                <property>sim/rendering/shaders/skydome</property>
+                <not-equals>
+                    <property alias="/params/wing_right_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>nav-light-tail</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/navigation"/>
+                <property>sim/rendering/shaders/skydome</property>
+            </and>
+        </condition>
+    </animation>
+
+    <!-- Strobe -->
+    <animation>
+        <type>select</type>
+        <object-name>strobe1_p18</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/strobes"/>
+                <equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>0</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>strobe2_p18</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/strobes"/>
+                <equals>
+                    <property alias="/params/wing_right_damaged/property"/>
+                    <value>0</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
+    <Plane.014Xparams>
+        <light-near>0.8</light-near>
+        <light-med>3.2</light-med>
+        <light-far>160</light-far>
+    </Plane.014Xparams>
+    <animation>
+        <name>Plane.014XGroup</name>
+        <object-name>strobe1_p18</object-name>
+        <object-name>strobe2_p18</object-name>
+    </animation>
+    <animation>
+        <type>alpha-test</type>
+        <object-name>Plane.014XGroup</object-name>
+        <alpha-factor>0.001</alpha-factor>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>strobe1_p18</object-name>
+        <offset-m>5.36</offset-m>
+        <axis>
+            <x> 0.4675</x>
+            <y>-5.3222</y>
+            <z> 0.1384</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>strobe2_p18</object-name>
+        <offset-m>5.36</offset-m>
+        <axis>
+            <x>0.4787</x>
+            <y>5.325 </y>
+            <z>0.1447</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>billboard</type>
+        <object-name>strobe1_p18</object-name>
+        <object-name>strobe2_p18</object-name>
+        <spherical type="bool">true</spherical>
+    </animation>
+    <animation>
+        <type>dist-scale</type>
+        <object-name>strobe1_p18</object-name>
+        <object-name>strobe2_p18</object-name>
+        <interpolation>
+            <entry>
+                <ind>0</ind>
+                <dep alias="/Plane.014Xparams/light-near"/>
+            </entry>
+            <entry>
+                <ind>500</ind>
+                <dep alias="/Plane.014Xparams/light-med"/>
+            </entry>
+            <entry>
+                <ind>16000</ind>
+                <dep alias="/Plane.014Xparams/light-far"/>
+            </entry>
+        </interpolation>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>BeaconOffX_p18</object-name>
+        <nopreview/>
+        <condition>
+            <property alias="/params/lighting/beacon"/>
+        </condition>
+    </animation>
+    <BeaconOffXparams>
+        <light-near>0.4</light-near>
+        <light-med>0.8</light-med>
+        <light-far>10</light-far>
+    </BeaconOffXparams>
+    <animation>
+        <type>alpha-test</type>
+        <object-name>BeaconOffX_p18</object-name>
+        <alpha-factor>0.001</alpha-factor>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>BeaconOffX_p18</object-name>
+        <offset-m>4.945</offset-m>
+        <axis>
+            <x>4.8397</x>
+            <y>0.0001</y>
+            <z>0.8918</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>billboard</type>
+        <object-name>BeaconOffX_p18</object-name>
+        <spherical type="bool">true</spherical>
+    </animation>
+    <animation>
+        <type>dist-scale</type>
+        <object-name>BeaconOffX_p18</object-name>
+        <interpolation>
+            <entry>
+                <ind>0</ind>
+                <dep alias="/BeaconOffXparams/light-near"/>
+            </entry>
+            <entry>
+                <ind>500</ind>
+                <dep alias="/BeaconOffXparams/light-med"/>
+            </entry>
+            <entry>
+                <ind>16000</ind>
+                <dep alias="/BeaconOffXparams/light-far"/>
+            </entry>
+        </interpolation>
+    </animation>
+
+    <!-- ================================================================== -->
+    <!-- Procedural Clustered Shading Lighting                              -->
+    <!-- ================================================================== -->
+
+	<!-- Procedural Landing Light -->
+    <animation>
+        <type>select</type>
+		<object-name>ProceduralLandingLight</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/landing/property"/>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+            </and>
+        </condition>
+    </animation>
+	<light>
+		<name>ProceduralLandingLight</name>
+		<type>spot</type>
+		<position>
+			<x-m>-0.125</x-m>
+			<y-m>-3.694</y-m>
+			<z-m> 0.071</z-m>
+		</position>
+		<direction>
+			<lookat-x-m>-19    </lookat-x-m>
+			<lookat-y-m>  0    </lookat-y-m>
+			<lookat-z-m>  0.071</lookat-z-m>
+		</direction>
+		<ambient>
+			<r>0.95</r>
+			<g>0.95</g>
+			<b>0.95</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>0.95</r>
+			<g>0.95</g>
+			<b>0.95</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>0.95</r>
+			<g>0.95</g>
+			<b>0.95</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0</c>
+			<l>0.014</l>
+			<q>0.0007</q>
+		</attenuation>
+		<spot-exponent>15</spot-exponent>
+		<spot-cutoff>60</spot-cutoff>
+		<range-m>325</range-m>
+		<debug-color>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</debug-color>
+	</light>
+
+	<!-- Procedural Taxi Light -->
+    <animation>
+        <type>select</type>
+        <object-name>ProceduralTaxiLight</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/taxi/property"/>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+            </and>
+        </condition>
+    </animation>
+	<light>
+		<name>ProceduralTaxiLight</name>
+		<type>spot</type>
+		<position>
+			<x-m>-0.059</x-m>
+			<y-m>-3.565</y-m>
+			<z-m> 0.063</z-m>
+		</position>
+		<direction>
+			<lookat-x-m>-19    </lookat-x-m>
+			<lookat-y-m>  0    </lookat-y-m>
+			<lookat-z-m>  0.063</lookat-z-m>
+		</direction>
+		<ambient>
+			<r>0.95</r>
+			<g>0.95</g>
+			<b>0.95</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>0.95</r>
+			<g>0.95</g>
+			<b>0.95</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>0.95</r>
+			<g>0.95</g>
+			<b>0.95</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0</c>
+			<l>0.07</l>
+			<q>0.017</q>
+		</attenuation>
+		<spot-exponent>15</spot-exponent>
+		<spot-cutoff>60</spot-cutoff>
+		<range-m>65</range-m>
+		<debug-color>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</debug-color>
+	</light>
+
+    <!-- Procedural Strobe Light -->
+    <animation>
+        <type>select</type>
+		<object-name>leftstrobe</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/strobes"/>
+                <equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>0</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+		<object-name>rightstrobe</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/strobes"/>
+                <equals>
+                    <property alias="/params/wing_right_damaged/property"/>
+                    <value>0</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
+	<light>
+		<name>leftstrobe</name>
+		<type>spot</type>
+		<position>
+			<x-m> 0.488</x-m>
+			<y-m>-5.316</y-m>
+			<z-m> 0.138</z-m>
+		</position>
+		<direction>
+			<lookat-x-m>  0.488</lookat-x-m>
+			<lookat-y-m>-20    </lookat-y-m>
+			<lookat-z-m>  0.138</lookat-z-m>
+		</direction>
+		<ambient>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0 </c>
+			<l>0.92</l>
+			<q>2.40</q>
+		</attenuation>
+		<spot-exponent>0.5</spot-exponent>
+		<spot-cutoff>89</spot-cutoff>
+		<range-m>30</range-m>
+		<debug-color>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</debug-color>
+	</light>
+	<light>
+		<name>rightstrobe</name>
+		<type>spot</type>
+		<position>
+			<x-m>0.500</x-m>
+			<y-m>5.319</y-m>
+			<z-m>0.144</z-m>
+		</position>
+		<direction>
+			<lookat-x-m>0.5</lookat-x-m>
+			<lookat-y-m>20  </lookat-y-m>
+			<lookat-z-m>0.144</lookat-z-m>
+		</direction>
+		<ambient>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0 </c>
+			<l>0.92</l>
+			<q>2.40</q>
+		</attenuation>
+		<spot-exponent>0.5</spot-exponent>
+		<spot-cutoff>89</spot-cutoff>
+		<range-m>30</range-m>
+		<debug-color>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</debug-color>
+	</light>
+
+	<!-- Beacon Procedural Light -->
+	<animation>
+		<type>select</type>
+		<object-name>beaconlight</object-name>
+		<condition>
+			<property alias="/params/lighting/beacon"/>
+		</condition>
+	</animation>
+	 
+	<light>
+		<name>beaconlight</name>
+		<type>point</type>
+		<position>
+			<x-m> 4.86 </x-m>
+			<y-m> 0.00 </y-m>
+			<z-m> 0.90 </z-m>
+		</position>
+		<ambient>
+			<r>0.98</r>
+			<g>0.2</g>
+			<b>0.2</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>0.98</r>
+			<g>0.2</g>
+			<b>0.2</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>0.98</r>
+			<g>0.2</g>
+			<b>0.2</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0</c>
+			<l>1.40</l>
+			<q>3.60</q>
+		</attenuation>
+		<dim-factor>
+			<property>sim/model/pa-18/lighting/beacon/state</property>
+		</dim-factor>
+		<spot-exponent>3</spot-exponent>
+		<spot-cutoff>89</spot-cutoff>
+		<range-m>10</range-m>
+		<debug-color>
+			<r>1</r>
+			<g>0</g>
+			<b>0</b>
+			<a>1</a>
+		</debug-color>
+	</light>
+
+	<!-- Procedural Nav Lights -->
+	<animation>
+		<type>select</type>
+		<object-name>taillight</object-name>
+		<condition>
+            <and>
+                <property alias="/params/lighting/navigation"/>
+                <property>sim/rendering/shaders/skydome</property>
+            </and>
+        </condition>
+	</animation>
+
+	<light>
+		<name>taillight</name>
+		<type>point</type>
+		<position>
+			<x-m>3.31 </x-m>
+			<y-m>0.0 </y-m>
+			<z-m>3.1</z-m>
+		</position>
+		<direction>
+			<lookat-x-m> 4</lookat-x-m>
+			<lookat-y-m> 0.00</lookat-y-m>
+			<lookat-z-m> 10 </lookat-z-m>
+		</direction>
+		<ambient>
+			<r>0.95</r>
+			<g>0.95</g>
+			<b>0.95</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>0.95</r>
+			<g>0.95</g>
+			<b>0.95</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>0.95</r>
+			<g>0.95</g>
+			<b>0.95</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0</c>
+			<l>1.40</l>
+			<q>2.16</q>
+		</attenuation>
+		<spot-exponent>3</spot-exponent>
+		<spot-cutoff>90</spot-cutoff>
+		<range-m>20</range-m>
+		<debug-color>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</debug-color>
+	</light>
+
+	<animation>
+		<type>select</type>
+		<object-name>navlightred</object-name>
+		<condition>
+            <and>
+                <property alias="/params/lighting/navigation"/>
+                <property>sim/rendering/shaders/skydome</property>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+            </and>
+        </condition>
+	</animation>
+	<light>
+		<name>navlightred</name>
+		<type>point</type>
+		<position>
+			<x-m> 0.3 </x-m>
+			<y-m>-6.5 </y-m>
+			<z-m> 0.14</z-m>
+		</position>
+		<direction>
+			<lookat-x-m>-2   </lookat-x-m>
+			<lookat-y-m>-13  </lookat-y-m>
+			<lookat-z-m> 0.14</lookat-z-m>
+		</direction>
+		<ambient>
+			<r>1</r>
+			<g>0.1</g>
+			<b>0.1</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>1</r>
+			<g>0.1</g>
+			<b>0.1</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>1</r>
+			<g>0.1</g>
+			<b>0.1</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0</c>
+			<l>1.4</l>
+			<q>3.6</q>
+		</attenuation>
+		<spot-exponent>2</spot-exponent>
+		<spot-cutoff>90</spot-cutoff>
+		<range-m>10</range-m>
+		<debug-color>
+			<r>1</r>
+			<g>0</g>
+			<b>0</b>
+			<a>1</a>
+		</debug-color>
+	</light>
+
+	<animation>
+		<type>select</type>
+		<object-name>navlightgreen</object-name>
+		<condition>
+            <and>
+                <property alias="/params/lighting/navigation"/>
+                <property>sim/rendering/shaders/skydome</property>
+                <not-equals>
+                    <property alias="/params/wing_right_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+            </and>
+        </condition>
+	</animation>
+	<light>
+		<name>navlightgreen</name>
+		<type>point</type>
+		<position>
+			<x-m>0.3 </x-m>
+			<y-m>6.5 </y-m>
+			<z-m>0.15</z-m>
+		</position>
+		<direction>
+			<lookat-x-m>-2   </lookat-x-m>
+			<lookat-y-m>13   </lookat-y-m>
+			<lookat-z-m> 0.15</lookat-z-m>
+		</direction>
+		<ambient>
+			<r>0.1</r>
+			<g>1</g>
+			<b>0.1</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>0.1</r>
+			<g>1</g>
+			<b>0.1</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>0.1</r>
+			<g>1</g>
+			<b>0.1</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0</c>
+			<l>1.4</l>
+			<q>3.6</q>
+		</attenuation>
+		<spot-exponent>2</spot-exponent>
+		<spot-cutoff>90</spot-cutoff>
+		<range-m>10</range-m>
+		<debug-color>
+			<r>0</r>
+			<g>1</g>
+			<b>0</b>
+			<a>1</a>
+		</debug-color>
+	</light>
+
+    <animation>
+        <type>noshadow</type>
+        <object-name>landinglight_p18</object-name>
+        <object-name>taxilight_p18</object-name>
+		<object-name>taillight</object-name>
+		<object-name>navlightred</object-name>
+		<object-name>navlightgreen</object-name>
+		<object-name>beaconlight</object-name>
+		<object-name>leftstrobe</object-name>
+		<object-name>rightstrobe</object-name>
+        <object-name>strobe1_p18</object-name>
+        <object-name>strobe2_p18</object-name>
+		<object-name>BeaconOffX_p18</object-name>
+        <object-name>nav-light-left</object-name>
+        <object-name>nav-light-right</object-name>
+        <object-name>nav-light-tail</object-name>
+        <object-name>navlight_left_p18</object-name>
+        <object-name>navlight_right_p18</object-name>
+        <object-name>navlight_back_p18</object-name>
+    </animation>
+
+    <model>
+        <path>Models/Interior/panel/panel_pa18.xml</path>
+        <condition>
+            <or>
+                <property>sim/model/j3cub/pa-18</property>
+                <property>sim/model/preload</property>
+            </or>
+        </condition>
         <offsets>
-
             <x-m>0.0</x-m>
-
             <y-m>0.0</y-m>
-
             <z-m>0.0</z-m>
-
         </offsets>
-
     </model>
 
     <model>
@@ -732,7 +1589,7 @@
         </condition>
         <offsets>
             <x-m>-0.22 </x-m>
-            <y-m>-0.145</y-m>
+            <y-m>-0.16</y-m>
             <z-m>-0.51</z-m>
         </offsets>
     </model>
@@ -744,7 +1601,7 @@
            <property>sim/model/j3cub/fg1000</property>
         </condition>
         <x-offset>0.80</x-offset>
-        <y-offset>0.825</y-offset>
+        <y-offset>0.775</y-offset>
         <z-offset>0.90</z-offset>
      </animation>
 
@@ -759,7 +1616,7 @@
         </condition>
         <offsets>
             <x-m>-0.22 </x-m>
-            <y-m> 0.155</y-m>
+            <y-m> 0.18</y-m>
             <z-m>-0.51</z-m>
         </offsets>
     </model>
@@ -771,9 +1628,20 @@
            <property>sim/model/j3cub/fg1000</property>
         </condition>
         <x-offset>0.80</x-offset>
-        <y-offset>0.825</y-offset>
+        <y-offset>0.775</y-offset>
         <z-offset>0.90</z-offset>
      </animation>
+
+    <model>
+        <name>fg1000-audio-panel</name>
+        <path>Models/Interior/audiopanel/audio-panel-pa18.xml</path>
+        <condition>
+            <and>
+                <property>sim/model/j3cub/fg1000</property>
+                <property>sim/model/j3cub/pa-18</property>
+            </and>
+        </condition>
+    </model>
 
     <animation>
         <type>select</type>
@@ -826,7 +1694,7 @@
         <object-name>wheel_strut_l_p18</object-name>
         <object-name>elevator_p18</object-name>
         <object-name>rudder_p18</object-name>
-		    <object-name>tailplane_p18</object-name>
+		<object-name>tailplane_p18</object-name>
         <object-name>fuel_selector_p18</object-name>
         <object-name>glass_p18</object-name>
         <object-name>panel_p18</object-name>
@@ -862,6 +1730,83 @@
               <property>sim/model/preload</property>
           </or>
         </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>proppitch_p18</object-name>
+        <object-name>proppitch_p18_base</object-name>
+        <condition>
+          <or>
+              <and>
+                  <property>sim/model/j3cub/pa-18</property>
+                  <property>sim/model/pa-18/variable-prop</property>
+                  <not>
+                      <property>sim/model/j3cub/fg1000</property>
+                  </not>
+              </and>
+              <property>sim/model/preload</property>
+          </or>
+        </condition>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>proppitch_p18</object-name>
+        <!--property alias="/params/controls/mixture"/-->
+        <property>fdm/jsbsim/propulsion/prop/blade-angle</property>
+        <factor>0.0028</factor>
+        <axis>
+            <x>-1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>slider</type>
+        <object-name>proppitch_p18</object-name>
+        <visible>true</visible>
+        <!-- no translation, we handle that seperately -->
+        <drag-direction>vertical</drag-direction>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>fdm/jsbsim/propulsion/prop/blade-angle</property>
+                <factor>1</factor>
+                <min>15</min>
+                <max>30</max>
+                <wrap>0</wrap>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>proppitchdeg</tooltip-id>
+                <label>Prop Pitch Degree: %s</label>
+                <property>fdm/jsbsim/propulsion/prop/blade-angle</property>
+                <mapping>nasal</mapping>
+                <script>
+                    var modes = ['15', '20', '25', '30'];
+                    return modes[arg[0]];
+                </script>
+            </binding>
+        </hovered>
+    </animation>
+
+    <!-- prop pitch animation-->
+    <animation>
+        <type>rotate</type>
+        <object-name>propeller_1_p18</object-name>
+        <property>fdm/jsbsim/propulsion/prop/blade-angle</property>
+        <factor>-1</factor>
+        <offset-deg>15</offset-deg>
+        <axis>
+            <x1-m>-1.45219</x1-m>
+            <y1-m>-0.82585</y1-m>
+            <z1-m>-0.054103</z1-m>
+            <x2-m>-1.44113</x2-m>
+            <y2-m> 0.824122</y2-m>
+            <z2-m>-0.969876</z2-m>
+        </axis>
     </animation>
 
     <!-- Fuel selector -->
@@ -1446,359 +2391,5 @@
             </and>
         </condition>
     </animation>-->
-
-    <!-- Landing Light -->
-    <animation>
-        <type>select</type>
-        <object-name>landinglight_p18</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/landing/property"/>
-                <not>
-                    <property>sim/rendering/rembrandt/enabled</property>
-                </not>
-            </and>
-        </condition>
-    </animation>
-
-    <!-- Taxi Light -->
-    <animation>
-        <type>select</type>
-        <object-name>taxilight_p18</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/taxi/property"/>
-                <not>
-                    <property>sim/rendering/rembrandt/enabled</property>
-                </not>
-            </and>
-        </condition>
-    </animation>
-
-    <!-- Recessed Light -->
-    <animation>
-        <type>select</type>
-        <object-name>landinglight2_p18</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <or>
-                    <property alias="/params/lighting/landing/property"/>
-                    <property alias="/params/lighting/taxi/property"/>
-                </or>
-                <not>
-                    <property>sim/rendering/rembrandt/enabled</property>
-                </not>
-            </and>
-        </condition>
-    </animation>
-
-    <animation>
-        <type>select</type>
-        <object-name>landinglightcover_p18</object-name>
-        <condition>
-            <not>
-                <property alias="/params/lighting/landing/property"/>
-            </not>
-        </condition>
-    </animation>
-    <animation>
-        <type>noshadow</type>
-        <object-name>landinglight_p18</object-name>
-        <object-name>taxilight_p18</object-name>
-    </animation>
-
-    <!--Landing Light-->
-    <animation>
-        <type>flash</type>
-        <object-name>landinglight_p18</object-name>
-        <center>
-            <x-m>-0.0061</x-m>
-            <y-m>-3.6943</y-m>
-            <z-m> 0.0714</z-m>
-        </center>
-        <axis>
-            <x>-1</x>
-            <y>0</y>
-            <z>0</z>
-        </axis>
-        <power>8</power>
-        <factor>6</factor>
-        <offset>0</offset>
-        <two-sides type="bool">false</two-sides>
-        <min>0.5</min>
-        <max>80</max>
-    </animation>
-
-    <!--Taxi Light-->
-    <animation>
-        <type>flash</type>
-        <object-name>taxilight_p18</object-name>
-        <center>
-            <x-m>-0.0061</x-m>
-            <y-m>-3.5659</y-m>
-            <z-m> 0.0639</z-m>
-        </center>
-        <axis>
-            <x>-1</x>
-            <y>0</y>
-            <z>0</z>
-        </axis>
-        <power>8</power>
-        <factor>5</factor>
-        <offset>0</offset>
-        <two-sides type="bool">false</two-sides>
-        <min>0.5</min>
-        <max>80</max>
-    </animation>
-
-    <!-- ================================================================== -->
-    <!-- Basic And Rembrandt Lighting                                       -->
-    <!-- ================================================================== -->
-
-    <animation>
-        <type>select</type>
-        <object-name>navlight_left_p18</object-name><!-- TODO Drop Rembrandt or add a real Rembrandt light -->
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/navigation"/>
-                <not>
-                    <property>sim/rendering/shaders/skydome</property>
-                </not>
-                <not-equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>1</value>
-                </not-equals>
-            </and>
-        </condition>
-    </animation>
-    <animation>
-        <type>select</type>
-        <object-name>navlight_right_p18</object-name><!-- TODO Drop Rembrandt or add a real Rembrandt light -->
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/navigation"/>
-                <not>
-                    <property>sim/rendering/shaders/skydome</property>
-                </not>
-                <not-equals>
-                    <property alias="/params/wing_right_damaged/property"/>
-                    <value>1</value>
-                </not-equals>
-            </and>
-        </condition>
-    </animation>
-    <animation>
-        <type>select</type>
-        <object-name>navlight_back_p18</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/navigation"/>
-                <not>
-                    <property>sim/rendering/shaders/skydome</property>
-                </not>
-            </and>
-        </condition>
-    </animation>
-
-    <!-- ================================================================== -->
-    <!-- ALS Lighting                                                       -->
-    <!-- ================================================================== -->
-    <animation>
-        <type>select</type>
-        <object-name>nav-light-left</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/navigation"/>
-                <property>sim/rendering/shaders/skydome</property>
-                <not-equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>1</value>
-                </not-equals>
-            </and>
-        </condition>
-    </animation>
-    <animation>
-        <type>select</type>
-        <object-name>nav-light-right</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/navigation"/>
-                <property>sim/rendering/shaders/skydome</property>
-                <not-equals>
-                    <property alias="/params/wing_right_damaged/property"/>
-                    <value>1</value>
-                </not-equals>
-            </and>
-        </condition>
-    </animation>
-    <animation>
-        <type>select</type>
-        <object-name>nav-light-tail</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/navigation"/>
-                <property>sim/rendering/shaders/skydome</property>
-            </and>
-        </condition>
-    </animation>
-
-    <!-- Strobe -->
-    <animation>
-        <type>select</type>
-        <object-name>strobe1_p18</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/strobes"/>
-                <equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>0</value>
-                </equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-            </and>
-        </condition>
-    </animation>
-    <animation>
-        <type>select</type>
-        <object-name>strobe2_p18</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/strobes"/>
-                <equals>
-                    <property alias="/params/wing_right_damaged/property"/>
-                    <value>0</value>
-                </equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-            </and>
-        </condition>
-    </animation>
-
-    <Plane.014Xparams>
-        <light-near>0.8</light-near>
-        <light-med>3.2</light-med>
-        <light-far>160</light-far>
-    </Plane.014Xparams>
-    <animation>
-        <name>Plane.014XGroup</name>
-        <object-name>strobe1_p18</object-name>
-        <object-name>strobe2_p18</object-name>
-    </animation>
-    <animation>
-        <type>alpha-test</type>
-        <object-name>Plane.014XGroup</object-name>
-        <alpha-factor>0.001</alpha-factor>
-    </animation>
-    <animation>
-        <type>translate</type>
-        <object-name>strobe1_p18</object-name>
-        <offset-m>5.36</offset-m>
-        <axis>
-            <x> 0.4675</x>
-            <y>-5.3222</y>
-            <z> 0.1384</z>
-        </axis>
-    </animation>
-    <animation>
-        <type>translate</type>
-        <object-name>strobe2_p18</object-name>
-        <offset-m>5.36</offset-m>
-        <axis>
-            <x>0.4787</x>
-            <y>5.325 </y>
-            <z>0.1447</z>
-        </axis>
-    </animation>
-
-    <animation>
-        <type>billboard</type>
-        <object-name>strobe1_p18</object-name>
-        <object-name>strobe2_p18</object-name>
-        <spherical type="bool">true</spherical>
-    </animation>
-    <animation>
-        <type>dist-scale</type>
-        <object-name>strobe1_p18</object-name>
-        <object-name>strobe2_p18</object-name>
-        <interpolation>
-            <entry>
-                <ind>0</ind>
-                <dep alias="/Plane.014Xparams/light-near"/>
-            </entry>
-            <entry>
-                <ind>500</ind>
-                <dep alias="/Plane.014Xparams/light-med"/>
-            </entry>
-            <entry>
-                <ind>16000</ind>
-                <dep alias="/Plane.014Xparams/light-far"/>
-            </entry>
-        </interpolation>
-    </animation>
-
-    <animation>
-        <type>select</type>
-        <object-name>BeaconOffX_p18</object-name>
-        <nopreview/>
-        <condition>
-            <property alias="/params/lighting/beacon"/>
-        </condition>
-    </animation>
-    <BeaconOffXparams>
-        <light-near>0.4</light-near>
-        <light-med>0.8</light-med>
-        <light-far>10</light-far>
-    </BeaconOffXparams>
-    <animation>
-        <type>alpha-test</type>
-        <object-name>BeaconOffX_p18</object-name>
-        <alpha-factor>0.001</alpha-factor>
-    </animation>
-    <animation>
-        <type>translate</type>
-        <object-name>BeaconOffX_p18</object-name>
-        <offset-m>4.945</offset-m>
-        <axis>
-            <x>4.8397</x>
-            <y>0.0001</y>
-            <z>0.8918</z>
-        </axis>
-    </animation>
-    <animation>
-        <type>billboard</type>
-        <object-name>BeaconOffX_p18</object-name>
-        <spherical type="bool">true</spherical>
-    </animation>
-    <animation>
-        <type>dist-scale</type>
-        <object-name>BeaconOffX_p18</object-name>
-        <interpolation>
-            <entry>
-                <ind>0</ind>
-                <dep alias="/BeaconOffXparams/light-near"/>
-            </entry>
-            <entry>
-                <ind>500</ind>
-                <dep alias="/BeaconOffXparams/light-med"/>
-            </entry>
-            <entry>
-                <ind>16000</ind>
-                <dep alias="/BeaconOffXparams/light-far"/>
-            </entry>
-        </interpolation>
-    </animation>
 
 </PropertyList>

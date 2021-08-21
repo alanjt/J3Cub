@@ -2,7 +2,7 @@
 
 <PropertyList>
 
-    <name>Amphibious Takeoff</name>
+    <name>PA-18 Amphibious Takeoff</name>
 
     <description>
 This tutorial starts from Daniel K. Inouye International Airport (PHNL), a seaplane airfield located in Oahu's Keehi Lagoon, Honolulu, Hawaii in clear, still, weather.
@@ -222,6 +222,10 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
         </set>
         <set>
             <property>sim/model/j3cub/bushkit_flag_4</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>sim/model/j3cub/bushkit_flag_5</property>
             <value>0</value>
         </set>
         <set>

@@ -513,7 +513,7 @@
         <object-name>propeller_fast</object-name>
     </effect>
 
-	  <effect>
+      <effect>
         <inherits-from>Aircraft/J3Cub/Models/Effects/exterior/exterior-glass-reflection</inherits-from>
         <object-name>screen</object-name>
         <object-name>window_top</object-name>
@@ -868,9 +868,9 @@
             </and>
         </condition>
         <offsets>
-            <x-m>-0.214 </x-m>
-            <y-m>-0.145</y-m>
-            <z-m>-0.59</z-m>
+            <x-m>-0.21</x-m>
+            <y-m>-0.160</y-m>
+            <z-m>-0.535</z-m>
         </offsets>
     </model>
 
@@ -881,8 +881,8 @@
            <property>sim/model/j3cub/fg1000</property>
         </condition>
         <x-offset>0.80</x-offset>
-        <y-offset>0.80</y-offset>
-        <z-offset>0.80</z-offset>
+        <y-offset>0.75</y-offset>
+        <z-offset>0.90</z-offset>
      </animation>
 
     <model>
@@ -897,9 +897,9 @@
             </and>
         </condition>
         <offsets>
-            <x-m>-0.214 </x-m>
-            <y-m> 0.155</y-m>
-            <z-m>-0.59</z-m>
+            <x-m>-0.21</x-m>
+            <y-m> 0.19</y-m>
+            <z-m>-0.535</z-m>
         </offsets>
     </model>
 
@@ -910,9 +910,22 @@
            <property>sim/model/j3cub/fg1000</property>
         </condition>
         <x-offset>0.80</x-offset>
-        <y-offset>0.80</y-offset>
-        <z-offset>0.80</z-offset>
+        <y-offset>0.75</y-offset>
+        <z-offset>0.90</z-offset>
      </animation>
+
+    <model>
+        <name>fg1000-audio-panel</name>
+        <path>Models/Interior/audiopanel/audio-panel.xml</path>
+        <condition>
+            <and>
+                <property>sim/model/j3cub/fg1000</property>
+                <not>
+                    <property>sim/model/j3cub/pa-18</property>
+                </not>
+            </and>
+        </condition>
+    </model>
  
     <!-- non-Canvas remote Garmin 196 GPS (FGDATA) -->
     <!-- TODO Remove this old version, unhide and implement the Canvas version below -->
@@ -1813,7 +1826,7 @@
   </axis>
 </animation>
 
-	<!-- Tail Gear No Damage -->
+    <!-- Tail Gear No Damage -->
     <animation>
         <type>select</type>
         <object-name>tail_wheel</object-name>
@@ -2338,7 +2351,7 @@
                     <property alias="/params/bushkit"/>
                     <value>4</value>
                 </equals>
-		<equals>
+        <equals>
                     <property alias="/params/bushkit"/>
                     <value>5</value>
                 </equals>
@@ -6463,9 +6476,9 @@
         <object-name>flaps_p18</object-name>
         <object-name>wheel_strut_r_p18</object-name>
         <object-name>wheel_strut_l_p18</object-name>
-  		<object-name>elevator_p18</object-name>
+        <object-name>elevator_p18</object-name>
         <object-name>tailplane_p18</object-name>
-		<object-name>rudder_p18</object-name>
+        <object-name>rudder_p18</object-name>
 
         <object-name>nose_wheel_bush_tri</object-name>
         <object-name>tyre_l_bush_tri</object-name>
@@ -6606,29 +6619,6 @@
         <texture-prop>texture</texture-prop>
         <texture>floats.png</texture>
     </animation>
-
-    <!-- ALS volume shadows  -->
-    <model>
-        <path>Effects/shadow/defshadow.xml</path>
-    </model>
-    <model>
-        <path>Effects/shadow/bushshadow.xml</path>
-    </model>
-    <model>
-        <path>Effects/shadow/floatshadow.xml</path>
-    </model>
-    <model>
-        <path>Effects/shadow/amphshadow.xml</path>
-    </model>
-    <model>
-        <path>Effects/shadow/skishadow.xml</path>
-    </model>
-    <model>
-        <path>Effects/shadow/skiliteshadow.xml</path>
-    </model>
-    <model>
-        <path>Effects/shadow/trishadow.xml</path>
-    </model>
 
     <!-- exhaust smoke; just a little pollution -->
 
@@ -7003,9 +6993,9 @@
         <name>tiedownT</name>
         <path>Exterior/tiedowns/tiedownT.xml</path>
         <offsets>
-            <x-m> 3.7930</x-m>
-            <y-m>-0.1710</y-m>
-            <z-m>-0.6867</z-m>
+            <x-m> 4.8094</x-m>
+            <y-m>-0.0025</y-m>
+            <z-m>-0.5440</z-m>
             <heading-deg>180.0</heading-deg>
         </offsets>
     </model>

@@ -2,29 +2,29 @@
 <?xml-stylesheet type="text/xsl" href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
 
 <fdm_config name="J3Cub" version="2.0" release="ALPHA"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:noNamespaceSchemaLocation="http://jsbsim.sourceforge.net/JSBSim.xsd">
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:noNamespaceSchemaLocation="http://jsbsim.sourceforge.net/JSBSim.xsd">
 
-	<fileheader>
-		<author> Erik Hofman using Aeromatic v 3.2.0 </author>
-		<filecreationdate> 18 Dec 2015 </filecreationdate>
-		<version>$Revision: 1.26 $</version>
-		<description> Models a J3Cub. </description>
-		<note>
-			This model was created using publicly available data, publicly available
-			technical reports, textbooks, and guesses. It contains no proprietary or
-			restricted data. If this model has been validated at all, it would be
-			only to the extent that it seems to "fly right", and that it possibly
-			complies with published, publicly known, performance data (maximum speed,
-			endurance, etc.). Thus, this model is meant for educational and
-			entertainment purposes only.
+ <fileheader>
+  <author> Erik Hofman using Aeromatic v 3.2.0 </author>
+  <filecreationdate> 18 Dec 2015 </filecreationdate>
+  <version>$Revision: 1.26 $</version>
+  <description> Models a J3Cub. </description>
+  <note>
+    This model was created using publicly available data, publicly available
+    technical reports, textbooks, and guesses. It contains no proprietary or
+    restricted data. If this model has been validated at all, it would be
+    only to the extent that it seems to "fly right", and that it possibly
+    complies with published, publicly known, performance data (maximum speed,
+    endurance, etc.). Thus, this model is meant for educational and
+    entertainment purposes only.
 
-			This simulation model is not endorsed by the manufacturer.
-		</note>
-		<reference refID="Du_Y_Thesis_2011" author="Yongliang Du" title="Development of real-time flight control system for low-cost vehicle" date="2011"/>
-	</fileheader>
+    This simulation model is not endorsed by the manufacturer.
+      </note>
+  <reference refID="Du_Y_Thesis_2011" author="Yongliang Du" title="Development of real-time flight control system for low-cost vehicle" date="2011"/>
+ </fileheader>
 
-	<!--
+<!--
   File:     J3Cub.xml
   Inputs:
     name:          J3Cub
@@ -69,380 +69,380 @@
      http://airfoiltools.com/airfoil/details?airfoil=usa35b-il#polars
 -->
 
-	<metrics>
-		<wingarea  unit="FT2">  178.50 </wingarea>
-		<wingspan  unit="FT" >	35.25 </wingspan>
-		<wing_incidence> 		 0.0349 </wing_incidence>
-		<chord     unit="FT" >	 5.25 </chord>
-		<htailarea unit="FT2">	24.50 </htailarea>
-		<htailarm  unit="FT" >	13.20 </htailarm>
-		<vtailarea  unit="FT2">	10.20 </vtailarea>
-		<vtailarm  unit="FT" > 	13.40 </vtailarm>
-		<location name="AERORP" unit="IN">
-			<x>    18.90 </x>
-			<y>     0.00 </y>
-			<z>     0.00 </z>
-		</location>
-		<location name="EYEPOINT" unit="IN">
-			<x>    30.63 </x>
-			<y>     0.00 </y>
-			<z>   -11.00 </z>
-		</location>
-		<location name="VRP" unit="IN">
-			<x>    -9.86 </x>
-			<y>     0.00 </y>
-			<z>    -0.97 </z>
-		</location>
-	</metrics>
+ <metrics>
+   <wingarea  unit="FT2">  178.50 </wingarea>
+   <wingspan  unit="FT" >	35.25 </wingspan>
+   <wing_incidence> 		 0.0349 </wing_incidence>
+   <chord     unit="FT" >	 5.25 </chord>
+   <htailarea unit="FT2">	24.50 </htailarea>
+   <htailarm  unit="FT" >	13.20 </htailarm>
+   <vtailarea  unit="FT2">	10.20 </vtailarea>
+   <vtailarm  unit="FT" > 	13.40 </vtailarm>
+   <location name="AERORP" unit="IN">
+     <x>    18.90 </x>
+     <y>     0.00 </y>
+     <z>     0.00 </z>
+   </location>
+   <location name="EYEPOINT" unit="IN">
+     <x>    30.63 </x>
+     <y>     0.00 </y>
+     <z>   -11.00 </z>
+   </location>
+   <location name="VRP" unit="IN">
+     <x>    -9.86 </x>
+     <y>     0.00 </y>
+     <z>    -0.97 </z>
+   </location>
+ </metrics>
 
-	<mass_balance>
+    <mass_balance>
 		<ixx unit="SLUG*FT2"> 538.01 </ixx>
-		<iyy unit="SLUG*FT2"> 386.81 </iyy>
-		<izz unit="SLUG*FT2"> 871.03 </izz> 
-		<!-- wihtout any rims or tires, default rims and tires 12.5 X 2 = 25 lb-->
-		<emptywt unit="LBS" > 760.00 </emptywt>
-		<location name="CG" unit="IN">
-			<x>    13.80 </x>
-			<y>     0.00 </y>
-			<z>   -23.23 </z>
-		</location>
-		<pointmass name="Back seat">
-			<weight unit="LBS"> 180 </weight>
-			<location name="POINTMASS" unit="IN">
-				<x>  34.00 </x>
-				<y>   0.00 </y>
-				<z> -34.24 </z>
-			</location>
-		</pointmass>
-		<pointmass name="Front seat">
-			<weight unit="LBS"> 0 </weight>
-			<location name="POINTMASS" unit="IN">
-				<x>   8.31 </x>
-				<y>   0.00 </y>
-				<z> -38.89 </z>
-			</location>
-		</pointmass>
-		<!-- Gear configurations 0 to 5, pointmass [2] to [9]  and [11] to [14] -->
-		<!-- Weight and drag are managed by Systems/bushkit.xml -->
-		<pointmass name="Left bush wheel 35 inches">
-			<!-- 25 lb -->
-			<weight unit="LBS"> 0 </weight>
-			<location name="POINTMASS" unit="IN">
-				<x>   1.17 </x>
-				<y> -35.43 </y>
-				<z> -63.32 </z>
-			</location>
-		</pointmass>
-		<pointmass name="Right bush wheel 35 inches">
-			<!-- 25 lb -->
-			<weight unit="LBS"> 0 </weight>
-			<location name="POINTMASS" unit="IN">
-				<x>   1.17 </x>
-				<y>  35.43 </y>
-				<z> -63.32 </z>
-			</location>
-		</pointmass>
-		<pointmass name="Left float">
-			<!--  66 lb -->
-			<weight unit="LBS"> 0 </weight>
-			<location name="POINTMASS" unit="IN">
-				<x>   1.17 </x>
-				<y> -35.43 </y>
-				<z> -63.32 </z>
-			</location>
-		</pointmass>
-		<pointmass name="Right float">
-			<!--  66 lb -->
-			<weight unit="LBS"> 0 </weight>
-			<location name="POINTMASS" unit="IN">
-				<x>   1.17 </x>
-				<y>  35.43 </y>
-				<z> -63.32 </z>
-			</location>
-		</pointmass>
-		<pointmass name="Left amphibious">
-			<!--  115 lb Baumann Floats, FAA TSO C-27 Approved -->
-			<weight unit="LBS"> 0 </weight>
-			<location name="POINTMASS" unit="IN">
-				<x>   1.17 </x>
-				<y> -35.43 </y>
-				<z> -63.32 </z>
-			</location>
-		</pointmass>
-		<pointmass name="Right amphibious">
-			<!--  115 lb Baumann Floats, FAA TSO C-27 Approved -->
-			<weight unit="LBS"> 0 </weight>
-			<location name="POINTMASS" unit="IN">
-				<x>   1.17 </x>
-				<y>  35.43 </y>
-				<z> -63.32 </z>
-			</location>
-		</pointmass>
-		<pointmass name="Left ski">
-			<!-- ski, 36 "tire and rim 37 lb -->
-			<weight unit="LBS"> 0 </weight>
-			<location name="POINTMASS" unit="IN">
-				<x>   1.17 </x>
-				<y> -35.43 </y>
-				<z> -63.32 </z>
-			</location>
-		</pointmass>
-		<pointmass name="Right ski">
-			<!-- ski, 36 "tire and rim 37 lb -->
-			<weight unit="LBS"> 0 </weight>
-			<location name="POINTMASS" unit="IN">
-				<x>   1.17 </x>
-				<y>  35.43 </y>
-				<z> -63.32 </z>
-			</location>
-		</pointmass>
-		<pointmass name="Rear Baggage">
-			<description> 195.00 LBS max weight = 195 baggage + 65 fuel + 180 pilot + 760 emptywt = 1200</description>
-			<weight unit="LBS"> 0 </weight>
-			<location name="POINTMASS" unit="IN">
-				<x>    48.21 </x>
-				<y>     0.00 </y>
-				<z>   -40.87 </z>
-			</location>
-		</pointmass>
-		<pointmass name="Left ski lite">
-			<!-- 8 lb -->
-			<weight unit="LBS"> 0 </weight>
-			<location name="POINTMASS" unit="IN">
-				<x>   1.17 </x>
-				<y> -35.43 </y>
-				<z> -63.32 </z>
-			</location>
-		</pointmass>
-		<pointmass name="Right ski lite">
-			<!-- 8 lb -->
-			<weight unit="LBS"> 0 </weight>
-			<location name="POINTMASS" unit="IN">
-				<x>   1.17 </x>
-				<y>  35.43 </y>
-				<z> -63.32 </z>
-			</location>
-		</pointmass>
-		<pointmass name="Default left wheel">
-			<!-- 12.5 lb -->
-			<weight unit="LBS"> 0 </weight>
-			<location name="POINTMASS" unit="IN">
-				<x>   1.17 </x>
-				<y> -35.43 </y>
-				<z> -63.32 </z>
-			</location>
-		</pointmass>
-		<pointmass name="Defaut right wheel">
-			<!-- 12.5 lb -->
-			<weight unit="LBS"> 0 </weight>
-			<location name="POINTMASS" unit="IN">
-				<x>   1.17 </x>
-				<y>  35.43 </y>
-				<z> -63.32 </z>
-			</location>
-		</pointmass>
-		<pointmass name="Hopper">
-			<!-- max 750 lb -->
-			<weight unit="LBS"> 0 </weight>
-			<location name="POINTMASS" unit="IN">
-				<x>  37.44 </x>
-				<y>   0.00 </y>
-				<z> -38.99 </z>
-			</location>
-		</pointmass>
-		<!-- pointmass 16-17 -->
-		<pointmass name="extra weight 95hp">
-			<weight unit="LBS"> 0 </weight>
-			<location name="POINTMASS" unit="IN">
-				<x> -22.54 </x>
-				<y>   0.0  </y>
-				<z> -27.0  </z>
-			</location>
-		</pointmass>
-		<pointmass name="extra weight 150hp">
-			<weight unit="LBS"> 0 </weight>
-			<location name="POINTMASS" unit="IN">
-				<x> -22.54 </x>
-				<y>   0.0  </y>
-				<z> -27.0  </z>
-			</location>
-		</pointmass>
-		<!-- pointmass 18-19 -->
-		<pointmass name="extra weight front tricycle gear">
-			<!-- 20 lb -->
-			<weight unit="LBS"> 0 </weight>
-			<location name="POINTMASS" unit="IN">
-				<x> -39.06 </x>
-				<y>   0.0  </y>
-				<z> -69.41 </z>
-			</location>
-		</pointmass>
-		<pointmass name="remove weight tail gear">
-			<!-- -9 lb -->
-			<weight unit="LBS"> 0 </weight>
-			<location name="POINTMASS" unit="IN">
-				<x> 190.18 </x>
-				<y>   0.0  </y>
-				<z> -20.76 </z>
-			</location>
-		</pointmass>
-		<!-- pointmass 20-21 move gear weight back 25" for tricycle gear configuration-->       
-		<pointmass name="Left tricycle wheel 35 inches">
-			<!-- 25 lb -->
-			<weight unit="LBS"> 0 </weight>
-			<location name="POINTMASS" unit="IN">
-				<x>  25.30 </x>
-				<y> -35.43 </y>
-				<z> -63.32 </z>
-			</location>
-		</pointmass>
-		<pointmass name="Right tricycle wheel 35 inches">
-			<!-- 25 lb -->
-			<weight unit="LBS"> 0 </weight>
-			<location name="POINTMASS" unit="IN">
-				<x>  25.30 </x>
-				<y>  35.43 </y>
-				<z> -63.32 </z>
-			</location>
-		</pointmass>
-		<pointmass name="Right Door and window">
-			<!-- 11 lb door, 10 lb window = 21 lbs-->
-			<weight unit="LBS"> 0 </weight>
-			<location name="POINTMASS" unit="IN">
-				<x>  16.26 </x>
-				<y>  14.17 </y>
-				<z> -19.36 </z>
-			</location>
-		</pointmass>
-	</mass_balance>
+        <iyy unit="SLUG*FT2"> 386.81 </iyy>
+        <izz unit="SLUG*FT2"> 871.03 </izz> 
+        <!-- wihtout any rims or tires, default rims and tires 12.5 X 2 = 25 lb-->
+        <emptywt unit="LBS" > 760.00 </emptywt>
+        <location name="CG" unit="IN">
+            <x>    13.80 </x>
+            <y>     0.00 </y>
+            <z>   -23.23 </z>
+        </location>
+        <pointmass name="Back seat">
+            <weight unit="LBS"> 180 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x>  34.00 </x>
+                <y>   0.00 </y>
+                <z> -34.24 </z>
+            </location>
+        </pointmass>
+        <pointmass name="Front seat">
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x>   8.31 </x>
+                <y>   0.00 </y>
+                <z> -38.89 </z>
+            </location>
+        </pointmass>
+        <!-- Gear configurations 0 to 5, pointmass [2] to [9]  and [11] to [14] -->
+        <!-- Weight and drag are managed by Systems/bushkit.xml -->
+        <pointmass name="Left bush wheel 35 inches">
+            <!-- 25 lb -->
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x>   1.17 </x>
+                <y> -35.43 </y>
+                <z> -63.32 </z>
+            </location>
+        </pointmass>
+        <pointmass name="Right bush wheel 35 inches">
+            <!-- 25 lb -->
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x>   1.17 </x>
+                <y>  35.43 </y>
+                <z> -63.32 </z>
+            </location>
+        </pointmass>
+        <pointmass name="Left float">
+            <!--  66 lb -->
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x>   1.17 </x>
+                <y> -35.43 </y>
+                <z> -63.32 </z>
+            </location>
+        </pointmass>
+        <pointmass name="Right float">
+            <!--  66 lb -->
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x>   1.17 </x>
+                <y>  35.43 </y>
+                <z> -63.32 </z>
+            </location>
+        </pointmass>
+        <pointmass name="Left amphibious">
+            <!--  115 lb Baumann Floats, FAA TSO C-27 Approved -->
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x>   1.17 </x>
+                <y> -35.43 </y>
+                <z> -63.32 </z>
+            </location>
+        </pointmass>
+        <pointmass name="Right amphibious">
+            <!--  115 lb Baumann Floats, FAA TSO C-27 Approved -->
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x>   1.17 </x>
+                <y>  35.43 </y>
+                <z> -63.32 </z>
+            </location>
+        </pointmass>
+        <pointmass name="Left ski">
+            <!-- ski, 36 "tire and rim 37 lb -->
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x>   1.17 </x>
+                <y> -35.43 </y>
+                <z> -63.32 </z>
+            </location>
+        </pointmass>
+        <pointmass name="Right ski">
+            <!-- ski, 36 "tire and rim 37 lb -->
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x>   1.17 </x>
+                <y>  35.43 </y>
+                <z> -63.32 </z>
+            </location>
+        </pointmass>
+        <pointmass name="Rear Baggage">
+            <description> 195.00 LBS max weight = 195 baggage + 65 fuel + 180 pilot + 760 emptywt = 1200</description>
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x>    48.21 </x>
+                <y>     0.00 </y>
+                <z>   -40.87 </z>
+            </location>
+        </pointmass>
+        <pointmass name="Left ski lite">
+            <!-- 8 lb -->
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x>   1.17 </x>
+                <y> -35.43 </y>
+                <z> -63.32 </z>
+            </location>
+        </pointmass>
+        <pointmass name="Right ski lite">
+            <!-- 8 lb -->
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x>   1.17 </x>
+                <y>  35.43 </y>
+                <z> -63.32 </z>
+            </location>
+        </pointmass>
+        <pointmass name="Default left wheel">
+            <!-- 12.5 lb -->
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x>   1.17 </x>
+                <y> -35.43 </y>
+                <z> -63.32 </z>
+            </location>
+        </pointmass>
+        <pointmass name="Defaut right wheel">
+            <!-- 12.5 lb -->
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x>   1.17 </x>
+                <y>  35.43 </y>
+                <z> -63.32 </z>
+            </location>
+        </pointmass>
+        <pointmass name="Hopper">
+        <!-- max 750 lb -->
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x>  37.44 </x>
+                <y>   0.00 </y>
+                <z> -38.99 </z>
+            </location>
+        </pointmass>
+        <!-- pointmass 16-17 -->
+        <pointmass name="extra weight 95hp">
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x> -22.54 </x>
+                <y>   0.0  </y>
+                <z> -27.0  </z>
+            </location>
+        </pointmass>
+        <pointmass name="extra weight 150hp">
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x> -22.54 </x>
+                <y>   0.0  </y>
+                <z> -27.0  </z>
+            </location>
+        </pointmass>
+        <!-- pointmass 18-19 -->
+        <pointmass name="extra weight front tricycle gear">
+            <!-- 20 lb -->
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x> -39.06 </x>
+                <y>   0.0  </y>
+                <z> -69.41 </z>
+            </location>
+        </pointmass>
+        <pointmass name="remove weight tail gear">
+            <!-- -9 lb -->
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x> 190.18 </x>
+                <y>   0.0  </y>
+                <z> -20.76 </z>
+            </location>
+        </pointmass>
+        <!-- pointmass 20-21 move gear weight back 25" for tricycle gear configuration-->       
+        <pointmass name="Left tricycle wheel 35 inches">
+            <!-- 25 lb -->
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x>  25.30 </x>
+                <y> -35.43 </y>
+                <z> -63.32 </z>
+            </location>
+        </pointmass>
+        <pointmass name="Right tricycle wheel 35 inches">
+            <!-- 25 lb -->
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x>  25.30 </x>
+                <y>  35.43 </y>
+                <z> -63.32 </z>
+            </location>
+        </pointmass>
+        <pointmass name="Right Door and window">
+            <!-- 11 lb door, 10 lb window = 21 lbs-->
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x>  16.26 </x>
+                <y>  14.17 </y>
+                <z> -19.36 </z>
+            </location>
+        </pointmass>
+    </mass_balance>
 
-	<propulsion>
+ <propulsion>
 
-		<engine file="Continental A-65-8">
-			<location unit="IN">
-				<x> -37.52 </x>
-				<y>   0.00 </y>
-				<z> -25.96 </z>
-			</location>
-			<orient unit="DEG">
-				<pitch> 0.00 </pitch>
-				<roll> 0.00 </roll>
-				<yaw> 0.00 </yaw>
-			</orient>
-			<feed>3</feed> <!-- from collector tank 3 -->
-			<thruster file="prop_74in_2f_NACA_15-30deg-65hp">
-				<sense> 1 </sense>
-				<location unit="IN">
-					<x> -54.53 </x>
-					<y>   0.00 </y>
-					<z> -19.92 </z>
-				</location>
-				<orient unit="DEG">
-					<pitch> 0.00 </pitch>
-					<roll>  0.00 </roll>
-					<yaw>   0.00 </yaw>
-				</orient>
-			</thruster>
-		</engine>
+   <engine file="Continental A-65-8">
+    <location unit="IN">
+      <x> -37.52 </x>
+      <y>   0.00 </y>
+      <z> -25.96 </z>
+    </location>
+    <orient unit="DEG">
+      <pitch> 0.00 </pitch>
+       <roll> 0.00 </roll>
+        <yaw> 0.00 </yaw>
+    </orient>
+    <feed>3</feed> <!-- from collector tank 3 -->
+    <thruster file="prop_74in_2f_NACA_15-30deg-65hp">
+     <sense> 1 </sense>
+     <location unit="IN">
+       <x> -54.53 </x>
+       <y>   0.00 </y>
+       <z> -19.92 </z>
+     </location>
+     <orient unit="DEG">
+        <pitch> 0.00 </pitch>
+        <roll>  0.00 </roll>
+        <yaw>   0.00 </yaw>
+     </orient>
+    </thruster>
+  </engine>
+  
+  <engine file="Continental C90">
+    <location unit="IN">
+      <x> -38.50 </x>
+      <y>   0.00 </y>
+      <z> -25.96 </z>
+    </location>
+    <orient unit="DEG">
+        <pitch> 0.00 </pitch>
+        <roll>  0.00 </roll>
+        <yaw>   0.00 </yaw>
+    </orient>
+    <feed>3</feed> <!-- from collector tank 3 -->
+    <thruster file="prop_74in_2f_NACA_15-30deg-95hp">
+     <sense> 1 </sense>
+     <location unit="IN">
+       <x> -55.62 </x>
+       <y>   0.00 </y>
+       <z> -20.23 </z>
+     </location>
+     <orient unit="DEG">
+        <pitch> 0.00 </pitch>
+        <roll>  0.00 </roll>
+        <yaw>   0.00 </yaw>
+     </orient>
+    </thruster>
+  </engine>
 
-		<engine file="Continental C90">
-			<location unit="IN">
-				<x> -38.50 </x>
-				<y>   0.00 </y>
-				<z> -25.96 </z>
-			</location>
-			<orient unit="DEG">
-				<pitch> 0.00 </pitch>
-				<roll>  0.00 </roll>
-				<yaw>   0.00 </yaw>
-			</orient>
-			<feed>3</feed> <!-- from collector tank 3 -->
-			<thruster file="prop_74in_2f_NACA_15-30deg-95hp">
-				<sense> 1 </sense>
-				<location unit="IN">
-					<x> -55.62 </x>
-					<y>   0.00 </y>
-					<z> -20.23 </z>
-				</location>
-				<orient unit="DEG">
-					<pitch> 0.00 </pitch>
-					<roll>  0.00 </roll>
-					<yaw>   0.00 </yaw>
-				</orient>
-			</thruster>
-		</engine>
+  <engine file="Lycoming O-320-A1A-D2H">
+    <location unit="IN">
+        <x> -38.00 </x>
+        <y>   0.00 </y>
+        <z> -23.62 </z>
+    </location>
+    <orient unit="DEG">
+        <roll>  0.0 </roll>
+        <pitch> 0.0 </pitch>
+        <yaw>   0.0 </yaw>
+    </orient>
+    <feed>3</feed> <!-- from collector tank 3 -->
+    <thruster file="prop_75in_2f_NACA_15-30deg-150hp">
+        <location unit="IN">
+            <x> -56.69 </x>
+            <y>   0.00 </y>
+            <z> -20.55 </z>
+        </location>
+        <orient unit="DEG">
+            <roll>  0.0 </roll>
+            <pitch> 0.0 </pitch>
+            <yaw>   0.0 </yaw>
+        </orient>
+        <sense> 1 </sense>
+        <p_factor> 5 </p_factor>
+    </thruster>
+  </engine>
 
-		<engine file="Lycoming O-320-A1A-D2H">
-			<location unit="IN">
-				<x> -38.00 </x>
-				<y>   0.00 </y>
-				<z> -23.62 </z>
-			</location>
-			<orient unit="DEG">
-				<roll>  0.0 </roll>
-				<pitch> 0.0 </pitch>
-				<yaw>   0.0 </yaw>
-			</orient>
-			<feed>3</feed> <!-- from collector tank 3 -->
-			<thruster file="prop_75in_2f_NACA_15-30deg-150hp">
-				<location unit="IN">
-					<x> -56.69 </x>
-					<y>   0.00 </y>
-					<z> -20.55 </z>
-				</location>
-				<orient unit="DEG">
-					<roll>  0.0 </roll>
-					<pitch> 0.0 </pitch>
-					<yaw>   0.0 </yaw>
-				</orient>
-				<sense> 1 </sense>
-				<p_factor> 5 </p_factor>
-			</thruster>
-		</engine>
+  <tank type="FUEL">
+     <location unit="IN">
+       <x> -17.51 </x>
+       <y>   0.00 </y>
+       <z> -27.09 </z>
+     </location>
+     <capacity unit="LBS"> 74.19 </capacity>
+     <contents unit="LBS"> 65.00 </contents>
+     <type>AVGAS</type>
+  </tank>
+  <tank type="FUEL">
+     <location unit="IN">
+       <x>  21.93 </x>
+       <y> -34.70 </y>
+       <z>   0.85 </z>
+     </location>
+     <capacity unit="LBS"> 108.18 </capacity>
+     <contents unit="LBS">  0.00 </contents>
+     <type>AVGAS</type>
+  </tank>
+  <tank type="FUEL">
+     <location unit="IN">
+       <x> 21.93 </x>
+       <y> 34.70 </y>
+       <z>  0.85 </z>
+     </location>
+     <capacity unit="LBS"> 108.18 </capacity>
+     <contents unit="LBS">  0.00 </contents>
+     <type>AVGAS</type>
+  </tank>
+  <!-- Collector Tank number 3 -->
+  <tank type="FUEL">
+     <location unit="IN">
+       <x> -17.51 </x>
+       <y>   0.00 </y>
+       <z> -27.09 </z>
+     </location>
+     <capacity unit="LBS"> 0.1 </capacity>
+     <contents unit="LBS"> 0.0 </contents>
+     <type>AVGAS</type>
+  </tank>
 
-		<tank type="FUEL">
-			<location unit="IN">
-				<x> -17.51 </x>
-				<y>   0.00 </y>
-				<z> -27.09 </z>
-			</location>
-			<capacity unit="LBS"> 74.19 </capacity>
-			<contents unit="LBS"> 65.00 </contents>
-			<type>AVGAS</type>
-		</tank>
-		<tank type="FUEL">
-			<location unit="IN">
-				<x>  21.93 </x>
-				<y> -34.70 </y>
-				<z>   0.85 </z>
-			</location>
-			<capacity unit="LBS"> 108.18 </capacity>
-			<contents unit="LBS">  0.00 </contents>
-			<type>AVGAS</type>
-		</tank>
-		<tank type="FUEL">
-			<location unit="IN">
-				<x> 21.93 </x>
-				<y> 34.70 </y>
-				<z>  0.85 </z>
-			</location>
-			<capacity unit="LBS"> 108.18 </capacity>
-			<contents unit="LBS">  0.00 </contents>
-			<type>AVGAS</type>
-		</tank>
-		<!-- Collector Tank number 3 -->
-		<tank type="FUEL">
-			<location unit="IN">
-				<x> -17.51 </x>
-				<y>   0.00 </y>
-				<z> -27.09 </z>
-			</location>
-			<capacity unit="LBS"> 0.1 </capacity>
-			<contents unit="LBS"> 0.0 </contents>
-			<type>AVGAS</type>
-		</tank>
-
-	</propulsion>
+ </propulsion>
 
     <ground_reactions>
 
@@ -453,7 +453,7 @@
             <location unit="IN">
                 <x> 203.00 </x>
                 <y>   0.00 </y>
-                <z> -39.00 </z>
+                <z> -36.20 </z>
             </location>
             <static_friction>  0.60 </static_friction>
             <dynamic_friction> 0.50 </dynamic_friction>
@@ -461,7 +461,7 @@
             <spring_coeff  unit="LBS/FT">   250.00 </spring_coeff>
             <damping_coeff unit="LBS/FT/SEC"> 150.00 </damping_coeff>
             <steerability> STEERABLE </steerability>
-            <max_steer unit="DEG">-30</max_steer>
+            <max_steer unit="DEG">-10.00</max_steer>
             <brake_group> NONE </brake_group>
             <retractable> 0 </retractable>
         </contact>
@@ -831,7 +831,7 @@
             <location unit="IN">
                 <x> 199.90</x>
                 <y>   0.00</y>
-                <z> -39 </z>
+                <z> -32.5.0 </z>
             </location>
             <static_friction>  0.5 </static_friction>
             <dynamic_friction> 0.249 </dynamic_friction>
@@ -869,174 +869,192 @@
 
     </ground_reactions>
 
-	<flight_control name="FCS: j3cub">
+    <flight_control name="FCS: j3cub">
 
-		<channel name="Landing Gear">
-			<!-- Disable gear movement if electrical voltage is too low -->
-			<switch name="Gear Command">
-				<default value="gear/gear-cmd-norm"/>
-				<output>gear/gear-input-norm</output>
-				<!-- Route back the (normalized) output of the <kinematic>  to its input in order to disable it. -->
-				<test logic="AND" value="gear/gear-pos-norm">
-					/sim/model/j3cub/lighting/amphibious eq 0
-				</test>
-			</switch>
-			<kinematic name="Gr">
-				<input>gear/gear-input-norm</input>
-				<traverse>
-					<setting>
-						<position>0</position>
-						<time>0 </time>
-					</setting>
-					<setting>
-						<position>1</position>
-						<time>5</time>
-					</setting>
-				</traverse>
-				<output>gear/gear-pos-norm</output>
-			</kinematic>
+         <channel name="Landing Gear">
+            <!-- Disable gear movement if electrical voltage is too low -->
+            <switch name="Gear Command">
+                <default value="gear/gear-cmd-norm"/>
+                <output>gear/gear-input-norm</output>
+                <!-- Route back the (normalized) output of the <kinematic>  to its input in order to disable it. -->
+                <test logic="AND" value="gear/gear-pos-norm">
+                    /sim/model/pa-18/hydraulics/hydraulic-pump eq 0
+                </test>
+            </switch>
+            <kinematic name="Gr">
+                <input>gear/gear-input-norm</input>
+                <traverse>
+                    <setting>
+                        <position>0</position>
+                        <time>0 </time>
+                    </setting>
+                    <setting>
+                        <position>1</position>
+                        <time>5</time>
+                    </setting>
+                </traverse>
+                <output>gear/gear-pos-norm</output>
+            </kinematic>
 
-			<kinematic name="/controls/gear/water-rudder-down">
-				<input>/controls/gear/water-rudder</input>
-				<traverse>
-					<setting>
-						<position>0</position>
-						<time>0 </time>
-					</setting>
-					<setting>
-						<position>1</position>
-						<time>1</time>
-					</setting>
-				</traverse>
-			</kinematic>
-		</channel>
+            <kinematic name="/controls/gear/water-rudder-down">
+                <input>/controls/gear/water-rudder</input>
+                <traverse>
+                    <setting>
+                        <position>0</position>
+                        <time>0 </time>
+                    </setting>
+                    <setting>
+                        <position>1</position>
+                        <time>1</time>
+                    </setting>
+                </traverse>
+            </kinematic>
+        </channel>
 
-		<channel name="Flaps">
-			<!-- Use to disable flaps if broken -->
-			<switch name="Flaps Command">
-				<default value="fcs/flap-cmd-norm"/>
-				<output>fcs/flap-input-norm</output>
+        <channel name="Flaps">
+            <!-- Use to disable flaps if broken -->
+            <switch name="Flaps Command">
+                <default value="fcs/flap-cmd-norm"/>
+                <output>fcs/flap-input-norm</output>
 
-				<!-- Route back the (normalized) output of the <kinematic>
+                <!-- Route back the (normalized) output of the <kinematic>
                      to its input in order to disable it.
   
                 <test logic="AND" value="fcs/flap-pos-norm">
                     controls/flight/flaps-broken eq 1
                 </test>              -->
-			</switch>
+            </switch>
 
-			<kinematic name="Flaps Control">
-				<input>fcs/flap-input-norm</input>
-				<traverse>
-					<setting>
-						<position>0</position>
-						<time>0</time>
-					</setting>
-					<setting>
-						<position>25</position>
-						<time>.5</time>
-					</setting>
-					<setting>
-						<position>50</position>
-						<time>.5</time>
-					</setting>
-				</traverse>
-				<output>fcs/flap-pos-deg</output>
-			</kinematic>
+            <kinematic name="Flaps Control">
+                <input>fcs/flap-input-norm</input>
+                <traverse>
+                    <setting>
+                        <position>0</position>
+                        <time>0</time>
+                    </setting>
+                    <setting>
+                        <position>25</position>
+                        <time>.5</time>
+                    </setting>
+                    <setting>
+                        <position>50</position>
+                        <time>.5</time>
+                    </setting>
+                </traverse>
+                <output>fcs/flap-pos-deg</output>
+            </kinematic>
 
-			<aerosurface_scale name="Flap Position Normalizer">
-				<input>fcs/flap-pos-deg</input>
-				<domain>
-					<min>0</min> <!-- Flaps actual minimum position -->
-					<max>50</max> <!-- Flaps actual maximum position -->
-				</domain>
-				<range>
-					<min>0</min> <!-- Flaps normalized minimum position -->
-					<max>1</max> <!-- Flaps normalized maximum position -->
-				</range>
-				<output>fcs/flap-pos-norm</output>
-			</aerosurface_scale>
+            <aerosurface_scale name="Flap Position Normalizer">
+                <input>fcs/flap-pos-deg</input>
+                <domain>
+                    <min>0</min> <!-- Flaps actual minimum position -->
+                    <max>50</max> <!-- Flaps actual maximum position -->
+                </domain>
+                <range>
+                    <min>0</min> <!-- Flaps normalized minimum position -->
+                    <max>1</max> <!-- Flaps normalized maximum position -->
+                </range>
+                <output>fcs/flap-pos-norm</output>
+            </aerosurface_scale>
 
-			<kinematic name="Flaps Lever">
-				<input>/controls/flight/flaps</input>
-				<traverse>
-					<setting>
-						<position>0</position>
-						<time>0</time>
-					</setting>
-					<setting>
-						<position>1</position>
-						<time>.5</time>
-					</setting>
-					<setting>
-						<position>2</position>
-						<time>1</time>
-					</setting>
-				</traverse>
-				<output>/sim/model/pa-18/cockpit/flaps-lever</output>
-			</kinematic>
-		</channel>
+            <kinematic name="Flaps Lever">
+                <input>/controls/flight/flaps</input>
+                <traverse>
+                    <setting>
+                        <position>0</position>
+                        <time>0</time>
+                    </setting>
+                    <setting>
+                        <position>1</position>
+                        <time>.5</time>
+                    </setting>
+                    <setting>
+                        <position>2</position>
+                        <time>1</time>
+                    </setting>
+                </traverse>
+                <output>/sim/model/pa-18/cockpit/flaps-lever</output>
+            </kinematic>
+        </channel>
 
-    <channel name="Mixture">
-        <!-- If the engine was primed enough times and throttle
-             is in starter position, then mixture is 1.
-        -->
-        <fcs_function name="fcs/mixture-primer-cmd">
-            <function>
-                <table>
-                    <independentVar lookup="row">/controls/engines/engine/primer</independentVar>
-                    <independentVar lookup="column">/controls/engines/current-engine/throttle</independentVar>
-                    <tableData>
-                             0.09    0.1    0.5    0.51
-                        2    0       0      0      0
-                        3    0       1      1      0
-                        4    0       1      1      0
-                        5    0       1      1      0
-                        6    0       1      1      0
-                        7    0       0      0      0
-                    </tableData>
-                </table>
-            </function>
-        </fcs_function>
-
-        <pure_gain name="fcs/mixture-primer[0]">
-            <input>fcs/mixture-cmd-norm[0]</input>
-            <gain>fcs/mixture-primer-cmd</gain>
-        </pure_gain>
-
-        <pure_gain name="fcs/mixture-primer[1]">
-            <input>fcs/mixture-cmd-norm[1]</input>
-            <gain>fcs/mixture-primer-cmd</gain>
-        </pure_gain>
-
-        <!-- Primer logic for 160 HP engine -->
-        <switch name="Mixture Position 160 HP">
-            <default value="fcs/mixture-cmd-norm[0]"/>
-            <output>fcs/mixture-pos-norm[0]</output>
-            <!-- Use primer if used and engine is cold. If engine
-                 is warm, then the mixture lever is used.
+        <channel name="Mixture">
+            <!-- If the engine was primed enough times and throttle
+                 is in starter position, then mixture is 1.
             -->
-            <test logic="AND" value="fcs/mixture-primer[0]">
-                /controls/engines/engine/use-primer eq 1
-                /engines/engine[0]/oil-temperature-degf le 75
-            </test>
-        </switch>
+            <fcs_function name="fcs/mixture-primer-cmd">
+                <function>
+                    <table>
+                        <independentVar lookup="row">/controls/engines/engine/primer</independentVar>
+                        <independentVar lookup="column">/controls/engines/current-engine/throttle</independentVar>
+                        <tableData>
+                                 0.09    0.1    0.5    0.51
+                            2    0       0      0      0
+                            3    0       1      1      0
+                            4    0       1      1      0
+                            5    0       1      1      0
+                            6    0       1      1      0
+                            7    0       0      0      0
+                        </tableData>
+                    </table>
+                </function>
+            </fcs_function>
 
-        <!-- Primer logic for 180 HP engine -->
-        <switch name="Mixture Position 180 HP">
-            <default value="fcs/mixture-cmd-norm[1]"/>
-            <output>fcs/mixture-pos-norm[1]</output>
-            <!-- Use primer if used and engine is cold. If engine
-                 is warm, then the mixture lever is used.
-            -->
-            <test logic="AND" value="fcs/mixture-primer[1]">
-                /controls/engines/engine/use-primer eq 1
-                /engines/engine[1]/oil-temperature-degf le 75
-            </test>
-        </switch>
-    </channel>
+            <pure_gain name="fcs/mixture-primer[0]">
+                <input>fcs/mixture-cmd-norm[0]</input>
+                <gain>fcs/mixture-primer-cmd</gain>
+            </pure_gain>
 
-	</flight_control>
+            <pure_gain name="fcs/mixture-primer[1]">
+                <input>fcs/mixture-cmd-norm[1]</input>
+                <gain>fcs/mixture-primer-cmd</gain>
+            </pure_gain>
+
+            <pure_gain name="fcs/mixture-primer[2]">
+                <input>fcs/mixture-cmd-norm[2]</input>
+                <gain>fcs/mixture-primer-cmd</gain>
+            </pure_gain>
+
+            <!-- Primer logic for 65 HP engine -->
+            <switch name="Mixture Position 65 HP">
+                <default value="fcs/mixture-cmd-norm[0]"/>
+                <output>fcs/mixture-pos-norm[0]</output>
+                <!-- Use primer if used and engine is cold. If engine
+                     is warm, then the mixture lever is used.
+                -->
+                <test logic="AND" value="fcs/mixture-primer[0]">
+                    /controls/engines/engine/use-primer eq 1
+                    /engines/engine[0]/oil-temperature-degf le 75
+                </test>
+            </switch>
+
+            <!-- Primer logic for 95 HP engine -->
+            <switch name="Mixture Position 95 HP">
+                <default value="fcs/mixture-cmd-norm[1]"/>
+                <output>fcs/mixture-pos-norm[1]</output>
+                <!-- Use primer if used and engine is cold. If engine
+                     is warm, then the mixture lever is used.
+                -->
+                <test logic="AND" value="fcs/mixture-primer[1]">
+                    /controls/engines/engine/use-primer eq 1
+                    /engines/engine[1]/oil-temperature-degf le 75
+                </test>
+            </switch>
+
+            <!-- Primer logic for 160 HP engine -->
+            <switch name="Mixture Position 160 HP">
+                <default value="fcs/mixture-cmd-norm[2]"/>
+                <output>fcs/mixture-pos-norm[2]</output>
+                <!-- Use primer if used and engine is cold. If engine
+                     is warm, then the mixture lever is used.
+                -->
+                <test logic="AND" value="fcs/mixture-primer[2]">
+                    /controls/engines/engine/use-primer eq 1
+                    /engines/engine[1]/oil-temperature-degf le 75
+                </test>
+            </switch>
+        </channel>
+
+    </flight_control>
 
 	<!-- **********************************************************************
         AERODYNAMICS
@@ -1047,218 +1065,218 @@
 	
 	
 	<!-- **********************************************************************-->
-	<external_reactions>
+   <external_reactions>
 
-		<force name="hydro-X" frame="LOCAL">
-			<location unit="IN">
-				<x> 32.6 </x>
-				<y> 0 </y>
-				<z> 38.5 </z>
-			</location>
-			<direction>
-				<x> 1.0 </x>
-				<y> 0.0 </y>
-				<z> 0.0 </z>
-			</direction>
-		</force>
-		<force name="hydro-Y" frame="LOCAL">
-			<location unit="IN">
-				<x> 32.6 </x>
-				<y> 0 </y>
-				<z> 38.5 </z>
-			</location>
-			<direction>
-				<x> 0.0 </x>
-				<y> 1.0 </y>
-				<z> 0.0 </z>
-			</direction>
-		</force>
-		<force name="hydro-Z" frame="LOCAL">
-			<location unit="IN">
-				<x> 32.6 </x>
-				<y> 0 </y>
-				<z> 38.5 </z>
-			</location>
-			<direction>
-				<x> 0.0 </x>
-				<y> 0.0 </y>
-				<z>-1.0 </z>
-			</direction>
-		</force>
-		<force name="hydro-pitch[0]" frame="LOCAL">
-			<location unit="IN">
-				<x> 20.6 </x>
-				<y> 0 </y>
-				<z> 38.5 </z>
-			</location>
-			<direction>
-				<x> 0.0 </x>
-				<y> 0.0 </y>
-				<z>-1.0 </z>
-			</direction>
-		</force>
-		<force name="hydro-pitch[1]" frame="LOCAL">
-			<location unit="IN">
-				<x> 44.6 </x>
-				<y> 0 </y>
-				<z> 38.5 </z>
-			</location>
-			<direction>
-				<x> 0.0 </x>
-				<y> 0.0 </y>
-				<z>-1.0 </z>
-			</direction>
-		</force>
-		<force name="hydro-yaw[0]" frame="BODY">
-			<location unit="IN">
-				<x> 32.6 </x>
-				<y>-12.0 </y>
-				<z> 38.5 </z>
-			</location>
-			<direction>
-				<x> 1.0 </x>
-				<y> 0.0 </y>
-				<z> 0.0 </z>
-			</direction>
-		</force>
-		<force name="hydro-yaw[1]" frame="BODY">
-			<location unit="IN">
-				<x> 32.6 </x>
-				<y> 12.0 </y>
-				<z> 38.5 </z>
-			</location>
-			<direction>
-				<x> 1.0 </x>
-				<y> 0.0 </y>
-				<z> 0.0 </z>
-			</direction>
-		</force>
-		<force name="hydro-roll[0]" frame="LOCAL">
-			<location unit="IN">
-				<x> 32.6 </x>
-				<y>-12.0 </y>
-				<z> 38.5 </z>
-			</location>
-			<direction>
-				<x> 0.0 </x>
-				<y> 0.0 </y>
-				<z>-1.0 </z>
-			</direction>
-		</force>
-		<force name="hydro-roll[1]" frame="LOCAL">
-			<location unit="IN">
-				<x> 32.6 </x>
-				<y> 12.0 </y>
-				<z> 38.5 </z>
-			</location>
-			<direction>
-				<x> 0.0 </x>
-				<y> 0.0 </y>
-				<z>-1.0 </z>
-			</direction>
-		</force>
+        <force name="hydro-X" frame="LOCAL">
+            <location unit="IN">
+                <x> 32.6 </x>
+                <y> 0 </y>
+                <z> 38.5 </z>
+            </location>
+            <direction>
+                <x> 1.0 </x>
+                <y> 0.0 </y>
+                <z> 0.0 </z>
+            </direction>
+        </force>
+        <force name="hydro-Y" frame="LOCAL">
+            <location unit="IN">
+                <x> 32.6 </x>
+                <y> 0 </y>
+                <z> 38.5 </z>
+            </location>
+            <direction>
+                <x> 0.0 </x>
+                <y> 1.0 </y>
+                <z> 0.0 </z>
+            </direction>
+        </force>
+        <force name="hydro-Z" frame="LOCAL">
+            <location unit="IN">
+                <x> 32.6 </x>
+                <y> 0 </y>
+                <z> 38.5 </z>
+            </location>
+            <direction>
+                <x> 0.0 </x>
+                <y> 0.0 </y>
+                <z>-1.0 </z>
+            </direction>
+        </force>
+        <force name="hydro-pitch[0]" frame="LOCAL">
+            <location unit="IN">
+                <x> 20.6 </x>
+                <y> 0 </y>
+                <z> 38.5 </z>
+            </location>
+            <direction>
+                <x> 0.0 </x>
+                <y> 0.0 </y>
+                <z>-1.0 </z>
+            </direction>
+        </force>
+        <force name="hydro-pitch[1]" frame="LOCAL">
+            <location unit="IN">
+                <x> 44.6 </x>
+                <y> 0 </y>
+                <z> 38.5 </z>
+            </location>
+            <direction>
+                <x> 0.0 </x>
+                <y> 0.0 </y>
+                <z>-1.0 </z>
+            </direction>
+        </force>
+        <force name="hydro-yaw[0]" frame="BODY">
+            <location unit="IN">
+                <x> 32.6 </x>
+                <y>-12.0 </y>
+                <z> 38.5 </z>
+            </location>
+            <direction>
+                <x> 1.0 </x>
+                <y> 0.0 </y>
+                <z> 0.0 </z>
+            </direction>
+        </force>
+        <force name="hydro-yaw[1]" frame="BODY">
+            <location unit="IN">
+                <x> 32.6 </x>
+                <y> 12.0 </y>
+                <z> 38.5 </z>
+            </location>
+            <direction>
+                <x> 1.0 </x>
+                <y> 0.0 </y>
+                <z> 0.0 </z>
+            </direction>
+        </force>
+        <force name="hydro-roll[0]" frame="LOCAL">
+            <location unit="IN">
+                <x> 32.6 </x>
+                <y>-12.0 </y>
+                <z> 38.5 </z>
+            </location>
+            <direction>
+                <x> 0.0 </x>
+                <y> 0.0 </y>
+                <z>-1.0 </z>
+            </direction>
+        </force>
+        <force name="hydro-roll[1]" frame="LOCAL">
+            <location unit="IN">
+                <x> 32.6 </x>
+                <y> 12.0 </y>
+                <z> 38.5 </z>
+            </location>
+            <direction>
+                <x> 0.0 </x>
+                <y> 0.0 </y>
+                <z>-1.0 </z>
+            </direction>
+        </force>
 
-		<!--
+        <!--
                     Tiedowns use body frame (x positive forward, y positive right, z positive down)
                     -->
+                
+        <force name="tiedown-left" frame="BODY">
+            <location unit="M">
+                <x> 0.1188</x>
+                <y>-2.2998</y>
+                <z> 0.4008</z>
+            </location>
+            <direction>
+                <x>0.0</x>
+                <y>0.0</y>
+                <z>1.0</z>
+            </direction>
+        </force>
+        <force name="tiedown-right" frame="BODY">
+            <location unit="M">
+                <x> 0.1188</x>
+                <y> 2.2998</y>
+                <z> 0.4008</z>
+            </location>
+            <direction>
+                <x>0.0</x>
+                <y>0.0</y>
+                <z>1.0</z>
+            </direction>
+        </force>
+        <force name="tiedown-tail" frame="BODY">
+            <location unit="M">
+                <x> 4.7116</x>
+                <y> 0.0000</y>
+                <z>-0.6663</z>
+            </location>
+            <direction>
+                <x>0.0</x>
+                <y>0.0</y>
+                <z>1.0</z>
+            </direction>
+        </force>
 
-		<force name="tiedown-left" frame="BODY">
-			<location unit="M">
-				<x> 0.1188</x>
-				<y>-2.2998</y>
-				<z> 0.4008</z>
-			</location>
-			<direction>
-				<x>0.0</x>
-				<y>0.0</y>
-				<z>1.0</z>
-			</direction>
-		</force>
-		<force name="tiedown-right" frame="BODY">
-			<location unit="M">
-				<x> 0.1188</x>
-				<y> 2.2998</y>
-				<z> 0.4008</z>
-			</location>
-			<direction>
-				<x>0.0</x>
-				<y>0.0</y>
-				<z>1.0</z>
-			</direction>
-		</force>
-		<force name="tiedown-tail" frame="BODY">
-			<location unit="M">
-				<x> 4.7116</x>
-				<y> 0.0000</y>
-				<z>-0.6663</z>
-			</location>
-			<direction>
-				<x>0.0</x>
-				<y>0.0</y>
-				<z>1.0</z>
-			</direction>
-		</force>
+        <force name="mooring-north" frame="LOCAL">
+            <location unit="FT">
+                <x> 0.0 </x>
+                <y> 0.0 </y>
+                <z> 0.0 </z>
+            </location>
+            <direction>
+                <x> 1.0 </x>
+                <y> 0.0 </y>
+                <z> 0.0 </z>
+            </direction>
+        </force>
+        <force name="mooring-east" frame="LOCAL">
+            <location unit="FT">
+                <x> 0.0 </x>
+                <y> 0.0 </y>
+                <z> 0.0 </z>
+            </location>
+            <direction>
+                <x> 0.0 </x>
+                <y> 1.0 </y>
+                <z> 0.0 </z>
+            </direction>
+        </force>
+        <force name="mooring-down" frame="LOCAL">
+            <location unit="FT">
+                <x> 0.0 </x>
+                <y> 0.0 </y>
+                <z> 1.0 </z>
+            </location>
+            <direction>
+                <x> 1.0 </x>
+                <y> 0.0 </y>
+                <z> 0.0 </z>
+            </direction>
+        </force>
 
-		<force name="mooring-north" frame="LOCAL">
-			<location unit="FT">
-				<x> 0.0 </x>
-				<y> 0.0 </y>
-				<z> 0.0 </z>
-			</location>
-			<direction>
-				<x> 1.0 </x>
-				<y> 0.0 </y>
-				<z> 0.0 </z>
-			</direction>
-		</force>
-		<force name="mooring-east" frame="LOCAL">
-			<location unit="FT">
-				<x> 0.0 </x>
-				<y> 0.0 </y>
-				<z> 0.0 </z>
-			</location>
-			<direction>
-				<x> 0.0 </x>
-				<y> 1.0 </y>
-				<z> 0.0 </z>
-			</direction>
-		</force>
-		<force name="mooring-down" frame="LOCAL">
-			<location unit="FT">
-				<x> 0.0 </x>
-				<y> 0.0 </y>
-				<z> 1.0 </z>
-			</location>
-			<direction>
-				<x> 1.0 </x>
-				<y> 0.0 </y>
-				<z> 0.0 </z>
-			</direction>
-		</force>
+        <force name="aerotow" frame="BODY" unit="LBS">
+            <location unit="M">
+               <x> 5.125</x>
+               <y> 0.001</y>
+               <z>-0.525</z>
+            </location>
+            <direction>
+                <x>0.0</x>
+                <y>0.0</y>
+                <z>0.0</z>
+             </direction>
+        </force>
+    </external_reactions>
 
-    <force name="aerotow" frame="BODY" unit="LBS">
-        <location unit="M">
-            <x> 5.125</x>
-            <y> 0.001</y>
-            <z>-0.525</z>
-        </location>
-        <direction>
-            <x>0.0</x>
-            <y>0.0</y>
-            <z>0.0</z>
-         </direction>
-    </force>
-	</external_reactions>
-
-	<system file="Conventional Controls.xml"/>
-	<system file="fuel"/>
-	<system file="bushkit"/>
-	<system file="j3cub-ground-effects"/>
-	<system file="j3cub-skis"/>
-	<system file="hydrodynamics"/>
-	<system file="j3cub-hydrodynamics"/>
-	<system file="j3cub-damage"/>
-	<system file="j3cub-engine"/>
-	<system file="j3cub-heat"/>
-	<system file="mooring-jsbsim"/>
+    <system file="Conventional Controls.xml"/>
+    <system file="fuel"/>
+    <system file="bushkit"/>
+    <system file="j3cub-ground-effects"/>
+    <system file="j3cub-skis"/>
+    <system file="hydrodynamics"/>
+    <system file="j3cub-hydrodynamics"/>
+    <system file="j3cub-damage"/>
+    <system file="j3cub-engine"/>
+    <system file="j3cub-heat"/>
+    <system file="mooring-jsbsim"/>
 </fdm_config>
