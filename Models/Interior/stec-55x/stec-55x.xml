@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!-- S-TEC Fifty Five X Autopilot System -->
-<!-- Copyright (c) 2019 Joshua Davidson (it0uchpods) -->
+<!-- Copyright (c) 2021 Josh Davidson (Octal450) -->
 <!-- 3D by Matthew Anderson (Talons), Texture by Jonathan Redpath (legoboyvdlp) -->
 
 <PropertyList>
@@ -11,6 +11,244 @@
 	<params>
 		<button-translate>-0.002</button-translate> <!-- Button translate factor -->
 	</params>
+
+    <!-- interior effects case-->
+    <effect>
+        <inherits-from>../../Effects/interior/lm-stec55x</inherits-from>
+        <object-name>S-TEC55X</object-name>
+        <object-name>Knob</object-name>
+        <object-name>ALT.button</object-name>
+        <object-name>APR.button</object-name>
+        <object-name>HDG.button</object-name>
+        <object-name>NAV.button</object-name>
+        <object-name>REV.button</object-name>
+        <object-name>VS.button</object-name>
+    </effect>
+
+    <!-- interior effects display-->
+    <effect>
+        <inherits-from>../../Effects/interior/lm-stec55x-panel</inherits-from>
+        <object-name>Display</object-name>
+    </effect>
+
+    <!-- interior effects acc-->
+    <effect>
+        <inherits-from>../../Effects/interior/lm-stec55x-acc</inherits-from>
+        <object-name>autopilot-base</object-name>
+        <object-name>autopilot-breaker</object-name>
+        <object-name>autopilot-switch</object-name>
+        <object-name>autopilot-switch-base</object-name>
+        <object-name>autopilot-trim-switch</object-name>
+        <object-name>electrim-breaker</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>../../Effects/interior/interior-glass-reflection-panel-front</inherits-from>
+        <object-name>glass</object-name>
+    </effect>
+
+    <!-- default renderer effect -->
+    <animation>
+        <type>material</type>
+        <object-name>Display</object-name>
+        <object-name>HDG.ind</object-name>
+        <object-name>VS.ind</object-name>
+        <object-name>TRIM.ind</object-name>
+        <object-name>ALT.ind</object-name>
+        <object-name>TRIMDN.ind</object-name>
+        <object-name>TRIMUP.ind</object-name>
+        <condition>
+            <not>
+                <property>/sim/rendering/shaders/skydome</property>
+            </not>
+        </condition>
+        <emission>
+            <red-prop>/sim/model/material/instruments/default-red-combined-factor</red-prop>
+            <green-prop>/sim/model/material/instruments/default-green-combined-factor</green-prop>
+            <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
+        </emission>
+    </animation>
+
+   <animation>
+        <type>pick</type>
+        <object-name>autopilot-switch</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>true</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/it-stec55x/input/ap-master-switch</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    if (getprop("/it-stec55x/input/ap-master-switch") == 0) {
+                      setprop("/it-stec55x/input/ap-master-sw", 0);
+                      stec55x.button.DISC();
+                    } else
+                      setprop("/it-stec55x/input/ap-master-sw", 1);
+                    j3cub.click("avionics");
+                </script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>autopilot-switch</tooltip-id>
+                <label>Position: %s</label>
+                <mapping>on-off</mapping>
+                <property>/it-stec55x/input/ap-master-switch</property>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>autopilot-switch</object-name>
+        <property>/it-stec55x/input/ap-master-switch</property>
+        <offset-deg>0</offset-deg>
+        <factor>-45</factor>
+        <axis>
+            <x>0.0</x>
+            <y>1.0</y>
+            <z>0.0</z>
+        </axis>
+        <center>
+            <x-m> 0.003917</x-m>
+            <y-m> 0.090185</y-m>
+            <z-m>-0.008422</z-m>
+        </center>
+    </animation>
+
+    <!-- Electric Trim "spring switch" -->
+    <animation>
+        <type>knob</type>
+        <object-name>autopilot-trim-switch</object-name>
+        <property>/it-stec55x/input/man-trim</property>
+        <factor>35</factor>
+        <center>
+            <x-m> 0.003917</x-m>
+            <y-m> 0.115527</y-m>
+            <z-m>-0.008422</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/it-stec55x/input/man-trim</property>
+                <factor>1</factor>
+                <min>-1</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>j3cub.click("light")</script>
+            </binding>
+        </action>
+        <release>
+            <binding>
+                <command>property-assign</command>
+                <property>/it-stec55x/input/man-trim</property>
+                <value>0</value>
+            </binding>
+        </release>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>direct-drive</tooltip-id>
+                <label>Trim: %s</label>
+                <property>/it-stec55x/input/man-trim</property>
+                <mapping>nasal</mapping>
+                <script>
+                    var modes = ['Neutral', 'Increase', 'Decrease'];
+                    return modes[arg[0]];
+                </script>
+            </binding>
+        </hovered>
+    </animation>
+
+    <!--breakers -->
+
+    <animation>
+        <type>translate</type>
+        <object-name>autopilot-breaker</object-name>
+        <property>/controls/circuit-breakers/autopilot</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>autopilot-breaker</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/circuit-breakers/autopilot</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>j3cub.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>autopilot_breaker</tooltip-id>
+                <label>Autopilot breaker: %s</label>
+                <mapping>on-off</mapping>
+                <property>/controls/circuit-breakers/autopilot</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>electrim-breaker</object-name>
+        <property>/controls/circuit-breakers/electrim</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>electrim-breaker</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/circuit-breakers/electrim</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>j3cub.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>electrim_breaker</tooltip-id>
+                <label>Electric Trim breaker: %s</label>
+                <mapping>on-off</mapping>
+                <property>/controls/circuit-breakers/electrim</property>
+            </binding>
+        </hovered>
+    </animation>
 	
 	<animation>
 		<type>material</type>

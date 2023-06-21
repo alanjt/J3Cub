@@ -7,7 +7,7 @@
             <livery>
                 <name type="string">Cream-Aluminum</name>
                 <index type="int">6</index>
-                <texture>Liveries/cream-texture.png</texture>
+                <texture>Liveries/cream-texture.dds</texture>
             </livery>
 
             <liveryfloat>
@@ -16,12 +16,9 @@
                 <texture>Liveries/alum-floats.png</texture>
             </liveryfloat>
 
-            <Cub>
+            <j3cub>
                 <immat>true</immat>
-                <fairing1>false</fairing1>
-                <fairing2>false</fairing2>
-                <fairing3>false</fairing3>
-            </Cub>
+            </j3cub>
 
         </model>
     </sim>

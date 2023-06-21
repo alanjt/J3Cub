@@ -1,5 +1,5 @@
 # S-TEC Fifty Five X Autopilot System
-# Copyright (c) 2019 Joshua Davidson (it0uchpods)
+# Copyright (c) 2021 Josh Davidson (Octal450)
 
 # Initialize variables
 var cdiDefl = 0;
@@ -118,6 +118,7 @@ var NAV0Power = props.globals.getNode("/systems/electrical/outputs/nav[0]");
 var GPSActive = props.globals.getNode("/autopilot/route-manager/active");
 var turnRate = props.globals.getNode("/instrumentation/turn-indicator/indicated-turn-rate");
 var turnRateSpin = props.globals.getNode("/instrumentation/turn-indicator/spin");
+#var turnIndicator = props.globals.getNode("/systems/electrical/outputs/turn-indicator");
 var staticPress = props.globals.getNode("/systems/static[0]/pressure-inhg");
 
 # Initialize setting property nodes
@@ -193,6 +194,7 @@ var ITAF = {
 		}
 		
 		if (hasPower.getBoolValue() and turnRateSpin.getValue() >= 0.2) { # Requires turn indicator spin over 20%
+		#if (hasPower.getBoolValue() and turnIndicator.getValue() >= 0.2) {
 			systemAlive.setBoolValue(1);
 		} else {
 			systemAlive.setBoolValue(0);
@@ -569,10 +571,14 @@ var ITAF = {
 	killAP: func() { # Kill all AP modes
 		NAVt.stop();
 		GPSt.stop();
+		GSt.stop();
+		GSArmed.setBoolValue(0);
 		roll.setValue(-1);
 		pitch.setValue(-1);
 	},
 	killAPPitch: func() { # Kill only the pitch modes
+		GSt.stop();
+		GSArmed.setBoolValue(0);
 		pitch.setValue(-1);
 	},
 };

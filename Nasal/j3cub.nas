@@ -9,7 +9,7 @@ var autostart = func (msg=1) {
         return;
     }
 
-    setprop("/controls/switches/magnetos", 4);
+    setprop("/controls/switches/magnetos", 3);
     setprop("/controls/engines/current-engine/throttle", 0.2);
 
     var engine_regime = getprop("/controls/engines/active-engine");
@@ -20,25 +20,51 @@ var autostart = func (msg=1) {
         setprop("/controls/engines/current-engine/mixture", 0.88);
     }
 
-    setprop("/controls/flight/elevator-trim", 0.0);
-    setprop("/controls/switches/master-bat", 1);
-    setprop("/controls/switches/master-alt", 1);
-    setprop("/controls/switches/master-avionics", 1);
+    # Reset battery charge and circuit breakers
+    electrical.reset_battery_and_circuit_breakers();
 
-    # if empty get fuel or warn
-    # setprop("/consumables/fuel/tank[0]/empty", 1);
+    if (getprop("/sim/model/j3cub/pa-18")) {
+
+        # Setting lights
+        setprop("/controls/lighting/nav-lights", 0);
+        setprop("/controls/lighting/strobe-lights", 0);
+        setprop("/controls/lighting/beacon-light", 0);
+        setprop("/controls/switches/panel-lights", 0);
+        setprop("/controls/lighting/taxi-light", 0);
+        setprop("/controls/lighting/landing-light", 0);
+        setprop("/controls/switches/master-avionics", 0);
+        setprop("/controls/switches/master-bat", 1);
+    }
+
+    # Setting amphibious landing gear if needed
+    if (getprop("/fdm/jsbsim/bushkit")==3){
+        if (getprop("/fdm/jsbsim/hydro/active-norm")) {
+            setprop("controls/gear/gear-down-command", 0);
+            setprop("/fdm/jsbsim/gear/gear-pos-norm", 0);
+        } else {
+            setprop("controls/gear/gear-down-command", 1);
+            setprop("/fdm/jsbsim/gear/gear-pos-norm", 1);
+        }
+    }
+
+    # Set the altimeter
+    var pressure_sea_level = getprop("/environment/pressure-sea-level-inhg");
+    setprop("/instrumentation/altimeter/setting-inhg", pressure_sea_level);
+
+    # Set heading offset
+    var magnetic_variation = getprop("/environment/magnetic-variation-deg");
+    setprop("/instrumentation/heading-indicator/offset-deg", -magnetic_variation);
 
     # removing any ice from the carburetor
     setprop("/engines/active-engine/carb_ice", 0.0);
     setprop("/engines/active-engine/carb_icing_rate", 0.0);
-    setprop("/engines/active-engine/volumetric-efficiency-factor", .85);
 
     # Set the altimeter
     var pressure_sea_level = getprop("/environment/pressure-sea-level-inhg");
     setprop("/instrumentation/altimeter/setting-inhg", pressure_sea_level);
 
     # Pre-flight inspection
-    setprop("/sim/model/j3cub/brake-parking", 0);
+    #setprop("/sim/model/j3cub/brake-parking", 0);
     setprop("/sim/model/j3cub/securing/chock", 0);
     setprop("/sim/model/j3cub/securing/pitot-cover-visible", 0);
     setprop("/sim/model/j3cub/securing/tiedownL-visible", 0);
@@ -46,23 +72,54 @@ var autostart = func (msg=1) {
     setprop("/sim/model/j3cub/securing/tiedownT-visible", 0);
     #setprop("/engines/active-engine/oil-level", 7.0);
     #setprop("/consumables/fuel/tank[0]/water-contamination", 0.0);
+
+    # set fuel configuration
+    set_fuel();
+
+    setprop("/controls/engines/engine[0]/primer-lever", 0);
+    setprop("/controls/engines/engine/primer", 3);
     
         ############################
     # All set, starting engine
-    setprop("/controls/engines/current-engine/starter", 1);
+    setprop("/controls/switches/starter", 1);
     setprop("/engines/active-engine/auto-start", 1);
+
 
     var engine_running_check_delay = 6.0;
     settimer(func {
         if (!getprop("/engines/active-engine/running")) {
             gui.popupTip("The autostart failed to start the engine. You can lean the mixture and try to start the engine manually.", 5);
+        } else {
+            if (getprop("/sim/model/j3cub/pa-18")) {
+
+                # Setting lights
+                setprop("/controls/lighting/nav-lights", 1);
+                setprop("/controls/lighting/strobe-lights", 1);
+                setprop("/controls/lighting/beacon-light", 1);
+
+                # Setting instrument lights if needed
+                var light_level = 1-getprop("/rendering/scene/diffuse/red");
+                if (light_level > .6) {
+                    setprop("/controls/switches/panel-lights", 1);
+                    setprop("/controls/lighting/taxi-light", 1);
+                    setprop("/controls/lighting/landing-light", 1);
+                } else {
+                    setprop("/controls/switches/panel-lights", 0);
+                    setprop("/controls/lighting/taxi-light", 0);
+                    setprop("/controls/lighting/landing-light", 0);
+                }
+
+                setprop("controls/switches/master-avionics", 1);
+
+            }
         }
-        setprop("/controls/engines/current-engine/starter", 0);
+
+        #setprop("/controls/engines/current-engine/starter", 0);
+        setprop("/controls/switches/starter", 0);
         setprop("/engines/active-engine/auto-start", 0);
+
     }, engine_running_check_delay);
-    
-    #if (msg)
-    #    gui.popupTip("Hold down \"s\" to start the engine", 5);
+
 };
 
 ##########################################
@@ -128,6 +185,9 @@ var speed_of_sound = func (t, re) {
 };
 
 var thunder = func (name) {
+    var flash = getprop("/environment/lightning/flash");
+    if (flash < 1) return;
+
     var thunderCalls = 0;
 
     var lightning_pos_x = getprop("/environment/lightning/lightning-pos-x");
@@ -171,7 +231,6 @@ var thunder = func (name) {
     }, delay_seconds);
 };
 
-var persistent = getprop("/sim/model/j3cub/persistent");
 ########
 # Reset
 ########
@@ -181,16 +240,14 @@ var reset_system = func {
         j3cub.autostart(0);
     } else
     if (getprop("/sim/model/j3cub/pa-18")==0) {
-        setprop("/controls/switches/magnetos", 4);
         setprop("/controls/flight/elevator-trim", 0.0);
         setprop("/controls/switches/master-bat", 1);
-        setprop("/controls/switches/master-alt", 1);
         setprop("/controls/switches/master-avionics", 1);
         setprop("/controls/engines/current-engine/mixture", 0.88);
     } else {
         setprop("/controls/engines/current-engine/mixture", 1.0);
     }
-
+    setprop("/controls/switches/magnetos", 0);
     setprop("/engines/active-engine/volumetric-efficiency-factor", .85);
 
     # These properties are aliased to MP properties in /sim/multiplay/generic/.
@@ -208,21 +265,6 @@ var reset_system = func {
     props.globals.getNode("/fdm/jsbsim/ski-damage/right-ski", 0).setIntValue(0);
     setprop("/engines/active-engine/crash-engine", 0);
 
-    if (getprop("/fdm/jsbsim/position/persistent")) {
-      setprop("/fdm/jsbsim/position/persistent", 0);
-      return;
-      setprop("position/latitude-deg", getprop("/sim/model/j3cub/currentlat"));
-      setprop("position/longitude-deg", getprop("/sim/model/j3cub/currentlon"));
-      setprop("position/altitude-ft", getprop("/sim/model/j3cub/currentalt"));
-      setprop("orientation/heading-deg", getprop("/sim/model/j3cub/currenthead"));
-      setprop("orientation/pitch-deg", getprop("/sim/model/j3cub/currentpitch"));
-      setprop("orientation/roll-deg", getprop("/sim/model/j3cub/currentroll"));
-      setprop("sim/model/j3cub/pa-18", getprop("/sim/model/j3cub/currentmodel"));
-      setprop("controls/engines/active-engine", getprop("/sim/model/j3cub/currentengine"));
-      setprop("sim/model/variant", getprop("/sim/model/j3cub/currentkit"));
-      setprop("velocities/vertical-speed-fps", 0);
-      setprop("velocities/equivalent-kt", 0);
-    }
 }
 
 ##################
@@ -276,16 +318,13 @@ setlistener("/engines/active-engine/killed", func (node) {
 ##############
 var capacity = 0.0;
 var velocity = 0; 
-var prior_view = "";
+
 var payload_release = func {
 
-	var payload = getprop("/sim/model/payload");
-	var trigger = getprop("/controls/armament/trigger");
-	var hopperweight = getprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[15]");
-	var currentview = getprop("/sim/current-view/view-number");
-	var payloadpackage = getprop("/sim/model/payload-package");
-	var pilot = getprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[0]");
-	var passenger = getprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[1]");
+    var payload = getprop("/sim/model/payload");
+    var trigger = getprop("/controls/armament/trigger");
+    var hopperweight = getprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[15]");
+    var payloadpackage = getprop("/sim/model/payload-package");
 
     if (!payload) {
         setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[15]", 0.0);  
@@ -296,28 +335,6 @@ var payload_release = func {
         setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[15]", 0);
         return;
     }
-    if (currentview == 0 and (prior_view == 0 or prior_view == 1) and payload == 1 and payloadpackage < 2) {           
-        setprop("/sim/current-view/view-number", 8);
-        } else {
-            if (currentview == 0 and prior_view == 8)
-                setprop("/sim/current-view/view-number", 1);
-
-            if (!passenger and payloadpackage < 2) {
-                setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[1]", pilot);
-                setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[0]", 0);
-            }
-    }
-    if (currentview == 8 and payload == 1 and payloadpackage < 2 and pilot) {
-        logger.screen.white("Your not allowed to sit on hopper");
-        if (!passenger)
-            setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[1]", pilot);
-        setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[0]", 0);
-    }
-    if (currentview != 0 and currentview != 8 and payload == 1 and payloadpackage < 2 and pilot) {
-        if (!passenger)
-            setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[1]", pilot);
-        setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[0]", 0);
-    }   
     if (trigger and hopperweight and payloadpackage == 0 and payload) {
         capacity = 0.025;    
         velocity = getprop("/velocities/airspeed-kt");
@@ -330,11 +347,46 @@ var payload_release = func {
         setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[15]", hopperweight);
     } else if (trigger and hopperweight and payloadpackage == 2 and payload and getprop("/sim/model/drums/rotate/position-norm") > .633) {
         capacity = 15;
-		velocity = 13;
+        velocity = 13;
         hopperweight = hopperweight - capacity * velocity;
         setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[15]", hopperweight);
     }
-    prior_view = currentview;
+}
+
+var prior_view = getprop("/sim/current-view/view-number-raw");
+
+var view_manager = func {
+    var payload = getprop("/sim/model/payload");
+    var payloadpackage = getprop("/sim/model/payload-package");
+    var occ1 = getprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[0]");#back
+    var occ2 = getprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[1]");#front
+
+    var currentview = getprop("/sim/current-view/view-number-raw");
+    # ext-front 8, raw 8 : front 9, raw 100 : back 0 raw 0 : ext-back 1, raw 1
+
+    var hopperweight = getprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[15]");
+
+    if (payload == 1 and payloadpackage < 2) {
+        if (currentview == 0 and prior_view == 0) {
+            setprop("/sim/current-view/view-number-raw", 100);
+            setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[1]", occ1);
+            setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[0]", 0);
+            logger.screen.white("Pilot moved to front seat, no passengers allowed!");
+        } else
+        if (currentview == 0 and prior_view == 1) {
+            setprop("/sim/current-view/view-number-raw", 100);
+        } else
+        if (currentview == 0 and prior_view == 9) {
+            setprop("/sim/current-view/view-number-raw", 1);
+        }
+    }
+
+    if ((currentview == 0 and prior_view == 100) or (currentview == 100 and prior_view == 0)) {
+            setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[1]", occ1);
+            setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[0]", occ2);
+    }
+
+    prior_view = getprop("/sim/current-view/view-number-raw");
 }
 
 var drum_release = func {
@@ -365,7 +417,7 @@ setlistener("/sim/ai/aircraft/impact/retardant", resolve_impact);
 
 var log_cabin_temp = func {
     if (getprop("/sim/model/j3cub/enable-fog-frost")) {
-        var temp_degc = getprop("/fdm/jsbsim/heat/cabin-air-temp-degc");
+        var temp_degc = getprop("/fdm/jsbsim/heat/cabin-air-temp-degc") or 32.0;
         if (temp_degc >= 32)
             logger.screen.red("Cabin temperature exceeding 90F/32C!");
         elsif (temp_degc <= 0)
@@ -435,18 +487,19 @@ var set_fuel = func {
     if (tanks) {
         setprop("/consumables/fuel/tank[0]/level-gal_us", 0);
         setprop("/consumables/fuel/tank[1]/level-gal_us", 16);
-        setprop("/consumables/fuel/tank[2]/level-gal_us", 16); 
+        setprop("/consumables/fuel/tank[2]/level-gal_us", 16);
+        setprop("/consumables/fuel/tanks/selected", 2);
         setprop("/consumables/fuel/tank[0]/selected", 0);
-        setprop("/consumables/fuel/tank[1]/selected", 1);
-        setprop("/consumables/fuel/tank[2]/selected", 1);
         setprop("/controls/engines/current-engine/mixture", 1.0);
+        # Setting flaps to 0 in PA-18
+        setprop("/controls/flight/flaps", 0.0);
     } else {
         setprop("/consumables/fuel/tank[0]/level-gal_us", 10);
         setprop("/consumables/fuel/tank[1]/level-gal_us",  0);
         setprop("/consumables/fuel/tank[2]/level-gal_us",  0);
+        setprop("/consumables/fuel/tanks/selected", 0);
         setprop("/consumables/fuel/tank[0]/selected", 1);
-        setprop("/consumables/fuel/tank[1]/selected", 0);
-        setprop("/consumables/fuel/tank[2]/selected", 0);
+        # No flaps in J3Cub
         setprop("/controls/flight/flaps", 0.0);
         # if j3cub, no mixture control, so set to .88
         setprop("/controls/engines/current-engine/mixture", 0.88);
@@ -500,37 +553,23 @@ var StaticModel = {
 # Mooring anchor and rope
 StaticModel.new("anchorbuoy", "Aircraft/c172p/Models/Effects/pontoon/mooring.xml");
 
-var prior_view=0;
-var prior_variant=0;
+var prior_variant = getprop("/sim/model/j3cub/pa-18");
 ############################################
 # Global loop function
 # If you need to run nasal as loop, add it in this function
 ############################################
 var global_system_loop = func {
-    j3cub.physics_loop();
-    payload_release();
-
-    if (getprop("/fdm/jsbsim/position/persistent-state") or getprop("/fdm/jsbsim/position/persistent-state-hydro")) {
-      setprop("/sim/model/j3cub/currentlat", getprop("/position/latitude-deg"));
-      setprop("/sim/model/j3cub/currentlon", getprop("/position/longitude-deg"));
-      setprop("/sim/model/j3cub/currentalt", getprop("/position/altitude-ft"));
-      setprop("/sim/model/j3cub/currenthead", getprop("/orientation/heading-deg"));
-      setprop("/sim/model/j3cub/currentpitch", getprop("/orientation/pitch-deg"));
-      setprop("/sim/model/j3cub/currentroll", getprop("orientation/roll-deg"));
-      setprop("/sim/model/j3cub/currentmodel", getprop("/sim/model/j3cub/pa-18"));
-      setprop("/sim/model/j3cub/currentengine", getprop("/controls/engines/active-engine"));
-      setprop("/sim/model/j3cub/currentkit", getprop("/sim/model/variant"));
-    }
-
-    if (getprop("/instrumentation/garmin196/antenne-deg") < 180) 
-        setprop("/instrumentation/garmin196/antenne-deg", 180);
 
     if (getprop("/sim/model/preload") == 1) {
-	      setprop("/sim/current-view/view-number", prior_view);
+        setprop("/sim/current-view/view-number-raw", prior_view);
         setprop("/sim/model/j3cub/pa-18", prior_variant);
         setprop("/sim/model/preload", 0);
         print("End Preloading Mesh");
     }
+
+    j3cub.physics_loop();
+    view_manager();
+    payload_release();
 }
 
 var j3cub_timer = maketimer(0.25, func{global_system_loop()});
@@ -540,20 +579,26 @@ var j3cub_timer = maketimer(0.25, func{global_system_loop()});
 ###########################################
 setlistener("/sim/signals/fdm-initialized", func {
 
-    if (getprop("/sim/model/j3cub/preload-resources")) {
-      if (getprop("/sim/model/j3cub/pa-18"))
-          prior_view = 8;
-      else
-          prior_view = 0;
+    if (getprop("/sim/model/j3cub/pa-18")) {
+        setprop("/sim/current-view/view-number-raw", 100);
+        setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[1]", 180);
+        setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[0]", 0);
+    }  else {
+        setprop("/sim/current-view/view-number-raw", 0);
+        setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[0]", 180);
+        setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[1]", 0);
+    }
 
+    prior_view = getprop("/sim/current-view/view-number-raw");
+
+    if (getprop("/sim/model/j3cub/preload-resources")) {
       print("Begin Preloading Mesh");
-      prior_variant = getprop("/sim/model/j3cub/pa-18");
       setprop("/sim/model/preload", 1);
       if (prior_view == 0)
-          setprop("/sim/current-view/view-number", 8);
+          setprop("/sim/current-view/view-number-raw", 100);
       else
-          setprop("/sim/current-view/view-number", 0);
-      setprop("/sim/current-view/view-number", 1);
+          setprop("/sim/current-view/view-number-raw", 0);
+      setprop("/sim/current-view/view-number-raw", 1);
       if (prior_variant == 0)
           setprop("/sim/model/j3cub/pa-18", 1);
       else
@@ -562,14 +607,35 @@ setlistener("/sim/signals/fdm-initialized", func {
 
     # Use Nasal to make some properties persistent. <aircraft-data> does
     # not work reliably.
-    #aircraft.data.add("/sim/model/j3cub/immat-on-panel");
-    #aircraft.data.load();
+    aircraft.data.add("/sim/model/occupants");
+    aircraft.data.add("/sim/model/j3cub/securing/allow-securing-aircraft");
+    aircraft.data.add("/sim/model/j3cub/securing/pitot-cover-visible");
+    aircraft.data.add("/sim/model/j3cub/securing/chock");
+    aircraft.data.add("/sim/model/j3cub/securing/tiedownL-visible");
+    aircraft.data.add("/sim/model/j3cub/securing/tiedownR-visible");
+    aircraft.data.add("/sim/model/j3cub/securing/tiedownT-visible");
+    aircraft.data.add("/sim/model/j3cub/securing/brake-parking");
+    aircraft.data.add("/environment/aircraft-effects/dirt");
+    aircraft.data.add("/fdm/jsbsim/running");
+    aircraft.data.add("/fdm/jsbsim/settings/damage");
+    aircraft.data.add("/engines/active-engine/carb_icing_allowed");
+    aircraft.data.add("/sim/model/j3cub/enable-fog-frost");
+    aircraft.data.add("/environment/aircraft-effects/cabin-heat-set");
+    aircraft.data.add("/consumables/fuel/tanks/selected");
+    aircraft.data.add("/sim/model/j3cub/brake-parking");
+    aircraft.data.add("/controls/mooring/automatic");
+    aircraft.data.add("/sim/model/immat");
+    aircraft.data.add("/sim/model/j3cub/airtemp");
+    aircraft.data.add("/sim/model/j3cub/autopilot");
+    aircraft.data.add("/it-stec55x/input/hdg");
+    aircraft.data.add("/sim/model/pa-18/variable-prop");
+    aircraft.data.load();
 
     set_fuel();
 
     # Listening for lightning strikes
-    setlistener("/environment/lightning/lightning-pos-y", thunder);
-    
+    setlistener("/environment/lightning/flash", thunder);
+
     # Initialize mass limits
     setlistener("/controls/engines/active-engine", func {
         # Set new mass limits for Fuel and Payload Settings dialog
@@ -579,32 +645,74 @@ setlistener("/sim/signals/fdm-initialized", func {
         click("engine-repair", 6.0);
     }, 0, 0);
 
-    setlistener("/sim/model/j3cub/pa-18", func {
+    setlistener("/sim/model/j3cub/pa-18", func (node) {
+    #   #switch occupant weight if variant change
+    #   var occ1 = getprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[0]");
+    #   var occ2 = getprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[1]");
+    #   setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[1]", occ1);
+    #   setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[0]", occ2);
+
+        # Set view to front seat if pa-18
+    #   if (getprop("/sim/current-view/interior")) {
+    #       setprop("/sim/current-view/view-number-raw", 100);
+    #   } else {
+    #       setprop("/sim/current-view/view-number-raw", 0);
+    #   }
+
         # Set new mass limits for Fuel and Payload Settings dialog
-        set_limits(getprop("/controls/engines/active-engine"), getprop("/sim/model/j3cub/pa-18"));   
-        set_fuel();       
-    }, 0, 0);
-    
-    setlistener("/engines/active-engine/running", func (node) {
-            setprop("/controls/engines/current-engine/starter", 0);
-            setprop("/engines/active-engine/auto-start", 0); 
+        set_limits(getprop("/controls/engines/active-engine"), node.getValue());
+        set_fuel();
     }, 0, 0);
 
-    setlistener("/controls/switches/magnetos", func (node) {
+    setlistener("/engines/active-engine/running", func (node) {
+        var autostart = getprop("/engines/active-engine/auto-start");
         var cranking  = getprop("/engines/active-engine/cranking");
-        if (node.getValue() == 0 and cranking) {
-            setprop("/controls/engines/current-engine/starter", 0);
+        if (autostart and cranking and node.getBoolValue()) {
+            setprop("/controls/switches/starter", 0);
             setprop("/engines/active-engine/auto-start", 0);
         }
     }, 0, 0);
 
-    setprop("/sim/rendering/als-secondary-lights/landing-light1-offset-deg", 1);
-    setprop("/sim/rendering/als-secondary-lights/landing-light2-offset-deg", -4);
-    setprop("/sim/rendering/als-secondary-lights/landing-light3-offset-deg", 3);
-
     reset_system();
+
+    var onground = getprop("/sim/presets/onground") or "";
+    if (!onground) {
+        state_manager();
+    }
+
     j3cub.rightWindow.toggle();
     j3cub.rightDoor.toggle();
+
+    # set user defined pilot view or initialize it
+    if (getprop("sim/current-view/view-number") == 0){
+        settimer(func {
+            if (getprop("sim/current-view/user/x-offset-m") != nil){
+                setprop("sim/current-view/x-offset-m", getprop("sim/current-view/user/x-offset-m"));
+            } else {
+                setprop("sim/current-view/user/x-offset-m", getprop("sim/view/config/x-offset-m"));
+            }
+            if (getprop("sim/current-view/user/y-offset-m") != nil){
+                setprop("sim/current-view/y-offset-m", getprop("sim/current-view/user/y-offset-m"));
+            } else {
+                setprop("sim/current-view/user/y-offset-m", getprop("sim/view/config/y-offset-m"));
+            }
+            if (getprop("sim/current-view/user/z-offset-m") != nil){
+                setprop("sim/current-view/z-offset-m", getprop("sim/current-view/user/z-offset-m"));
+            } else {
+                setprop("sim/current-view/user/z-offset-m", getprop("sim/view/config/z-offset-m"));
+            }
+            if (getprop("sim/current-view/user/default-field-of-view-deg") != nil){
+                setprop("sim/current-view/field-of-view", getprop("sim/current-view/user/default-field-of-view-deg"));
+            } else {
+                setprop("sim/current-view/user/default-field-of-view-deg", getprop("sim/view/config/default-field-of-view-deg"));
+            }
+            if (getprop("sim/current-view/user/pitch-offset-deg") != nil){
+                setprop("sim/current-view/pitch-offset-deg", getprop("sim/current-view/user/pitch-offset-deg"));
+            } else {
+                setprop("sim/current-view/user/pitch-offset-deg", getprop("sim/view/config/pitch-offset-deg"));
+            }
+        }, 1);
+    }
 
     j3cub_timer.start();
 });
@@ -634,4 +742,10 @@ setlistener("/sim/model/j3cub/fog-or-frost-increasing", func (node) {
 setprop("/sim/startup/season-winter", getprop("/sim/startup/season") == "winter");
 setlistener("/sim/startup/season", func (node) {
     setprop("/sim/startup/season-winter", node.getValue() == "winter");
+}, 0, 0);
+
+# fdm/jsbsim/ground/terrain-name-value is a conversion value, see j3cub-ground-effects-terrain.xml
+setprop("/fdm/jsbsim/ground/terrain-name-value", getprop("/fdm/jsbsim/ground/terrain-names") == "EvergreenBroadCover");
+setlistener("/fdm/jsbsim/ground/terrain-names", func (node) {
+    setprop("/fdm/jsbsim/ground/terrain-name-value", node.getValue() == "EvergreenBroadCover");
 }, 0, 0);

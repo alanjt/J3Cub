@@ -4,7 +4,7 @@
 **********************************************************************
 instrumentation.xml
 
-c172p instrumentation configuration. This file selects the
+J3Cub instrumentation configuration. This file selects the
 instrumentation modules that should be available.
 
 You can have several instances of the same instrument type.
@@ -142,11 +142,13 @@ file, these values will be used (they are hardcoded).
     <comm-radio>
         <name>comm</name>
         <number>0</number>
+        <eight-point-three>1</eight-point-three>
     </comm-radio>
 
     <comm-radio>
         <name>comm</name>
         <number>1</number>
+        <eight-point-three>1</eight-point-three>
     </comm-radio>
 
     <nav-radio>

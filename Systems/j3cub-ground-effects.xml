@@ -43,6 +43,31 @@
             </test>
         </switch>
 
+        <!--switch name="rolling-value">
+            <output>gear/unit[0]/rolling_friction-factor</output>
+            <default value="gear/unit[0]/rolling_friction-factor"/>
+
+            <test logic="AND" value="0">
+                /fdm/jsbsim/ground/rolling_friction-factor EQ 50
+            </test>
+        </switch>
+		<switch name="rolling-value">
+            <output>gear/unit[1]/rolling_friction-factor</output>
+            <default value="gear/unit[1]/rolling_friction-factor"/>
+
+            <test logic="AND" value="0">
+                /fdm/jsbsim/ground/rolling_friction-factor EQ 50
+            </test>
+        </switch>
+		<switch name="rolling-value">
+            <output>gear/unit[2]/rolling_friction-factor</output>
+            <default value="gear/unit[2]/rolling_friction-factor"/>
+
+            <test logic="AND" value="0">
+                /fdm/jsbsim/ground/rolling_friction-factor EQ 50
+            </test>
+        </switch-->
+
         <!-- ================================================================== -->
         <!-- Contact points landing gear and yellow sparks                      -->
         <!-- ================================================================== -->
@@ -57,8 +82,8 @@
                         <property>bushkit</property>
 
                         <!-- Default/35"/pontoon/amphibious/skis/skis-lite/tri -->
-                        <value> -36.20 </value>
-                        <value> -36.50 </value>
+                        <value> -36.90 </value>
+                        <value> -40.00 </value>
                         <value>   0.00 </value>
                         <value>   0.00 </value>
                         <value> -36.50 </value>
@@ -239,7 +264,7 @@
                     <value>0.0</value>
                     <switch>
                         <property>bushkit</property>
-                        <value> -78.70 </value>
+                        <value> -78.45 </value>
                         <value> -86.00 </value>
                         <value>   0.00 </value>
                         <value>   0.00 </value>
@@ -329,7 +354,7 @@
                     <value>0.0</value>
                     <switch>
                         <property>bushkit</property>
-                        <value> -78.70 </value>
+                        <value> -78.45 </value>
                         <value> -86.00 </value>
                         <value>   0.00 </value>
                         <value>   0.00 </value>
@@ -443,8 +468,7 @@
                     <switch>
                         <property>bushkit</property-->
                         <!-- Default/35"/pontoon/amphibious/skis/skis-lite -->
-                        <!--value> -10.00 </value>
-                        <value> -17.70 </value>
+                        <!--value> -17.70 </value>
                         <value>   0.00 </value>
                         <value>   0.00 </value>
                         <value>   0.00 </value>
@@ -1577,143 +1601,186 @@
             <output>contact/unit[13]/z-position</output>
             <function>
                 <ifthen>
-                    <p>pontoon-damage/left-pontoon</p>
-                    <p>contact/unit[13]/z-position</p>
-                    <ifthen>
-                        <and>
-                            <p>ground/snow-possible</p>
-                            <or>
-                                <gt>
-                                    <p>contact/unit[13]/rolling_friction-factor</p>
-                                    <v>2</v>
-                                </gt>
-                                <lt>
-                                    <p>contact/unit[13]/rolling_friction-factor</p>
-                                    <v>1</v>
-                                </lt>
-                            </or>
-                        </and>
-                        <sum>
-                            <p>contact/unit[13]/z-position</p>
-                            <product>
-                                <product>
-                                    <p>/environment/surface/snow-thickness-factor</p>
-                                    <p>/environment/surface/snow-thickness-multiplier</p>
-                                </product>
-                                <value>0.02</value>
-                            </product>
-                        </sum>
+                    <and>
+                        <p>ground/snow-possible</p>
+                        <or>
+                            <gt>
+                                <p>contact/unit[13]/rolling_friction-factor</p>
+                                <v>2</v>
+                            </gt>
+                            <lt>
+                                <p>contact/unit[13]/rolling_friction-factor</p>
+                                <v>1</v>
+                            </lt>
+                        </or>
+                    </and>
+                    <sum>
                         <p>contact/unit[13]/z-position</p>
-                    </ifthen>
+                        <product>
+                            <product>
+                                <p>/environment/surface/snow-thickness-factor</p>
+                                <p>/environment/surface/snow-thickness-multiplier</p>
+                            </product>
+                            <value>0.02</value>
+                        </product>
+                    </sum>
+                    <p>contact/unit[13]/z-position</p>
                 </ifthen>
             </function>
         </fcs_function>
         <fcs_function name="z-position-ground-factor-left-aft-pontoons">
             <output>contact/unit[15]/z-position</output>
+            <function>
+                <ifthen>
+                    <and>
+                        <p>ground/snow-possible</p>
+                        <or>
+                            <gt>
+                                <p>contact/unit[15]/rolling_friction-factor</p>
+                                <v>2</v>
+                            </gt>
+                            <lt>
+                                <p>contact/unit[15]/rolling_friction-factor</p>
+                                <v>1</v>
+                            </lt>
+                        </or>
+                    </and>
+                    <sum>
+                        <p>contact/unit[15]/z-position</p>
+                        <product>
+                            <product>
+                                <p>/environment/surface/snow-thickness-factor</p>
+                                <p>/environment/surface/snow-thickness-multiplier</p>
+                            </product>
+                            <value>0.04</value>
+                        </product>
+                    </sum>
+                    <p>contact/unit[15]/z-position</p>
+                </ifthen>
+            </function>
+        </fcs_function>
+        <fcs_function name="z-position-ground-factor-left-aft-pontoons">
             <output>contact/unit[17]/z-position</output>
             <function>
                 <ifthen>
-                    <p>pontoon-damage/left-pontoon</p>
-                    <p>contact/unit[15]/z-position</p>
-                    <ifthen>
-                        <and>
-                            <p>ground/snow-possible</p>
-                            <or>
-                                <gt>
-                                    <p>contact/unit[17]/rolling_friction-factor</p>
-                                    <v>2</v>
-                                </gt>
-                                <lt>
-                                    <p>contact/unit[17]/rolling_friction-factor</p>
-                                    <v>1</v>
-                                </lt>
-                            </or>
-                        </and>
-                        <sum>
-                            <p>contact/unit[15]/z-position</p>
+                    <and>
+                        <p>ground/snow-possible</p>
+                        <or>
+                            <gt>
+                                <p>contact/unit[17]/rolling_friction-factor</p>
+                                <v>2</v>
+                            </gt>
+                            <lt>
+                                <p>contact/unit[17]/rolling_friction-factor</p>
+                                <v>1</v>
+                            </lt>
+                        </or>
+                    </and>
+                    <sum>
+                        <p>contact/unit[17]/z-position</p>
+                        <product>
                             <product>
-                                <product>
-                                    <p>/environment/surface/snow-thickness-factor</p>
-                                    <p>/environment/surface/snow-thickness-multiplier</p>
-                                </product>
-                                <value>0.04</value>
+                                <p>/environment/surface/snow-thickness-factor</p>
+                                <p>/environment/surface/snow-thickness-multiplier</p>
                             </product>
-                        </sum>
-                        <p>contact/unit[15]/z-position</p>
-                    </ifthen>
+                            <value>0.04</value>
+                        </product>
+                    </sum>
+                    <p>contact/unit[17]/z-position</p>
                 </ifthen>
             </function>
         </fcs_function>
 
         <fcs_function name="z-position-ground-factor-right-forward-pontoon">
             <output>contact/unit[14]/z-position</output>
-
             <function>
                 <ifthen>
-                    <p>pontoon-damage/right-pontoon</p>
-                    <p>contact/unit[14]/z-position</p>
-                    <ifthen>
-                        <and>
-                            <p>ground/snow-possible</p>
-                            <or>
-                                <gt>
-                                    <p>contact/unit[14]/rolling_friction-factor</p>
-                                    <v>2</v>
-                                </gt>
-                                <lt>
-                                    <p>contact/unit[14]/rolling_friction-factor</p>
-                                    <v>1</v>
-                                </lt>
-                            </or>
-                        </and>
-                        <sum>
-                            <p>contact/unit[14]/z-position</p>
-                            <product>
-                                <product>
-                                    <p>/environment/surface/snow-thickness-factor</p>
-                                    <p>/environment/surface/snow-thickness-multiplier</p>
-                                </product>
-                                <value>0.02</value>
-                            </product>
-                        </sum>
+                    <and>
+                        <p>ground/snow-possible</p>
+                        <or>
+                            <gt>
+                                <p>contact/unit[14]/rolling_friction-factor</p>
+                                <v>2</v>
+                            </gt>
+                            <lt>
+                                <p>contact/unit[14]/rolling_friction-factor</p>
+                                <v>1</v>
+                            </lt>
+                        </or>
+                    </and>
+                    <sum>
                         <p>contact/unit[14]/z-position</p>
-                    </ifthen>
+                        <product>
+                            <product>
+                                <p>/environment/surface/snow-thickness-factor</p>
+                                <p>/environment/surface/snow-thickness-multiplier</p>
+                            </product>
+                            <value>0.02</value>
+                        </product>
+                    </sum>
+                    <p>contact/unit[14]/z-position</p>
                 </ifthen>
             </function>
         </fcs_function>
         <fcs_function name="z-position-ground-factor-right-aft-pontoon">
             <output>contact/unit[16]/z-position</output>
+            <function>
+                <ifthen>
+                    <and>
+                        <p>ground/snow-possible</p>
+                        <or>
+                            <gt>
+                                <p>contact/unit[16]/rolling_friction-factor</p>
+                                <v>2</v>
+                            </gt>
+                            <lt>
+                                <p>contact/unit[16]/rolling_friction-factor</p>
+                                <v>1</v>
+                            </lt>
+                        </or>
+                    </and>
+                    <sum>
+                        <p>contact/unit[16]/z-position</p>
+                        <product>
+                            <product>
+                                <p>/environment/surface/snow-thickness-factor</p>
+                                <p>/environment/surface/snow-thickness-multiplier</p>
+                            </product>
+                            <value>0.04</value>
+                        </product>
+                    </sum>
+                    <p>contact/unit[16]/z-position</p>
+                </ifthen>
+            </function>
+        </fcs_function>
+        <fcs_function name="z-position-ground-factor-right-aft-pontoon">
             <output>contact/unit[18]/z-position</output>
             <function>
                 <ifthen>
-                    <p>pontoon-damage/right-pontoon</p>
-                    <p>contact/unit[16]/z-position</p>
-                    <ifthen>
-                        <and>
-                            <p>ground/snow-possible</p>
-                            <or>
-                                <gt>
-                                    <p>contact/unit[18]/rolling_friction-factor</p>
-                                    <v>2</v>
-                                </gt>
-                                <lt>
-                                    <p>contact/unit[18]/rolling_friction-factor</p>
-                                    <v>1</v>
-                                </lt>
-                            </or>
-                        </and>
-                        <sum>
-                            <p>contact/unit[16]/z-position</p>
+                    <and>
+                        <p>ground/snow-possible</p>
+                        <or>
+                            <gt>
+                                <p>contact/unit[18]/rolling_friction-factor</p>
+                                <v>2</v>
+                            </gt>
+                            <lt>
+                                <p>contact/unit[18]/rolling_friction-factor</p>
+                                <v>1</v>
+                            </lt>
+                        </or>
+                    </and>
+                    <sum>
+                        <p>contact/unit[18]/z-position</p>
+                        <product>
                             <product>
-                                <product>
-                                    <p>/environment/surface/snow-thickness-factor</p>
-                                    <p>/environment/surface/snow-thickness-multiplier</p>
-                                </product>
-                                <value>0.04</value>
+                                <p>/environment/surface/snow-thickness-factor</p>
+                                <p>/environment/surface/snow-thickness-multiplier</p>
                             </product>
-                        </sum>
-                        <p>contact/unit[16]/z-position</p>
-                    </ifthen>
+                            <value>0.04</value>
+                        </product>
+                    </sum>
+                    <p>contact/unit[18]/z-position</p>
                 </ifthen>
             </function>
         </fcs_function>
@@ -1749,34 +1816,30 @@
             <output>gear/unit[19]/z-position</output>
             <function>
                 <ifthen>
-                    <p>pontoon-damage/left-pontoon</p>
-                    <p>gear/unit[19]/z-position</p>
-                    <ifthen>
-                        <and>
-                           <p>ground/snow-possible</p>
-                            <or>
-                                <gt>
-                                    <p>gear/unit[19]/rolling_friction-factor</p>
-                                    <v>2</v>
-                                </gt>
-                                <lt>
-                                    <p>gear/unit[19]/rolling_friction-factor</p>
-                                    <v>1</v>
-                                </lt>
-                            </or>
-                        </and>
-                        <sum>
-                            <p>gear/unit[19]/z-position</p>
-                            <product>
-                                <product>
-                                    <p>/environment/surface/snow-thickness-factor</p>
-                                    <p>/environment/surface/snow-thickness-multiplier</p>
-                                </product>
-                                <value>0.07</value>
-                            </product>
-                        </sum>
+                    <and>
+                       <p>ground/snow-possible</p>
+                        <or>
+                            <gt>
+                                <p>gear/unit[19]/rolling_friction-factor</p>
+                                <v>2</v>
+                            </gt>
+                            <lt>
+                                <p>gear/unit[19]/rolling_friction-factor</p>
+                                <v>1</v>
+                            </lt>
+                        </or>
+                    </and>
+                    <sum>
                         <p>gear/unit[19]/z-position</p>
-                    </ifthen>
+                        <product>
+                            <product>
+                                <p>/environment/surface/snow-thickness-factor</p>
+                                <p>/environment/surface/snow-thickness-multiplier</p>
+                            </product>
+                            <value>0.07</value>
+                        </product>
+                    </sum>
+                    <p>gear/unit[19]/z-position</p>
                 </ifthen>
             </function>
         </fcs_function>
@@ -1808,34 +1871,30 @@
             <output>gear/unit[20]/z-position</output>
             <function>
                 <ifthen>
-                    <p>pontoon-damage/right-pontoon</p>
-                    <p>gear/unit[20]/z-position</p>
-                    <ifthen>
-                        <and>
-                           <p>ground/snow-possible</p>
-                            <or>
-                                <gt>
-                                    <p>gear/unit[20]/rolling_friction-factor</p>
-                                    <v>2</v>
-                                </gt>
-                                <lt>
-                                    <p>gear/unit[20]/rolling_friction-factor</p>
-                                    <v>1</v>
-                                </lt>
-                            </or>
-                        </and>
-                        <sum>
-                            <p>gear/unit[20]/z-position</p>
-                            <product>
-                                <product>
-                                    <p>/environment/surface/snow-thickness-factor</p>
-                                    <p>/environment/surface/snow-thickness-multiplier</p>
-                                </product>
-                                <value>0.07</value>
-                            </product>
-                        </sum>
+                    <and>
+                       <p>ground/snow-possible</p>
+                        <or>
+                            <gt>
+                                <p>gear/unit[20]/rolling_friction-factor</p>
+                                <v>2</v>
+                            </gt>
+                            <lt>
+                                <p>gear/unit[20]/rolling_friction-factor</p>
+                                <v>1</v>
+                            </lt>
+                        </or>
+                    </and>
+                    <sum>
                         <p>gear/unit[20]/z-position</p>
-                    </ifthen>
+                        <product>
+                            <product>
+                                <p>/environment/surface/snow-thickness-factor</p>
+                                <p>/environment/surface/snow-thickness-multiplier</p>
+                            </product>
+                            <value>0.07</value>
+                        </product>
+                    </sum>
+                    <p>gear/unit[20]/z-position</p>
                 </ifthen>
             </function>
         </fcs_function>
@@ -1867,34 +1926,30 @@
             <output>gear/unit[21]/z-position</output>
             <function>
                 <ifthen>
-                    <p>pontoon-damage/left-pontoon</p>
-                    <p>gear/unit[21]/z-position</p>
-                    <ifthen>
-                        <and>
-                           <p>ground/snow-possible</p>
-                            <or>
-                                <gt>
-                                    <p>gear/unit[21]/rolling_friction-factor</p>
-                                    <v>2</v>
-                                </gt>
-                                <lt>
-                                    <p>gear/unit[21]/rolling_friction-factor</p>
-                                    <v>1</v>
-                                </lt>
-                            </or>
-                        </and>
-                        <sum>
-                            <p>gear/unit[21]/z-position</p>
-                            <product>
-                                <product>
-                                    <p>/environment/surface/snow-thickness-factor</p>
-                                    <p>/environment/surface/snow-thickness-multiplier</p>
-                                </product>
-                                <value>0.08</value>
-                            </product>
-                        </sum>
+                    <and>
+                       <p>ground/snow-possible</p>
+                        <or>
+                            <gt>
+                                <p>gear/unit[21]/rolling_friction-factor</p>
+                                <v>2</v>
+                            </gt>
+                            <lt>
+                                <p>gear/unit[21]/rolling_friction-factor</p>
+                                <v>1</v>
+                            </lt>
+                        </or>
+                    </and>
+                    <sum>
                         <p>gear/unit[21]/z-position</p>
-                    </ifthen>
+                        <product>
+                            <product>
+                                <p>/environment/surface/snow-thickness-factor</p>
+                                <p>/environment/surface/snow-thickness-multiplier</p>
+                            </product>
+                            <value>0.08</value>
+                        </product>
+                    </sum>
+                    <p>gear/unit[21]/z-position</p>
                 </ifthen>
             </function>
         </fcs_function>
@@ -1926,34 +1981,30 @@
             <output>gear/unit[22]/z-position</output>
             <function>
                 <ifthen>
-                    <p>pontoon-damage/right-pontoon</p>
-                    <p>gear/unit[22]/z-position</p>
-                    <ifthen>
-                        <and>
-                           <p>ground/snow-possible</p>
-                            <or>
-                                <gt>
-                                    <p>gear/unit[22]/rolling_friction-factor</p>
-                                    <v>2</v>
-                                </gt>
-                                <lt>
-                                    <p>gear/unit[22]/rolling_friction-factor</p>
-                                    <v>1</v>
-                                </lt>
-                            </or>
-                        </and>
-                        <sum>
-                            <p>gear/unit[22]/z-position</p>
-                            <product>
-                                <product>
-                                    <p>/environment/surface/snow-thickness-factor</p>
-                                    <p>/environment/surface/snow-thickness-multiplier</p>
-                                </product>
-                                <value>0.08</value>
-                            </product>
-                        </sum>
+                    <and>
+                       <p>ground/snow-possible</p>
+                        <or>
+                            <gt>
+                                <p>gear/unit[22]/rolling_friction-factor</p>
+                                <v>2</v>
+                            </gt>
+                            <lt>
+                                <p>gear/unit[22]/rolling_friction-factor</p>
+                                <v>1</v>
+                            </lt>
+                        </or>
+                    </and>
+                    <sum>
                         <p>gear/unit[22]/z-position</p>
-                    </ifthen>
+                        <product>
+                            <product>
+                                <p>/environment/surface/snow-thickness-factor</p>
+                                <p>/environment/surface/snow-thickness-multiplier</p>
+                            </product>
+                            <value>0.08</value>
+                        </product>
+                    </sum>
+                    <p>gear/unit[22]/z-position</p>
                 </ifthen>
             </function>
         </fcs_function>
@@ -2034,7 +2085,8 @@
             <output>contact/unit[28]/z-position</output>
             <default value="0"/>
 
-            <test logic="AND" value="-33">
+            <!--test logic="AND" value="-33"-->
+            <test logic="AND" value="-39">
                 simulation/sim-time-sec GT 0.25
                 bushkit EQ 5
             </test>
@@ -2343,6 +2395,54 @@
                         </or>
                         <value>10</value>
                     </product>
+                </product>
+            </function>
+        </fcs_function>
+
+        <switch name="gear-on-pavement">
+            <output>gear/on-pavement</output>
+            <default value="0"/>
+            <test logic="OR" value="1">
+                ground/bumpiness LT 0.02
+            </test>
+        </switch>
+
+        <fcs_function name="gear/gear-screech">
+            <function>
+                <product>
+                    <property>gear/on-pavement</property>
+                    <or>
+                        <gt>
+                            <property>gear/gear-burn-left</property>
+                            <value>0</value>
+                        </gt>
+                        <gt>
+                            <property>gear/gear-burn-right</property>
+                            <value>0</value>
+                        </gt>
+                    </or>
+                    <property>/velocities/groundspeed-kt</property>
+                </product>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="gear/gear-drag">
+            <function>
+                <product>
+                    <not>
+                        <property>gear/on-pavement</property>
+                    </not>
+                    <or>
+                        <gt>
+                            <property>gear/gear-burn-left</property>
+                            <value>0</value>
+                        </gt>
+                        <gt>
+                            <property>gear/gear-burn-right</property>
+                            <value>0</value>
+                        </gt>
+                    </or>
+                    <property>/velocities/groundspeed-kt</property>
                 </product>
             </function>
         </fcs_function>

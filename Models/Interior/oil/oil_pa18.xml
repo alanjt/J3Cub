@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<PropertyList>
+
+    <path>oil_pa18.ac</path>
+
+    <!-- als effect -->
+    <effect>
+        <inherits-from>../../Effects/interior/lm-oil</inherits-from>
+        <object-name>Face</object-name>
+        <object-name>bezelinside</object-name>
+        <object-name>bezeloutside</object-name>
+        <object-name>FaceCover</object-name>
+        <object-name>screws</object-name>
+        <object-name>Needle1</object-name>
+        <object-name>Needle2</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>../../Effects/interior/j3cub-flashlight</inherits-from>
+        <object-name>Needle1</object-name>
+        <object-name>Needle2</object-name>
+    </effect>
+
+   <model>
+        <name>oil-led-top</name>
+        <path>../../Effects/interior/procedural_light_instruments_small.xml</path>
+        <offsets>
+            <x-m>-0.17788</x-m>
+            <y-m>-0.13858</y-m>
+            <z-m>-0.3589</z-m>
+        </offsets>
+        <condition>
+            <and>
+                <greater-than>
+                    <property>/sim/model/material/instruments/factor</property>
+                    <value>0</value>
+                </greater-than>
+                <greater-than>
+                    <property>/sim/rendering/shaders/model</property>
+                    <value>1</value>
+                </greater-than>
+            </and>
+        </condition>
+    </model>
+    <model>
+        <name>oil-led-bottom</name>
+        <path>../../Effects/interior/procedural_light_instruments_small.xml</path>
+        <offsets>
+            <x-m>-0.17788</x-m>
+            <y-m>-0.13787</y-m>
+            <z-m>-0.39459</z-m>
+        </offsets>
+        <condition>
+            <and>
+                <greater-than>
+                    <property>/sim/model/material/instruments/factor</property>
+                    <value>0</value>
+                </greater-than>
+                <greater-than>
+                    <property>/sim/rendering/shaders/model</property>
+                    <value>1</value>
+                </greater-than>
+            </and>
+        </condition>
+    </model>
+
+    <!-- default renderer effect -->
+    <animation>
+        <type>material</type>
+        <object-name>Face</object-name>
+        <object-name>Needle1</object-name>
+        <object-name>Needle2</object-name>
+        <condition>
+            <not>
+                <property>/sim/rendering/shaders/skydome</property>
+            </not>
+        </condition>
+        <emission>
+            <red-prop>/sim/model/material/instruments/default-red-combined-factor</red-prop>
+            <green-prop>/sim/model/material/instruments/default-green-combined-factor</green-prop>
+            <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
+        </emission>
+    </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>Needle1</object-name>
+  <property>engines/active-engine/indicated-oil-final-temperature-degf</property>
+  <interpolation>
+   <entry>
+    <ind>0</ind>
+    <dep>0</dep>
+   </entry>
+   <entry>
+    <ind>200</ind>
+    <dep>60</dep>
+   </entry>
+  </interpolation>
+  <axis>
+   <x>1</x>
+   <y>0</y>
+   <z>0</z>
+  </axis>
+  <center>
+   <x-m>-0.17959</x-m>
+   <y-m>-0.13942</y-m>
+   <z-m>-0.35091</z-m>
+  </center>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>Needle2</object-name>
+  <property>engines/active-engine/indicated-oil-pressure-psi</property>
+  <interpolation>
+   <entry>
+    <ind>0</ind>
+    <dep>0</dep>
+   </entry>
+   <entry>
+    <ind>80</ind>
+    <dep>60</dep>
+   </entry>
+  </interpolation>
+  <axis>
+   <x>-1</x>
+   <y>0</y>
+   <z>0</z>
+  </axis>
+  <center>
+   <x-m>-0.17959</x-m>
+   <y-m>-0.13949</y-m>
+   <z-m>-0.40352</z-m>
+  </center>
+ </animation>
+
+</PropertyList>
+
+

@@ -25,16 +25,18 @@
         recorded.
     -->
 
+    <!-- These lighting effects are for the PA-18 and Amphibious gear control -->
+
     <logic>
         <name>Lighting Landing On/Off</name>
         <input>
             <and>
                 <less-than>
-                    <property>/systems/electrical/outputs/landing-light</property>
+                    <property>/systems/electrical/outputs/landing-lights</property>
                     <value>31.5</value>
                 </less-than>
                 <greater-than>
-                    <property>/systems/electrical/outputs/landing-light</property>
+                    <property>/systems/electrical/outputs/landing-lights</property>
                     <value>20.0</value>
                 </greater-than>
                 <not-equals>
@@ -76,62 +78,6 @@
     </logic>
 
     <logic>
-        <name>ALS Lighting Landing</name>
-        <input>
-            <and>
-                <property>/sim/current-view/internal</property>
-                <property>/sim/model/pa-18/lighting/landing</property>
-            </and>
-        </input>
-        <output>
-            <property>/sim/rendering/als-secondary-lights/use-landing-light</property>
-        </output>
-    </logic>
-
-    <logic>
-        <name>ALS Lighting Taxi</name>
-        <input>
-            <and>
-                <property>/sim/current-view/internal</property>
-                <property>/sim/model/pa-18/lighting/taxi</property>
-            </and>
-        </input>
-        <output>
-            <property>/sim/rendering/als-secondary-lights/use-alt-landing-light</property>
-        </output>
-    </logic>
-
-    <logic>
-        <name>ALS Lighting Exterior Landing</name>
-        <input>
-            <and>
-                <not>
-                    <property>/sim/current-view/internal</property>
-                </not>
-                <property>/sim/model/pa-18/lighting/landing</property>
-            </and>
-        </input>
-        <output>
-            <property>/sim/rendering/als-secondary-lights/use-landing-light-ext</property>
-        </output>
-    </logic>
-
-    <logic>
-        <name>ALS Lighting Exterior Taxi</name>
-        <input>
-            <and>
-                <not>
-                    <property>/sim/current-view/internal</property>
-                </not>
-                <property>/sim/model/pa-18/lighting/taxi</property>
-            </and>
-        </input>
-        <output>
-            <property>/sim/rendering/als-secondary-lights/use-taxi-light-ext</property>
-        </output>
-    </logic>
-
-    <logic>
         <name>Lighting Navigation On/Off</name>
         <input>
             <and>
@@ -151,32 +97,6 @@
             <property>/sim/model/pa-18/lighting/nav-lights</property>
         </output>
     </logic>
-
-    <filter>
-        <name>Instruments Lighting</name>
-        <type>gain</type>
-        <input>
-            <condition>
-                <and>
-                    <less-than>
-                        <property>/systems/electrical/outputs/instrument-lights</property>
-                        <value>31.5</value>
-                    </less-than>
-                    <greater-than>
-                        <property>/systems/electrical/outputs/instrument-lights</property>
-                        <value>20.0</value>
-                    </greater-than>
-                </and>
-            </condition>
-            <property>/controls/lighting/instruments-norm</property>
-        </input>
-        <input>
-            <value>0.0</value>
-        </input>
-        <output>
-            <property>/sim/model/material/instruments/factor</property>
-        </output>
-    </filter>
 
     <logic>
         <name>Lighting Beacon On/Off</name>
@@ -225,17 +145,398 @@
         <input>
             <and>
                 <less-than>
-                    <property>systems/electrical/outputs/instrument-lights</property>
+                    <property>/systems/electrical/outputs/gear-select</property>
                     <value>31.5</value>
                 </less-than>
                 <greater-than>
-                    <property>systems/electrical/outputs/instrument-lights</property>
+                    <property>/systems/electrical/outputs/gear-select</property>
                     <value>20.0</value>
                 </greater-than>
             </and>
         </input>
         <output>
-            <property>/sim/model/j3cub/lighting/amphibious</property>
+            <property>/sim/model/pa-18/lighting/gear-select</property>
         </output>
     </logic>
+
+    <logic>
+        <name>Amphibious Advisory Lights On/Off</name>
+        <input>
+            <and>
+                <less-than>
+                    <property>systems/electrical/outputs/gear-advisory</property>
+                    <value>31.5</value>
+                </less-than>
+                <greater-than>
+                    <property>/systems/electrical/outputs/gear-advisory</property>
+                    <value>20.0</value>
+                </greater-than>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/pa-18/lighting/gear-advisory</property>
+        </output>
+    </logic>
+
+    <filter>
+        <name>Gear Glare Dim</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <and>
+                    <property>/controls/lighting/gearled</property>
+                    <property>/sim/model/pa-18/lighting/gear-select</property>
+                </and>
+            </condition>
+            <value>.35</value>
+        </input>
+        <input>
+            <condition>
+                <and>
+                    <equals>
+                        <property>/controls/lighting/gearled</property>
+                        <value>0</value>
+                    </equals>
+                    <property>/sim/model/pa-18/lighting/gear-select</property>
+                </and>
+            </condition>
+            <value>.175</value>
+        </input>
+        <output>
+            <property>/controls/lighting/factor-ledglare</property>
+        </output>
+    </filter>
+    <filter>
+        <name>Gear Led Dim</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <and>
+                    <property>/controls/lighting/gearled</property>
+                    <property>/sim/model/pa-18/lighting/gear-select</property>
+                </and>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <condition>
+                <and>
+                    <equals>
+                        <property>/controls/lighting/gearled</property>
+                        <value>0</value>
+                    </equals>
+                    <property>/sim/model/pa-18/lighting/gear-select</property>
+                </and>
+            </condition>
+            <value>.35</value>
+        </input>
+        <output>
+            <property>/controls/lighting/factor-led</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Instruments Lighting</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+                    <less-than>
+                        <property>/systems/electrical/outputs/instrument-lights</property>
+                        <value>31.5</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/instrument-lights</property>
+                        <value>20.0</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <property>/controls/switches/panel-lights</property><!-- instrument light switch or rheostat if availible -->
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/sim/model/material/instruments/factor</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Cockpit Glass Reflections Transponder Contribution</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <property>/instrumentation/transponder/inputs/knob-mode</property>
+            </condition>
+            <value>0.02</value>
+        </input>
+        <output>
+            <property>/environment/aircraft-effects/cockpit-glass-reflection-transponder</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Cockpit Glass Reflections Radio Contribution</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <property>/controls/circuit-breakers/avionics</property>
+            </condition>
+            <expression>
+               <product>
+                    <property>/controls/switches/master-avionics</property>
+                    <sum>
+                        <product>
+                            <property>/instrumentation/comm/power-btn</property>
+                            <value>0.05</value>
+                        </product>
+                        <product>
+                            <property>/instrumentation/dme/power-btn</property>
+                            <value>0.03</value>
+                        </product>
+                        <product>
+                            <property>/instrumentation/adf/power-btn</property>
+                            <value>0.05</value>
+                        </product>
+                        <property>/environment/aircraft-effects/cockpit-glass-reflection-transponder</property>
+                    </sum>
+                </product>
+            </expression>
+        </input>
+        <output>
+            <property>/environment/aircraft-effects/cockpit-glass-reflection-radio</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Cockpit Glass Reflections Dome</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+                    <less-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>31.5</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>20.0</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <expression>
+                <product>
+                    <property>/controls/switches/dome-light</property>
+                    <value>0.35</value>
+                </product>
+            </expression>
+        </input>
+        <output>
+            <property>/environment/aircraft-effects/cockpit-glass-reflection-dome</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Cockpit Glass Reflections Instruments</name>
+        <type>gain</type>
+        <input>
+            <expression>
+               <product>
+                    <property>/sim/model/material/instruments/factor</property>
+                    <product>
+                        <property>/controls/lighting/instruments-norm</property>
+                        <value>0.35</value>
+                    </product>
+               </product>
+            </expression>
+        </input>
+        <output>
+            <property>/environment/aircraft-effects/cockpit-glass-reflection-instruments</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Cockpit Glass Reflections Totals</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <property>/sim/model/j3cub/pa-18</property>
+            </condition>
+            <expression>
+                <sum>
+                    <product>
+                        <property>/controls/circuit-breakers/master</property>
+                        <sum>
+                            <property>/environment/aircraft-effects/cockpit-glass-reflection-instruments</property>
+                            <property>/environment/aircraft-effects/cockpit-glass-reflection-radio</property>
+                            <property>/environment/aircraft-effects/cockpit-glass-reflection-dome</property>
+                        </sum>
+                    </product>
+                    <value>0.25</value> <!-- base value -->
+                </sum>
+            </expression>
+        </input>
+        <input>
+            <condition>
+               <not>
+                  <property>/sim/model/j3cub/pa-18</property>
+               </not>
+            </condition>
+            <value>0.25</value>
+        </input>
+        <output>
+            <property>/environment/aircraft-effects/cockpit-glass-reflection-factor</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Panel lightmaps control</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <property>/sim/rendering/shaders/skydome</property>
+            </condition>
+            <property>/sim/model/material/instruments/factor</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+             <property>/sim/model/pa-18/lightmap/panel/factor</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Dome Light lightmaps switch</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+                    <less-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>31.5</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>20.0</value>
+                    </greater-than>
+                </and>
+                <property>/sim/model/j3cub/pa-18</property>
+            </condition>
+            <expression>
+                <product>
+                    <property>/controls/switches/dome-light</property>
+                    <value>0.6</value>
+                </product>
+            </expression>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/sim/model/pa-18/lightmap/dome/factor</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Stec-55x Panel lighting control</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <property>/sim/rendering/shaders/skydome</property>
+				<and>
+					<less-than>
+						<property>systems/electrical/outputs/autopilot</property>
+						<value>31.5</value>
+					</less-than>
+					<greater-than>
+						<property>systems/electrical/outputs/autopilot</property>
+						<value>20.0</value>
+					</greater-than>
+					<property>/controls/switches/master-bat</property>
+				</and>
+            </condition>
+            <expression>
+                <product>
+                    <property>/it-stec55x/internal/master-sw</property>
+					<value>0.8</value>
+                </product>
+            </expression>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+			 <property>/controls/lighting/panel-norm</property>
+        </output>
+    </filter>
+
+    <!-- Output used for default renderer overhead lighting (material animations) on panel guages only -->
+    <filter>
+        <name>RGB Red Factor default renderer guages combined</name>
+        <type>gain</type>
+        <input>
+            <expression>
+                <product>
+                    <product>
+                        <property>/sim/model/material/instruments/factor</property>
+                        <value>1.0</value>
+                    </product>
+                    <value>0.4</value>
+                </product>
+            </expression>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/sim/model/material/instruments/default-red-combined-factor</property>
+        </output>
+    </filter>
+    <filter>
+        <name>RGB Green Factor default renderer guages combined</name>
+        <type>gain</type>
+        <input>
+            <expression>
+                <product>
+                    <product>
+                        <property>/sim/model/material/instruments/factor</property>
+                        <value>0.8</value>
+                    </product>
+                    <value>0.4</value>
+                </product>
+            </expression>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+             <property>/sim/model/material/instruments/default-green-combined-factor</property>
+        </output>
+    </filter>
+    <filter>
+        <name>RGB Blue Factor default renderer guages combined</name>
+        <type>gain</type>
+        <input>
+            <expression>
+                <product>
+                    <product>
+                        <property>/sim/model/material/instruments/factor</property>
+                        <value>0.5</value>
+                    </product>
+                    <value>0.4</value>
+                </product>
+            </expression>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+             <property>/sim/model/material/instruments/default-blue-combined-factor</property>
+        </output>
+    </filter>
+    <!-- end default renderer -->
+
 </PropertyList>
