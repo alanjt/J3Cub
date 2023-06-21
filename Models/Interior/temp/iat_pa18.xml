@@ -10,19 +10,6 @@
 
     <path>iat_pa18.ac</path>
 
-    <!-- als effects -->
-    <effect>
-        <inherits-from>../../Effects/interior/lm-temp</inherits-from>
-        <object-name>face</object-name>
-        <object-name>marker</object-name>
-        <object-name>bezelinside</object-name>
-        <object-name>bezeloutside</object-name>
-        <object-name>togglebase</object-name>
-        <object-name>screws</object-name>
-        <object-name>needle</object-name>
-        <object-name>toggle</object-name>
-    </effect>
-
     <model>
         <name>temp-led</name>
         <path>../../Effects/interior/procedural_light_instruments_medium.xml</path>
@@ -45,26 +32,6 @@
         </condition>
     </model>
 
-    <!-- default renderer effect -->
-    <animation>
-        <type>material</type>
-        <object-name>face</object-name>
-        <object-name>marker</object-name>
-        <object-name>bezelinside</object-name>
-        <object-name>needle</object-name>
-        <object-name>toggle</object-name>
-        <condition>
-            <not>
-                <property>/sim/rendering/shaders/skydome</property>
-            </not>
-        </condition>
-        <emission>
-            <red-prop>/sim/model/material/instruments/default-red-combined-factor</red-prop>
-            <green-prop>/sim/model/material/instruments/default-green-combined-factor</green-prop>
-            <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
-        </emission>
-    </animation>
-
     <animation>
         <type>rotate</type>
         <object-name>needle</object-name>
@@ -73,27 +40,27 @@
         <interpolation>
             <entry>
                 <ind>-60</ind>
-                <dep>127</dep>
+                <dep>-127</dep>
             </entry>
             <entry>
                 <ind>-50</ind>
-                <dep>104</dep>
+                <dep>-104</dep>
             </entry>
             <entry>
                 <ind>-40</ind>
-                <dep>82.5</dep>
+                <dep>-82.5</dep>
             </entry>
             <entry>
                 <ind>-30</ind>
-                <dep>61.5</dep>
+                <dep>-61.5</dep>
             </entry>
             <entry>
                 <ind>-20</ind>
-                <dep>41</dep>
+                <dep>-41</dep>
             </entry>
             <entry>
                 <ind>-10</ind>
-                <dep>20</dep>
+                <dep>-20</dep>
             </entry>
             <entry>
                 <ind>0</ind>
@@ -101,27 +68,27 @@
             </entry>
             <entry>
                 <ind>10</ind>
-                <dep>-21</dep>
+                <dep>21</dep>
             </entry>
             <entry>
                 <ind>20</ind>
-                <dep>-43</dep>
+                <dep>43</dep>
             </entry>
             <entry>
                 <ind>30</ind>
-                <dep>-64</dep>
+                <dep>64</dep>
             </entry>
             <entry>
                 <ind>40</ind>
-                <dep>-85</dep>
+                <dep>85</dep>
             </entry>
             <entry>
                 <ind>50</ind>
-                <dep>-106</dep>
+                <dep>106</dep>
             </entry>
             <entry>
                 <ind>60</ind>
-                <dep>-127</dep>
+                <dep>127</dep>
             </entry>
         </interpolation>
         <axis>
@@ -145,22 +112,11 @@
     </animation>
 
     <animation>
-        <type>material</type>
-        <object-name>mode</object-name>
-        <emission>
-            <red>  0.05</red>
-            <green>1</green>
-            <blue> 0.05</blue>
-            <factor-prop alias="/params/light/power"/>
-        </emission>
-    </animation>
-
-    <animation>
         <type>knob</type>
         <object-name>toggle</object-name>
         <property>controls/thermometer/temp-mode</property>
-        <factor>45</factor>
-        <offset-deg>-20</offset-deg>
+        <factor>60</factor>
+        <offset-deg>-12</offset-deg>
         <center>
             <x-m>-0.1794</x-m>
             <y-m>-0.08819</y-m>
@@ -212,6 +168,51 @@
             <y>-1</y>
         </axis>
     </animation>
+
+    <!-- default renderer effect -->
+    <animation>
+        <type>material</type>
+        <object-name>face</object-name>
+        <object-name>marker</object-name>
+        <object-name>bezelinside</object-name>
+        <object-name>needle</object-name>
+        <object-name>toggle</object-name>
+        <condition>
+            <not>
+                <property>/sim/rendering/shaders/skydome</property>
+            </not>
+        </condition>
+        <emission>
+            <red-prop>/sim/model/material/instruments/default-red-combined-factor</red-prop>
+            <green-prop>/sim/model/material/instruments/default-green-combined-factor</green-prop>
+            <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>mode</object-name>
+        <emission>
+            <red>  0.05</red>
+            <green>1</green>
+            <blue> 0.05</blue>
+            <factor-prop alias="/params/light/power"/>
+        </emission>
+    </animation>
+
+    <!-- als effects -->
+    <effect>
+        <inherits-from>../../Effects/interior/lm-temp</inherits-from>
+        <object-name>face</object-name>
+        <object-name>marker</object-name>
+        <object-name>bezelinside</object-name>
+        <object-name>bezeloutside</object-name>
+        <object-name>togglebase</object-name>
+        <object-name>screws</object-name>
+        <object-name>needle</object-name>
+        <object-name>toggle</object-name>
+    </effect>
+
 </PropertyList>
 
 

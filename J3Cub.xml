@@ -871,30 +871,30 @@
 
 	<flight_control name="FCS: j3cub">
 
-		<channel name="Landing Gear">
-			<!-- Disable gear movement if electrical voltage is too low -->
-			<switch name="Gear Command">
-				<default value="gear/gear-cmd-norm"/>
-				<output>gear/gear-input-norm</output>
-				<!-- Route back the (normalized) output of the <kinematic>  to its input in order to disable it. -->
-				<test logic="AND" value="gear/gear-pos-norm">
-					/sim/model/j3cub/lighting/amphibious eq 0
-				</test>
-			</switch>
-			<kinematic name="Gr">
-				<input>gear/gear-input-norm</input>
-				<traverse>
-					<setting>
-						<position>0</position>
-						<time>0 </time>
-					</setting>
-					<setting>
-						<position>1</position>
-						<time>5</time>
-					</setting>
-				</traverse>
-				<output>gear/gear-pos-norm</output>
-			</kinematic>
+         <channel name="Landing Gear">
+            <!-- Disable gear movement if electrical voltage is too low -->
+            <switch name="Gear Command">
+                <default value="gear/gear-cmd-norm"/>
+                <output>gear/gear-input-norm</output>
+                <!-- Route back the (normalized) output of the <kinematic>  to its input in order to disable it. -->
+                <test logic="AND" value="gear/gear-pos-norm">
+                    /sim/model/pa-18/hydraulics/hydraulic-pump eq 0
+                </test>
+            </switch>
+            <kinematic name="Gr">
+                <input>gear/gear-input-norm</input>
+                <traverse>
+                    <setting>
+                        <position>0</position>
+                        <time>0 </time>
+                    </setting>
+                    <setting>
+                        <position>1</position>
+                        <time>5</time>
+                    </setting>
+                </traverse>
+                <output>gear/gear-pos-norm</output>
+            </kinematic>
 
 			<kinematic name="/controls/gear/water-rudder-down">
 				<input>/controls/gear/water-rudder</input>
@@ -999,54 +999,71 @@
             </function>
         </fcs_function>
 
-        <pure_gain name="fcs/mixture-primer[0]">
-            <input>fcs/mixture-cmd-norm[0]</input>
-            <gain>fcs/mixture-primer-cmd</gain>
-        </pure_gain>
+            <pure_gain name="fcs/mixture-primer[0]">
+                <input>fcs/mixture-cmd-norm[0]</input>
+                <gain>fcs/mixture-primer-cmd</gain>
+            </pure_gain>
 
-        <pure_gain name="fcs/mixture-primer[1]">
-            <input>fcs/mixture-cmd-norm[1]</input>
-            <gain>fcs/mixture-primer-cmd</gain>
-        </pure_gain>
+            <pure_gain name="fcs/mixture-primer[1]">
+                <input>fcs/mixture-cmd-norm[1]</input>
+                <gain>fcs/mixture-primer-cmd</gain>
+            </pure_gain>
 
-        <!-- Primer logic for 160 HP engine -->
-        <switch name="Mixture Position 160 HP">
-            <default value="fcs/mixture-cmd-norm[0]"/>
-            <output>fcs/mixture-pos-norm[0]</output>
-            <!-- Use primer if used and engine is cold. If engine
-                 is warm, then the mixture lever is used.
-            -->
-            <test logic="AND" value="fcs/mixture-primer[0]">
-                /controls/engines/engine/use-primer eq 1
-                /engines/engine[0]/oil-temperature-degf le 75
-            </test>
-        </switch>
+            <pure_gain name="fcs/mixture-primer[2]">
+                <input>fcs/mixture-cmd-norm[2]</input>
+                <gain>fcs/mixture-primer-cmd</gain>
+            </pure_gain>
 
-        <!-- Primer logic for 180 HP engine -->
-        <switch name="Mixture Position 180 HP">
-            <default value="fcs/mixture-cmd-norm[1]"/>
-            <output>fcs/mixture-pos-norm[1]</output>
-            <!-- Use primer if used and engine is cold. If engine
-                 is warm, then the mixture lever is used.
-            -->
-            <test logic="AND" value="fcs/mixture-primer[1]">
-                /controls/engines/engine/use-primer eq 1
-                /engines/engine[1]/oil-temperature-degf le 75
-            </test>
-        </switch>
-    </channel>
+            <!-- Primer logic for 65 HP engine -->
+            <switch name="Mixture Position 65 HP">
+                <default value="fcs/mixture-cmd-norm[0]"/>
+                <output>fcs/mixture-pos-norm[0]</output>
+                <!-- Use primer if used and engine is cold. If engine
+                     is warm, then the mixture lever is used.
+                -->
+                <test logic="AND" value="fcs/mixture-primer[0]">
+                    /controls/engines/engine/use-primer eq 1
+                    /engines/engine[0]/oil-temperature-degf le 75
+                </test>
+            </switch>
 
-	</flight_control>
+            <!-- Primer logic for 95 HP engine -->
+            <switch name="Mixture Position 95 HP">
+                <default value="fcs/mixture-cmd-norm[1]"/>
+                <output>fcs/mixture-pos-norm[1]</output>
+                <!-- Use primer if used and engine is cold. If engine
+                     is warm, then the mixture lever is used.
+                -->
+                <test logic="AND" value="fcs/mixture-primer[1]">
+                    /controls/engines/engine/use-primer eq 1
+                    /engines/engine[1]/oil-temperature-degf le 75
+                </test>
+            </switch>
+
+            <!-- Primer logic for 160 HP engine -->
+            <switch name="Mixture Position 160 HP">
+                <default value="fcs/mixture-cmd-norm[2]"/>
+                <output>fcs/mixture-pos-norm[2]</output>
+                <!-- Use primer if used and engine is cold. If engine
+                     is warm, then the mixture lever is used.
+                -->
+                <test logic="AND" value="fcs/mixture-primer[2]">
+                    /controls/engines/engine/use-primer eq 1
+                    /engines/engine[1]/oil-temperature-degf le 75
+                </test>
+            </switch>
+        </channel>
+
+    </flight_control>
 
 	<!-- **********************************************************************
         AERODYNAMICS
-     **********************************************************************
--->
+     ***********************************************************************-->
 
 	<aerodynamics file="J3Cub_Datcom_aero.xml"/>
-	
-	
-	<!-- **********************************************************************-->
+
+	<!-- *******************************************************************-->
+
 	<external_reactions>
 
 		<force name="hydro-X" frame="LOCAL">
@@ -1248,6 +1265,36 @@
             <z>0.0</z>
          </direction>
     </force>
+
+	<force name="ai-wake" frame="BODY">
+		<location unit="IN">
+			<!-- Center of the main wing leading edge -->
+			<x>0.076023622047</x>
+			<y> 0.0</y>
+			<z>1.9068503937</z>
+		</location>
+		<direction>
+			<!-- These are dummy values. They are ignored by FlightGear.
+				 Their purpose is to avoid JSBSim display warning messages
+				 about <direction> not being specified.
+				 -->
+			<x>1.0</x>
+			<y>0.0</y>
+			<z>0.0</z>
+		</direction>
+	</force>
+	<moment name="ai-wake" frame="BODY">
+		<direction>
+			<!-- These are dummy values. They are ignored by FlightGear.
+				 Their purpose is to avoid JSBSim display warning messages
+				 about <direction> not being specified.
+				 -->
+			<x>1.0</x>
+			<y>0.0</y>
+			<z>0.0</z>
+		</direction>
+	</moment>
+
 	</external_reactions>
 
 	<system file="Conventional Controls.xml"/>

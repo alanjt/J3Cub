@@ -2,7 +2,7 @@
 
 <PropertyList>
 
-    <name>Amphibious Landing</name>
+    <name>PA-18 Amphibious Landing</name>
 
     <description>
 This tutorial starts from Daniel K. Inouye International Airport (PHNL) and finishes at the seaplane airfield located in Oahu's Keehi Lagoon, Honolulu, Hawaii in clear, still, weather.
@@ -20,7 +20,7 @@ Pay attention to the heading bug on landing it will approximate the mooring posi
     <timeofday>morning</timeofday>
 
     <presets>
-        <airport-id>PHNL</airport-id>
+        <airport-id></airport-id>
         <on-ground>1</on-ground>
         <altitude-ft>-9999</altitude-ft>
         <latitude-deg type="double">21.32982026</latitude-deg>
@@ -187,6 +187,10 @@ Pay attention to the heading bug on landing it will approximate the mooring posi
             <value>0</value>
         </set>
         <set>
+            <property>sim/model/j3cub/bushkit_flag_5</property>
+            <value>0</value>
+        </set>
+        <set>
             <property>fdm/jsbsim/bushkit</property>
             <value>3</value>
         </set>
@@ -207,8 +211,8 @@ Pay attention to the heading bug on landing it will approximate the mooring posi
             <value>false</value>
         </set>
         <set>
-            <property>/sim/current-view/view-number</property>
-            <value>8</value>
+            <property>/sim/current-view/view-number-raw</property>
+            <value>9</value>
         </set>
     </step>
 

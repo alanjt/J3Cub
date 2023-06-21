@@ -142,26 +142,20 @@ version 2.0  090410-->
                 </securing>
 
                 <enable-fog-frost type="bool">true</enable-fog-frost>
-                <garmin196-visible type="bool">false</garmin196-visible>
-                <garmin196-position type="int">0</garmin196-position>
 
                 <tailgear type="bool">1</tailgear>
                 <aerotowhitch type="bool">0</aerotowhitch>
 
-                <clUP type="string"></clUP>
+                <!--clUP type="string"></clUP>
                 <clDN type="string"></clDN>
                 <clPosUp type="string"></clPosUp>
                 <clPosDown type="string"></clPosDown>
                 <clGear type="string"></clGear>
-                <clMix type="string"></clMix>
+                <clMix type="string"></clMix-->
 
                 <preload-resources type="bool">false</preload-resources>
 
                 <brake-parking type="double">1</brake-parking>
-
-                <fg1000-PFD typr="bool">false</fg1000-PFD>
-                <fg1000-MFD typr="bool">false</fg1000-MFD>
-
             </j3cub>
 
             <!-- An exit for the walker -->
@@ -194,6 +188,7 @@ version 2.0  090410-->
                         <factor type="double">0.0</factor>
                     </dome>
                 </lightmap>
+                <variable-prop type="bool">false</variable-prop>
             </pa-18>
 
             <autopilot type="bool">false</autopilot>
@@ -212,7 +207,6 @@ version 2.0  090410-->
 
         <!-- persistent properties -->
         <aircraft-data>
-            <path>/sim/rendering/shadow-volume</path>
             <path>/sim/model/occupants</path>
             <path>/sim/model/j3cub/securing/allow-securing-aircraft</path>
             <path>/sim/model/j3cub/securing/pitot-cover-visible</path>
@@ -224,10 +218,6 @@ version 2.0  090410-->
             <path>/sim/model/j3cub/garmin196-visible</path>
             <path>/sim/model/j3cub/garmin196-position</path>
             <path>/sim/model/j3cub/preload-resources</path>
-            <!--path>/sim/model/variant</path>
-            <path>/fdm/jsbsim/bushkit</path-->
-            <path>/sim/model/payload</path>
-            <path>/sim/model/payload-package</path>
             <path>/environment/aircraft-effects/dirt</path>
             <path>/fdm/jsbsim/running</path>
             <path>/fdm/jsbsim/settings/damage</path>
@@ -240,8 +230,23 @@ version 2.0  090410-->
             <path>/sim/model/immat</path>
             <path>/sim/model/j3cub/airtemp</path>
             <path>/sim/model/j3cub/autopilot</path>
-            <path>it-stec55x/input/hdg</path>
+            <path>/it-stec55x/input/hdg</path>
+            <path>/sim/model/pa-18/variable-prop</path>
+            <path>/sim/current-view/user/x-offset-m</path>
+            <path>/sim/current-view/user/y-offset-m</path>
+            <path>/sim/current-view/user/z-offset-m</path>
+            <path>/sim/current-view/user/pitch-offset-deg</path>
+            <path>/sim/current-view/user/default-field-of-view-deg</path>
+
         </aircraft-data>
+
+        <current-view>
+            <z-offset-dec-step type="double">0.0</z-offset-dec-step>
+            <z-offset-inc-step type="double">0.0</z-offset-inc-step>
+            <can-change-z-offset type="bool">false</can-change-z-offset>
+            <z-offset-min-m type="float">5.0</z-offset-min-m>
+            <z-offset-max-m type="float">150.0</z-offset-max-m>
+        </current-view>
 
         <startup>
             <season-winter type="bool">false</season-winter>
@@ -255,17 +260,8 @@ version 2.0  090410-->
             </autopilot>
 
             <autopilot>
-                <name>IT-STEC55X</name>
-                <path>Systems/stec-55x.xml</path>
-            </autopilot>
-
-            <autopilot>
                 <name>Gear AGL FT</name>
-                <path>Systems/gear-agl-ft.xml</path>
-            </autopilot>
-
-            <autopilot>
-                <path>Aircraft/Instruments-3d/FG1000/GFC700.xml</path>
+                <path>Systems/equipment.xml</path>
             </autopilot>
 
             <!-- FDM level updates  -->
@@ -302,6 +298,11 @@ version 2.0  090410-->
             <property-rule n="109">
                 <path>Systems/electrical.xml</path>
             </property-rule>
+
+            <property-rule n="110">
+                <path>Aircraft/c172p/Systems/views.xml</path>
+            </property-rule>
+
         </systems>
 
         <help include="J3Cub-help.xml"/>
@@ -367,12 +368,7 @@ version 2.0  090410-->
             </config>
         </flight-recorder>
 
-        <!-- Enable the ALS shadow volume by default -->
-        <rendering>
-            <shadow-volume type="bool">true</shadow-volume>
-        </rendering>
-
-		    <instrumentation>
+        <instrumentation>
             <path>Systems/instrumentation.xml</path>          
         </instrumentation>
 
@@ -489,7 +485,7 @@ version 2.0  090410-->
             <strobe-lights type="bool">false</strobe-lights>
             <gearled type="bool">true</gearled>
             <!--IT-STEC55X autopilot backlighting-->
-            <!--panel-norm type="float">0.0</panel-norm-->
+            <panel-norm type="float">0.0</panel-norm>
             <radio-norm type="double">0.8</radio-norm>
             <instruments-norm type="double">1</instruments-norm>
             <gps-norm type="double">0</gps-norm>
@@ -499,6 +495,7 @@ version 2.0  090410-->
             <magnetos type="int">0</magnetos>
             <master-alt type="bool">true</master-alt>
             <dome-light type="bool">false</dome-light>
+            <panel-lights type="bool">false</panel-lights>
         </switches>
         <flight>
             <aileron-trim>0.0025</aileron-trim>   <!-- fixed -->
@@ -687,17 +684,17 @@ version 2.0  090410-->
       <input>
         <ap-master-switch type="bool">0</ap-master-switch>
       </input>
-	    <settings>
-		    <fd-equipped type="bool">0</fd-equipped> <!-- Does the aircraft have a flight director installed? -->
-		    <gain-pitch type="double">1.0</gain-pitch> <!-- Modify the pitch axis gain -->
-		    <gain-roll type="double">1.0</gain-roll> <!-- Modify the roll axis gain -->
-		    <gain-yaw type="double">1.0</gain-yaw> <!-- Modify the yaw axis gain -->
-		    <hsi-equipped-1 type="bool">1</hsi-equipped-1> <!-- Does the aircraft have an HSI or OBS for NAV1? -->
-		    <hsi-equipped-2 type="bool">0</hsi-equipped-2> <!-- Does the aircraft have an HSI or OBS for NAV2? -->
-		    <is-turboprop type="bool">0</is-turboprop> <!-- Does the aircraft have turboprop engines? -->
-		    <use-controls-flight type="bool">1</use-controls-flight> <!-- Use generic /controls/flight for flight controls instead of custom properties -->
-		    <yd-equipped type="bool">0</yd-equipped> <!-- Does the aircraft have the optional yaw damper installed? -->
-	    </settings>
+        <settings>
+            <fd-equipped type="bool">0</fd-equipped> <!-- Does the aircraft have a flight director installed? -->
+            <gain-pitch type="double">1.0</gain-pitch> <!-- Modify the pitch axis gain -->
+            <gain-roll type="double">1.0</gain-roll> <!-- Modify the roll axis gain -->
+            <gain-yaw type="double">1.0</gain-yaw> <!-- Modify the yaw axis gain -->
+            <hsi-equipped-1 type="bool">1</hsi-equipped-1> <!-- Does the aircraft have an HSI or OBS for NAV1? -->
+            <hsi-equipped-2 type="bool">0</hsi-equipped-2> <!-- Does the aircraft have an HSI or OBS for NAV2? -->
+            <is-turboprop type="bool">0</is-turboprop> <!-- Does the aircraft have turboprop engines? -->
+            <use-controls-flight type="bool">1</use-controls-flight> <!-- Use generic /controls/flight for flight controls instead of custom properties -->
+            <yd-equipped type="bool">0</yd-equipped> <!-- Does the aircraft have the optional yaw damper installed? -->
+        </settings>
     </it-stec55x>
 
     <limits>
@@ -737,7 +734,7 @@ version 2.0  090410-->
         Landing
             Ground Roll 290 ft
             Over 50 ft obstacle: 470 ft
-        Rate Of Climb: 450 fpm 	 
+        Rate Of Climb: 450 fpm
         Ceiling: 11500 ft
         Lift Force
             max 6.15
@@ -759,8 +756,8 @@ version 2.0  090410-->
             Over 50 ft obstacle: 1150 ft
         Landing
             Ground Roll 385 ft
-         	Over 50 ft obstacle: 800 ft	 
-        Rate Of Climb: 710 fpm 	 
+            Over 50 ft obstacle: 800 ft
+        Rate Of Climb: 710 fpm
         Ceiling: 15750 ft
         Lift Force
             max 6.15
@@ -776,14 +773,14 @@ version 2.0  090410-->
         Cruise Speed: 100 kts
         Fuel Capacity: 36.00 gal
         Stall Speed (dirty): 37 kts
-        Range: 400 nm	 
+        Range: 400 nm
         Takeoff
-            Ground Roll: 200 ft 
-            Over 50 ft obstacle: 500 ft	
+            Ground Roll: 200 ft
+            Over 50 ft obstacle: 500 ft
         Landing
             Ground Roll 350 ft
-         	Over 50 ft obstacle: 885 ft	 
-        Rate Of Climb: 960 fpm 	 
+            Over 50 ft obstacle: 885 ft
+        Rate Of Climb: 960 fpm
         Ceiling: 19000 ft
         Lift Force
             max 6.15
@@ -799,14 +796,14 @@ version 2.0  090410-->
         Cruise Speed: 90 kts
         Fuel Capacity: 36.00 gal
         Stall Speed (dirty): 37 kts
-        Range: 365 nm	 
+        Range: 365 nm
         Takeoff
             Ground Roll: 700 ft
             Over 50 ft obstacle: 990 ft
         Landing
             Ground Roll 430 ft
             Over 50 ft obstacle: 730 ft
-        Rate Of Climb: 830 fpm 	 
+        Rate Of Climb: 830 fpm
         Ceiling: 17500 ft
         Lift Force
             max 6.15
@@ -929,29 +926,19 @@ version 2.0  090410-->
             <file>Nasal/kx165a.nas</file>
             <file>Nasal/engine.nas</file>
             <file>Nasal/avionics.nas</file>
-            <file>Nasal/light-manager.nas</file>
             <file>Nasal/particle-effects-manager.nas</file>
             <file>Nasal/immat.nas</file>
             <file>Nasal/state-manager.nas</file>
             <file>Nasal/save.nas</file>
-            <file>Nasal/fg1000.nas</file>
-            <!--file>Nasal/terrain.nas</file-->
+            <file>Nasal/terrain.nas</file>
+            <file>Nasal/views.nas</file>
         </j3cub>
-        <electrical>
-            <file>Nasal/electrical.nas</file>
-        </electrical>
         <kr87>
             <file>Nasal/kr87.nas</file>
         </kr87>
         <hydrodynamics>
             <file>Nasal/jsbsim-hydrodynamics.nas</file>
         </hydrodynamics>
-        <garmin196>
-            <file>Aircraft/Instruments-3d/garmin196/garmin196.nas</file>
-        </garmin196>
-        <stec55x>
-            <file>Nasal/stec-55x.nas</file>
-        </stec55x>
         <mooring>
             <file>Nasal/mooring.nas</file>
         </mooring>
@@ -1006,6 +993,7 @@ version 2.0  090410-->
 
     <input>
         <keyboard include="J3Cub-keyboard.xml"/>
+        <mice include="J3Cub-mice.xml"/>
     </input>
 
     <gear>
@@ -1034,6 +1022,7 @@ version 2.0  090410-->
     <!-- gear 0, 1, 2 double for the snow skis -->
     <fdm>
         <jsbsim>
+			
             <gear>
                 <unit n="0">
                     <broken type="bool">0</broken>
@@ -1093,6 +1082,9 @@ version 2.0  090410-->
                 <damage-flag type="bool">false</damage-flag>
             </settings>
             <propulsion>
+                <prop>
+                    <blade-angle type="int">0</blade-angle>
+                </prop>
                 <!-- set blade-angle at 15 for 65hp engine -->
                 <engine n="0">
                     <blade-angle type="int">15</blade-angle>
@@ -1112,7 +1104,7 @@ version 2.0  090410-->
             <config>
                 <tumble-flag archive="y" type="bool">true</tumble-flag>
             </config>
-	          <spin>1</spin>
+              <spin>1</spin>
         </attitude-indicator>
         <encoder>
             <serviceable type="bool">true</serviceable>
@@ -1147,7 +1139,6 @@ version 2.0  090410-->
         <magnetic-compass>
             <pitch-offset-deg type="double">-2.7</pitch-offset-deg>
         </magnetic-compass>
-
     </instrumentation>
 
     <systems>

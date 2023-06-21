@@ -4,7 +4,6 @@
 # gauge modeling.
 #
 
-
 ##
 # Initialize internal values
 #
@@ -411,13 +410,14 @@ var electrical_bus_1 = func() {
         setprop("/systems/electrical/outputs/strobe-norm", 0.0);
     }
 
-    # Turn Coordinator and directional gyro Power
-    if ( getprop("/controls/circuit-breakers/turn-coordinator") ) {
-        setprop("/systems/electrical/outputs/turn-coordinator", bus_volts);
-        setprop("/systems/electrical/outputs/DG", bus_volts);
+	# Turn Coordinator and directional gyro Power
+    if (getprop("/controls/circuit-breakers/turn-coordinator") ) {
+		setprop("/systems/electrical/outputs/turn-coordinator", bus_volts);
+        #setprop("/systems/electrical/outputs/turn-indicator", bus_volts);
+		setprop("/systems/electrical/outputs/DG", bus_volts);
         load += bus_volts / 14;
     } else {
-        setprop("/systems/electrical/outputs/turn-coordinator", 0.0);
+        setprop("/systems/electrical/outputs/turn-indicator", 0.0);
         setprop("/systems/electrical/outputs/DG", 0.0);
     }
 
@@ -521,6 +521,13 @@ var avionics_bus_1 = func() {
       setprop("/systems/electrical/outputs/electrim", 0.0);
     }
 
+    # FG1000
+    if ( getprop("/controls/circuit-breakers/avionics") ) {
+      setprop("/systems/electrical/outputs/fg1000", bus_volts);
+    } else {
+      setprop("/systems/electrical/outputs/fg1000", 0.0);
+    }
+
     # return cumulative load
     return load;
 }
@@ -537,6 +544,8 @@ if (!getprop("/systems/electrical/save-battery-charge")) {
 };
 
 system_updater.enable();
+
+reset_battery_and_circuit_breakers();
 
 print("Electrical system initialized");
 
