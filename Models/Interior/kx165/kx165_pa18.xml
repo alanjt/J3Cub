@@ -112,13 +112,13 @@
         <object-name>NAVvol</object-name>
         <condition>
             <not>
-                <property>/sim/rendering/shaders/skydome</property>
+                <property>sim/rendering/shaders/skydome</property>
             </not>
         </condition>
         <emission>
-            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
-            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
-            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
+            <red-prop>sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
+            <green-prop>sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
+            <blue-prop>sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
         </emission>
     </animation-->
 
@@ -162,7 +162,7 @@
         <object-name>NavUseDot</object-name>
         <object-name>KX165Line</object-name>
         <object-name>KX165</object-name>
-        <property-base>/sim/instrumentation/comm[0]</property-base>
+        <property-base>sim/instrumentation/comm[0]</property-base>
         <texture-prop>texture-file</texture-prop>
     </animation>
 
@@ -196,7 +196,7 @@
         <object-name>NavUseDot</object-name>
         <object-name>KX165Line</object-name>
         <condition>
-            <property>/sim/model/pa-18/lighting/comm0-power</property>
+            <property>sim/model/pa-18/lighting/comm0-power</property>
         </condition>
     </animation>
 
@@ -215,7 +215,7 @@
             <red>0.5</red>
             <green>0.1</green>
             <blue>0.00005</blue>
-            <factor-prop>/sim/model/pa-18/lighting/comm0</factor-prop>
+            <factor-prop>sim/model/pa-18/lighting/comm0</factor-prop>
         </emission>
     </animation>
 
@@ -254,7 +254,7 @@
                     <property>sim/rendering/rembrandt/enabled</property>
                 </not>
                 <greater-than>
-                    <property>/sim/model/pa-18/lighting/comm0</property>
+                    <property>sim/model/pa-18/lighting/comm0</property>
                     <value>0.0</value>
                 </greater-than>
             </and>
@@ -263,7 +263,7 @@
             <red>0.91</red>
             <green>0.91</green>
             <blue>0.91</blue>
-            <factor-prop>/sim/model/pa-18/lighting/comm0</factor-prop>
+            <factor-prop>sim/model/pa-18/lighting/comm0</factor-prop>
         </emission>
     </animation>
     

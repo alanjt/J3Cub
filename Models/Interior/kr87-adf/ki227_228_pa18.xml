@@ -30,11 +30,11 @@
         <condition>
             <and>
                 <greater-than>
-                    <property>/sim/model/material/instruments/factor</property>
+                    <property>sim/model/material/instruments/factor</property>
                     <value>0</value>
                 </greater-than>
                 <greater-than>
-                    <property>/sim/rendering/shaders/model</property>
+                    <property>sim/rendering/shaders/model</property>
                     <value>1</value>
                 </greater-than>
             </and>
@@ -166,13 +166,13 @@
         <object-name>HDGSelector</object-name>
         <condition>
             <not>
-                <property>/sim/rendering/shaders/skydome</property>
+                <property>sim/rendering/shaders/skydome</property>
             </not>
         </condition>
         <emission>
-            <red-prop>/sim/model/material/instruments/default-red-combined-factor</red-prop>
-            <green-prop>/sim/model/material/instruments/default-green-combined-factor</green-prop>
-            <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
+            <red-prop>sim/model/material/instruments/default-red-combined-factor</red-prop>
+            <green-prop>sim/model/material/instruments/default-green-combined-factor</green-prop>
+            <blue-prop>sim/model/material/instruments/default-blue-combined-factor</blue-prop>
         </emission>
     </animation>
 
@@ -181,13 +181,13 @@
         <object-name>HDGSelector</object-name>
         <condition>
             <not>
-                <property>/sim/rendering/shaders/skydome</property>
+                <property>sim/rendering/shaders/skydome</property>
             </not>
         </condition>
         <emission>
-            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
-            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
-            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
+            <red-prop>sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
+            <green-prop>sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
+            <blue-prop>sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
         </emission>
     </animation-->
 
