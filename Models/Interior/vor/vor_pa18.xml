@@ -3,13 +3,13 @@
 <PropertyList>
 
     <params>
-        <nav-to-flag>instrumentation/nav[0]/to-flag</nav-to-flag>
-        <nav-from-flag>instrumentation/nav[0]/from-flag</nav-from-flag>
-        <nav-radial-selected>instrumentation/nav[0]/radials/selected-deg</nav-radial-selected>
-        <nav-gs-needle-deflection>instrumentation/nav[0]/filtered-gsNAV0-deflection</nav-gs-needle-deflection>
-        <nav-heading-needle-deflection>instrumentation/nav[0]/filtered-cdiNAV0-deflection</nav-heading-needle-deflection>
-        <nav-in-range>instrumentation/nav[0]/in-range</nav-in-range>
-        <gs-in-range>instrumentation/nav[0]/gs-in-range</gs-in-range>
+        <nav-to-flag>/instrumentation/nav[0]/to-flag</nav-to-flag>
+        <nav-from-flag>/instrumentation/nav[0]/from-flag</nav-from-flag>
+        <nav-radial-selected>/instrumentation/nav[0]/radials/selected-deg</nav-radial-selected>
+        <nav-gs-needle-deflection>/instrumentation/nav[0]/filtered-gsNAV0-deflection</nav-gs-needle-deflection>
+        <nav-heading-needle-deflection>/instrumentation/nav[0]/filtered-cdiNAV0-deflection</nav-heading-needle-deflection>
+        <nav-in-range>/instrumentation/nav[0]/in-range</nav-in-range>
+        <gs-in-range>/instrumentation/nav[0]/gs-in-range</gs-in-range>
     </params>
 
     <path>vor_pa18.ac</path>
@@ -203,9 +203,9 @@
             </not>
         </condition>
         <emission>
-            <red-prop>sim/model/material/instruments/default-red-combined-factor</red-prop>
-            <green-prop>sim/model/material/instruments/default-green-combined-factor</green-prop>
-            <blue-prop>sim/model/material/instruments/default-blue-combined-factor</blue-prop>
+            <red-prop>/sim/model/material/instruments/default-red-combined-factor</red-prop>
+            <green-prop>/sim/model/material/instruments/default-green-combined-factor</green-prop>
+            <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
         </emission>
     </animation>
 
@@ -218,9 +218,9 @@
             </not>
         </condition>
         <emission>
-            <red-prop>sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
-            <green-prop>sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
-            <blue-prop>sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
+            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
+            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
+            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
         </emission>
     </animation-->
 
@@ -232,7 +232,7 @@
             <red>.3</red>
             <green>.3</green>
             <blue>.3</blue>
-            <factor-prop>sim/model/lightmap/panel/factor</factor-prop>
+            <factor-prop>/sim/model/lightmap/panel/factor</factor-prop>
         </emission>
     </animation-->
 

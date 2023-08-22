@@ -116,9 +116,9 @@
             </not>
         </condition>
         <emission>
-            <red-prop>sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
-            <green-prop>sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
-            <blue-prop>sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
+            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
+            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
+            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
         </emission>
     </animation-->
 
@@ -162,7 +162,7 @@
         <object-name>NavUseDot</object-name>
         <object-name>KX165Line</object-name>
         <object-name>KX165</object-name>
-        <property-base>sim/instrumentation/comm[0]</property-base>
+        <property-base>/sim/instrumentation/comm[0]</property-base>
         <texture-prop>texture-file</texture-prop>
     </animation>
 
@@ -215,7 +215,7 @@
             <red>0.5</red>
             <green>0.1</green>
             <blue>0.00005</blue>
-            <factor-prop>sim/model/pa-18/lighting/comm0</factor-prop>
+            <factor-prop>/sim/model/pa-18/lighting/comm0</factor-prop>
         </emission>
     </animation>
 
@@ -263,7 +263,7 @@
             <red>0.91</red>
             <green>0.91</green>
             <blue>0.91</blue>
-            <factor-prop>sim/model/pa-18/lighting/comm0</factor-prop>
+            <factor-prop>/sim/model/pa-18/lighting/comm0</factor-prop>
         </emission>
     </animation>
     

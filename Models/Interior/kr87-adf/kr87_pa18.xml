@@ -3,7 +3,7 @@
 <PropertyList>
 
     <params>
-        <right-display>instrumentation/adf[0]/right-display</right-display>
+        <right-display>/instrumentation/adf[0]/right-display</right-display>
         <dimming>instrumentation/adf[0]/dimming-norm</dimming>
         <dial-1-khz>instrumentation/adf[0]/frequencies/dial-1-khz</dial-1-khz>
         <dial-100-khz>instrumentation/adf[0]/frequencies/dial-100-khz</dial-100-khz>
@@ -60,9 +60,9 @@
             </not>
         </condition>
         <emission>
-            <red-prop>sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
-            <green-prop>sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
-            <blue-prop>sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
+            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
+            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
+            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
         </emission>
     </animation-->
 
@@ -92,7 +92,7 @@
             <red>1.0</red>
             <green>1.0</green>
             <blue>1.0</blue>
-            <factor-prop>sim/model/pa-18/lighting/adf</factor-prop>
+            <factor-prop>/sim/model/pa-18/lighting/adf</factor-prop>
         </emission>
     </animation>
 
@@ -115,7 +115,7 @@
             <red>0.5</red>
             <green>0.1</green>
             <blue>0.00005</blue>
-            <factor-prop>sim/model/pa-18/lighting/adf</factor-prop>
+            <factor-prop>/sim/model/pa-18/lighting/adf</factor-prop>
         </emission>
     </animation>
 

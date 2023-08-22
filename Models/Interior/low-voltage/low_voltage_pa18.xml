@@ -30,7 +30,7 @@
             <red>  0.7</red>
             <green>0.5</green>
             <blue> 0.5</blue>
-            <factor-prop>instrumentation/low-voltage-led</factor-prop>
+            <factor-prop>/instrumentation/low-voltage-led</factor-prop>
         </emission>
     </animation>
     <model>

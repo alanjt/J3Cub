@@ -10,6 +10,8 @@ Author: A J Teeder April 2019
 
 <aerodynamics>
 
+	<property value="0.0">ice/wing</property>
+
 	<alphalimits unit="DEG">
 		<min>  -4.0</min>
 		<max>   14.0    </max>
@@ -49,6 +51,23 @@ Author: A J Teeder April 2019
 
 
 	<axis name="LIFT">
+
+		<!--taken from SenecaII by Torsten Dreyer-->
+		<function name="aero/coefficient/CLicew">
+			<description>Lift_decrease_due_to_ice_on_wing</description>
+			<product>
+				<property>aero/qbar-area</property>
+				<table>
+					<independentVar>ice/wing</independentVar>
+					<tableData>
+						0.0      0
+						0.5      -0.6
+						1.0      -1.2
+						2.0      -2.4
+					</tableData>
+				</table>
+			</product>
+		</function>
 
 		<function name="aero/force/Lift_alpha">
 			<description>
@@ -194,6 +213,22 @@ Author: A J Teeder April 2019
 
 	<axis name="DRAG">
 
+		<!--taken from SenecaII by Torsten Dreyer-->
+		<function name="aero/coefficient/CDicew">
+			<description>Drag_due_to_ice_on_wing</description>
+			<product>
+				<property>aero/qbar-area</property>
+				<table>
+					<independentVar>ice/wing</independentVar>
+					<tableData>
+						0.0      0
+						0.5      0.12
+						1.0      0.24
+						2.0      0.6
+					</tableData>
+				</table>
+			</product>
+		</function>
 
 		<function name="aero/force/Drag_Alpha">
 			<description>

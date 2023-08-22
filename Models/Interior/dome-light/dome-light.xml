@@ -61,7 +61,7 @@
             <red>  1</red>
             <green>1</green>
             <blue> 1</blue>
-            <factor-prop>sim/model/pa-18/lightmap/dome/factor</factor-prop>
+            <factor-prop>/sim/model/pa-18/lightmap/dome/factor</factor-prop>
         </emission>
     </animation>
 

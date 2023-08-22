@@ -110,7 +110,7 @@
             <red>1</red>
             <green>0.26</green>
             <blue>0.05</blue>
-            <factor-prop>controls/lighting/factor-led</factor-prop>
+            <factor-prop>/controls/lighting/factor-led</factor-prop>
         </emission>
     </animation>
     <!--model>

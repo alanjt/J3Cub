@@ -193,6 +193,51 @@ version 2.0  090410-->
             </pa-18>
 
             <autopilot type="bool">false</autopilot>
+
+            <icing>
+                <iceable>
+                    <name>Wing</name>
+                    <sensitivity type="double">1.0</sensitivity>
+                    <output-property>/fdm/jsbsim/ice/wing</output-property>
+                </iceable>
+                <iceable>
+                    <name>Stabilizer</name>
+                    <sensitivity type="double">1.0</sensitivity>
+                    <output-property>/fdm/jsbsim/ice/stabilizer</output-property>
+                </iceable>
+                <iceable>
+                    <name>Elevator</name>
+                    <sensitivity type="double">1.0</sensitivity>
+                    <output-property>/fdm/jsbsim/ice/elevator</output-property>
+                </iceable>
+                <iceable>
+                    <name>Propeller</name>
+                    <sensitivity type="double">0.5</sensitivity>
+                    <output-property>/fdm/jsbsim/ice/propeller</output-property>
+                </iceable>
+                <iceable>
+                    <name>Windshield</name>
+                    <sensitivity type="double">0.5</sensitivity>
+                    <output-property>/fdm/jsbsim/ice/windshield</output-property>
+                    <!-- output-property used for weight -->
+                </iceable>
+                <iceable>
+                    <name>Fuselage</name>
+                    <sensitivity type="double">0.3</sensitivity>
+                    <output-property>/fdm/jsbsim/ice/fuselage</output-property>
+                </iceable>
+                <iceable>
+                    <name>Pitot tube</name>
+                    <sensitivity type="double">1</sensitivity>
+                    <salvage-control>/systems/pitot/salvage</salvage-control>
+                    <output-property>/systems/pitot/icing</output-property>
+                </iceable>
+                <iceable>
+                    <name>Static</name>
+                    <sensitivity type="double">0.3</sensitivity>
+                    <output-property>/systems/static[0]/icing</output-property>
+                </iceable>
+            </icing>
         </model>
 
         <submodels>
@@ -497,6 +542,7 @@ version 2.0  090410-->
             <master-alt type="bool">true</master-alt>
             <dome-light type="bool">false</dome-light>
             <panel-lights type="bool">false</panel-lights>
+            <pitot-heat type="bool">false</pitot-heat>
         </switches>
         <flight>
             <aileron-trim>0.0025</aileron-trim>   <!-- fixed -->
@@ -582,6 +628,7 @@ version 2.0  090410-->
             <carb_ice type="double">0.0</carb_ice>
             <carb_icing_rate type="double">0.0</carb_icing_rate>
             <carb_icing_allowed type="bool">false</carb_icing_allowed>
+            <winter-kit-installed type="int">0</winter-kit-installed>
         </active-engine>
 
         <current-engine>
@@ -682,9 +729,9 @@ version 2.0  090410-->
     </rotors>
 
     <it-stec55x>
-      <input>
-        <ap-master-switch type="bool">0</ap-master-switch>
-      </input>
+        <input>
+            <ap-master-switch type="bool">0</ap-master-switch>
+        </input>
         <settings>
             <fd-equipped type="bool">0</fd-equipped> <!-- Does the aircraft have a flight director installed? -->
             <gain-pitch type="double">1.0</gain-pitch> <!-- Modify the pitch axis gain -->
@@ -695,6 +742,7 @@ version 2.0  090410-->
             <is-turboprop type="bool">0</is-turboprop> <!-- Does the aircraft have turboprop engines? -->
             <use-controls-flight type="bool">1</use-controls-flight> <!-- Use generic /controls/flight for flight controls instead of custom properties -->
             <yd-equipped type="bool">0</yd-equipped> <!-- Does the aircraft have the optional yaw damper installed? -->
+            <static-port-path type="string">/systems/static[2]/pressure-inhg-venturi</static-port-path> <!-- Path to the dedicated static port to use -->
         </settings>
     </it-stec55x>
 
@@ -934,6 +982,11 @@ version 2.0  090410-->
             <file>Nasal/terrain.nas</file>
             <file>Nasal/views.nas</file>
         </j3cub>
+        <icing>
+             <file>Nasal/icing.nas</file>
+             <file>Nasal/pitot-icing.nas</file>
+             <file>Nasal/static-icing.nas</file>
+        </icing>
         <kr87>
             <file>Nasal/kr87.nas</file>
         </kr87>
@@ -1084,7 +1137,7 @@ version 2.0  090410-->
             </settings>
             <propulsion>
                 <prop>
-                    <blade-angle type="int">0</blade-angle>
+                    <blade-angle type="int">20</blade-angle>
                 </prop>
                 <!-- set blade-angle at 15 for 65hp engine -->
                 <engine n="0">
@@ -1157,6 +1210,7 @@ version 2.0  090410-->
                 <hydraulic-pump type="float">0.0</hydraulic-pump>
                 <gear-select type="float">0.0</gear-select>
                 <gear-advisory type="float">0.0</gear-advisory>
+                <pitot-heat type="float">0.0</pitot-heat>
             </outputs>
             <save-battery-charge type="bool">false</save-battery-charge>
         </electrical>
