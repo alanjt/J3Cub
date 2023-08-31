@@ -46,8 +46,7 @@ version 2.0  090410-->
     </sim>
     <nasal>
         <electrical>
-            <!--file>Nasal/j3-electrical-fg1000.nas</file-->
-			<file>Nasal/electrical-fg1000.nas</file>
+            <file>Nasal/electrical-fg1000.nas</file>
         </electrical>
     </nasal>
     <instrumentation>
@@ -74,19 +73,6 @@ version 2.0  090410-->
             <play-btn type="bool">false</play-btn>
             <coplt-btn type="bool">false</coplt-btn>
         </audio-panel>
-        <comm>
-            <power-btn type="double">0</power-btn>
-            <volume type="double">0</volume>
-        </comm>
-        <marker-beacon>
-            <audio-btn type="double">0</audio-btn>
-        </marker-beacon>
-        <dme>
-            <ident type="double">0</ident>
-        </dme>
-        <adf>
-            <ident-audible type="double">0</ident-audible>
-        </adf>
     </instrumentation>
     <controls>
         <engines>
@@ -94,13 +80,21 @@ version 2.0  090410-->
         </engines>
     </controls>
     <fdm>
-	      <jsbsim>
-	          <bushkit type="int">0</bushkit>
-	      </jsbsim>
+          <jsbsim>
+              <bushkit type="int">0</bushkit>
+          </jsbsim>
     </fdm>
-	<input>
+    <input>
         <keyboard>
             <multikey include="Aircraft/Instruments-3d/FG1000/fg1000-multikey.xml"/>
         </keyboard>
     </input>
+    <systems>
+        <electrical>
+            <outputs>
+                <fg1000-mfd type="int">0</fg1000-mfd>
+                <fg1000-pfd type="int">0</fg1000-pfd>
+            </outputs>
+        </electrical>
+    </systems>
 </PropertyList>

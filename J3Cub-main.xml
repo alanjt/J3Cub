@@ -11,7 +11,8 @@ version 2.0  090410-->
     <sim>
         <author>Original: David Megginson (3D, FDM), Jim Wilson (Instruments), Don Lavelle (3D remodel, instrument mods, pilot mods, effects, livery). Current: Erik Hofman (JSBSim FDM), Anders Gidenstam (hydrodynamics), Gilberto Agostinho (livery), Wayne Bragg (3D, systems, utility and variants, effects), special thanks to the c172p team.</author>
         <status>advanced production</status>
-        <aircraft-version>4.0</aircraft-version>
+        <aircraft-version>4.1</aircraft-version>
+        <minimum-fg-version>2020.3.0</minimum-fg-version>
         <rating>
             <FDM type="int">4</FDM>
             <systems type="int">4</systems>
@@ -189,9 +190,56 @@ version 2.0  090410-->
                     </dome>
                 </lightmap>
                 <variable-prop type="bool">false</variable-prop>
+                <glass-side type="bool">false</glass-side>
+                <slats type="bool">false</slats>
             </pa-18>
 
             <autopilot type="bool">false</autopilot>
+
+            <icing>
+                <iceable>
+                    <name>Wing</name>
+                    <sensitivity type="double">1.0</sensitivity>
+                    <output-property>/fdm/jsbsim/ice/wing</output-property>
+                </iceable>
+                <iceable>
+                    <name>Stabilizer</name>
+                    <sensitivity type="double">1.0</sensitivity>
+                    <output-property>/fdm/jsbsim/ice/stabilizer</output-property>
+                </iceable>
+                <iceable>
+                    <name>Elevator</name>
+                    <sensitivity type="double">1.0</sensitivity>
+                    <output-property>/fdm/jsbsim/ice/elevator</output-property>
+                </iceable>
+                <iceable>
+                    <name>Propeller</name>
+                    <sensitivity type="double">0.5</sensitivity>
+                    <output-property>/fdm/jsbsim/ice/propeller</output-property>
+                </iceable>
+                <iceable>
+                    <name>Windshield</name>
+                    <sensitivity type="double">0.5</sensitivity>
+                    <output-property>/fdm/jsbsim/ice/windshield</output-property>
+                    <!-- output-property used for weight -->
+                </iceable>
+                <iceable>
+                    <name>Fuselage</name>
+                    <sensitivity type="double">0.3</sensitivity>
+                    <output-property>/fdm/jsbsim/ice/fuselage</output-property>
+                </iceable>
+                <iceable>
+                    <name>Pitot tube</name>
+                    <sensitivity type="double">1</sensitivity>
+                    <salvage-control>/systems/pitot/salvage</salvage-control>
+                    <output-property>/systems/pitot/icing</output-property>
+                </iceable>
+                <iceable>
+                    <name>Static</name>
+                    <sensitivity type="double">0.3</sensitivity>
+                    <output-property>/systems/static[0]/icing</output-property>
+                </iceable>
+            </icing>
         </model>
 
         <submodels>
@@ -237,7 +285,9 @@ version 2.0  090410-->
             <path>/sim/current-view/user/z-offset-m</path>
             <path>/sim/current-view/user/pitch-offset-deg</path>
             <path>/sim/current-view/user/default-field-of-view-deg</path>
-
+            <path>/sim/aircraft-version</path>
+            <path>/sim/model/pa-18/glass-side</path>
+            <path>/sim/model/pa-18/slats</path>
         </aircraft-data>
 
         <current-view>
@@ -496,6 +546,7 @@ version 2.0  090410-->
             <master-alt type="bool">true</master-alt>
             <dome-light type="bool">false</dome-light>
             <panel-lights type="bool">false</panel-lights>
+            <pitot-heat type="bool">false</pitot-heat>
         </switches>
         <flight>
             <aileron-trim>0.0025</aileron-trim>   <!-- fixed -->
@@ -507,6 +558,7 @@ version 2.0  090410-->
             <slats alias="/gear/gear[29]/rollspeed-ms"/>
             <spoilers alias="/gear/gear[29]/sprayspeed-ms"/>
             <gear-down alias="/gear/gear[29]/spray-density"/>
+            <deploy-slats type="bool">false</deploy-slats>
         </flight>
         <thermometer>
             <temp-mode type="int">0</temp-mode>
@@ -581,6 +633,7 @@ version 2.0  090410-->
             <carb_ice type="double">0.0</carb_ice>
             <carb_icing_rate type="double">0.0</carb_icing_rate>
             <carb_icing_allowed type="bool">false</carb_icing_allowed>
+            <winter-kit-installed type="int">0</winter-kit-installed>
         </active-engine>
 
         <current-engine>
@@ -681,9 +734,9 @@ version 2.0  090410-->
     </rotors>
 
     <it-stec55x>
-      <input>
-        <ap-master-switch type="bool">0</ap-master-switch>
-      </input>
+        <input>
+            <ap-master-switch type="bool">0</ap-master-switch>
+        </input>
         <settings>
             <fd-equipped type="bool">0</fd-equipped> <!-- Does the aircraft have a flight director installed? -->
             <gain-pitch type="double">1.0</gain-pitch> <!-- Modify the pitch axis gain -->
@@ -694,6 +747,7 @@ version 2.0  090410-->
             <is-turboprop type="bool">0</is-turboprop> <!-- Does the aircraft have turboprop engines? -->
             <use-controls-flight type="bool">1</use-controls-flight> <!-- Use generic /controls/flight for flight controls instead of custom properties -->
             <yd-equipped type="bool">0</yd-equipped> <!-- Does the aircraft have the optional yaw damper installed? -->
+            <static-port-path type="string">/systems/static[2]/pressure-inhg-venturi</static-port-path> <!-- Path to the dedicated static port to use -->
         </settings>
     </it-stec55x>
 
@@ -933,6 +987,11 @@ version 2.0  090410-->
             <file>Nasal/terrain.nas</file>
             <file>Nasal/views.nas</file>
         </j3cub>
+        <icing>
+             <file>Nasal/icing.nas</file>
+             <file>Nasal/pitot-icing.nas</file>
+             <file>Nasal/static-icing.nas</file>
+        </icing>
         <kr87>
             <file>Nasal/kr87.nas</file>
         </kr87>
@@ -950,14 +1009,14 @@ version 2.0  090410-->
             <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[0]"/>
             <arm-in alias="/fdm/jsbsim/inertia/pointmass-location-X-inches[0]"/>
             <min-lb type="double">0.0</min-lb>
-            <max-lb type="double">210.0</max-lb>
+            <max-lb type="double">300.0</max-lb>
         </weight>  
         <weight>
             <name type="string">Front seat</name>
             <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[1]"/>
             <arm-in alias="/fdm/jsbsim/inertia/pointmass-location-X-inches[1]"/>
             <min-lb type="double">0.0</min-lb>
-            <max-lb type="double">210.0</max-lb>
+            <max-lb type="double">300.0</max-lb>
         </weight>
         <weight>
             <name type="string">Rear Baggage</name>
@@ -1022,7 +1081,7 @@ version 2.0  090410-->
     <!-- gear 0, 1, 2 double for the snow skis -->
     <fdm>
         <jsbsim>
-			
+            
             <gear>
                 <unit n="0">
                     <broken type="bool">0</broken>
@@ -1083,7 +1142,7 @@ version 2.0  090410-->
             </settings>
             <propulsion>
                 <prop>
-                    <blade-angle type="int">0</blade-angle>
+                    <blade-angle type="int">20</blade-angle>
                 </prop>
                 <!-- set blade-angle at 15 for 65hp engine -->
                 <engine n="0">
@@ -1104,7 +1163,7 @@ version 2.0  090410-->
             <config>
                 <tumble-flag archive="y" type="bool">true</tumble-flag>
             </config>
-              <spin>1</spin>
+            <spin>1</spin>
         </attitude-indicator>
         <encoder>
             <serviceable type="bool">true</serviceable>
@@ -1127,6 +1186,7 @@ version 2.0  090410-->
             </frequencies>
             <volume-selected type="double">0.7</volume-selected>
             <channel-mode-selector type="bool">1</channel-mode-selector>
+            <volume type="double">0</volume>
         </comm>
         <nav n="0">
             <volume type="double">0.7</volume>
@@ -1135,7 +1195,15 @@ version 2.0  090410-->
                 <dial-mhz type="int">0</dial-mhz>
             </frequencies>
             <ident-audible type="bool">false</ident-audible>
+            <!-- fg1000 in fgdata uses this for the GMA1347 panel -->
+            <ident type="bool">false</ident>
         </nav>
+        <marker-beacon>
+            <audio-btn type="double">0</audio-btn>
+        </marker-beacon>
+        <dme>
+            <ident type="double">0</ident>
+        </dme>
         <magnetic-compass>
             <pitch-offset-deg type="double">-2.7</pitch-offset-deg>
         </magnetic-compass>
@@ -1147,6 +1215,7 @@ version 2.0  090410-->
                 <hydraulic-pump type="float">0.0</hydraulic-pump>
                 <gear-select type="float">0.0</gear-select>
                 <gear-advisory type="float">0.0</gear-advisory>
+                <pitot-heat type="float">0.0</pitot-heat>
             </outputs>
             <save-battery-charge type="bool">false</save-battery-charge>
         </electrical>

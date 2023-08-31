@@ -125,17 +125,86 @@
 
     <animation>
         <type>select</type>
+        <object-name>window_l_1_interior</object-name>
+        <object-name>window_l_1</object-name>
+        <condition>
+            <or>
+                <not>
+                    <property>sim/model/pa-18/glass-side</property>
+                </not>
+                <property>sim/model/preload</property>
+            </or>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
         <object-name>door</object-name>
         <object-name>door_interior</object-name>
         <object-name>door_handle</object-name>
+        <object-name>window_handle</object-name>
+        <object-name>window_r_1_interior</object-name>
         <object-name>window_r_1</object-name>
+        <condition>
+            <or>
+                <and>
+                    <not>
+                        <property>sim/model/pa-18/glass-side</property>
+                    </not>
+                    <not>
+                        <property>sim/model/doors-off</property>
+                    </not>
+                </and>
+                <property>sim/model/preload</property>
+            </or>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
         <object-name>window_r_0</object-name>
         <object-name>window_r_0_interior</object-name>
-        <object-name>window_handle</object-name>
         <condition>
-            <not>
-                <property>sim/model/doors-off</property>
-            </not>
+            <or>
+                <not>
+                    <property>sim/model/doors-off</property>
+                </not>
+                <property>sim/model/preload</property>
+            </or>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>door_glass</object-name>
+        <object-name>door_interior_glass</object-name>
+        <object-name>window_r_1_interior_glass</object-name>
+        <object-name>window_r_1_glass</object-name>
+        <object-name>door_frame_glass</object-name>
+        <object-name>windlocket_glass</object-name>
+        <object-name>door_glass_latch</object-name>
+        <object-name>door_glass_latch_bar</object-name>
+        <condition>
+            <or>
+                <and>
+                    <not>
+                        <property>sim/model/doors-off</property>
+                    </not>
+                    <property>sim/model/pa-18/glass-side</property>
+                </and>
+                <property>sim/model/preload</property>
+            </or>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>window_l_1_glass</object-name>
+        <condition>
+            <or>
+                <property>sim/model/pa-18/glass-side</property>
+                <property>sim/model/preload</property>
+            </or>
         </condition>
     </animation>
 
@@ -457,6 +526,7 @@
         <object-name>tailplane</object-name>
         <object-name>cowl_top</object-name>
         <object-name>cowl_under</object-name>
+        <object-name>cowlgrill</object-name>
         <object-name>door</object-name>
         <object-name>nose</object-name>
         <object-name>nose_strut_r</object-name>
@@ -505,6 +575,14 @@
         <object-name>spar</object-name>
         <object-name>aerotowhitch</object-name>
         <object-name>aerotowhitchrelease</object-name>
+        <object-name>window_r_1_interior_glass</object-name>
+        <object-name>window_r_1_glass</object-name>
+        <object-name>window_l_1_interior_glass</object-name>
+        <object-name>window_l_1_glass</object-name>
+        <object-name>door_frame_glass</object-name>
+        <object-name>windlocket_glass</object-name>
+        <object-name>door_glass_latch</object-name>
+        <object-name>door_glass_latch_bar</object-name>
     </effect>
 
     <effect>
@@ -513,7 +591,7 @@
         <object-name>propeller_fast</object-name>
     </effect>
 
-      <effect>
+    <effect>
         <inherits-from>Aircraft/J3Cub/Models/Effects/exterior/exterior-glass-reflection</inherits-from>
         <object-name>screen</object-name>
         <object-name>window_top</object-name>
@@ -521,6 +599,7 @@
         <object-name>window_rear_r_0</object-name>
         <object-name>window_l_0</object-name>
         <object-name>window_r_0</object-name>
+        <object-name>door_glass</object-name>
     </effect>
 
     <!-- interior effects -->
@@ -622,6 +701,7 @@
         <object-name>window_rear_r_0_interior</object-name>
         <object-name>window_l_0_interior</object-name>
         <object-name>window_r_0_interior</object-name>
+        <object-name>door_interior_glass</object-name>
     </effect>
 
     <animation>
@@ -759,7 +839,7 @@
                         <property>sim/model/j3cub/fg1000</property>
                     </or>
                 </not>
-                <property>/sim/model/j3cub/airtemp</property>
+                <property>sim/model/j3cub/airtemp</property>
             </and>
         </condition>
         <offsets>
@@ -992,6 +1072,10 @@
         </condition>
     </animation>  
 
+    <model>
+        <path>Models/Interior/hobbs/hobbs.xml</path>
+    </model>
+
     <!--  fuel gauge: the stick in front of windscreen  --> 
     <animation>
         <type>translate</type>
@@ -1008,6 +1092,21 @@
          <y>0.0</y>
          <z>1.0</z>
        </axis>
+    </animation>
+
+    <!-- Cowl Grill -->
+    <animation>
+        <type>select</type>
+        <object-name>cowlgrill</object-name>
+        <condition>
+            <and>
+                <property>engines/active-engine/winter-kit-installed</property>
+                <equals>
+                    <property>sim/model/j3cub/pa-18</property>
+                    <value>0</value>
+                </equals>
+            </and>
+        </condition>
     </animation>
 
     <!-- Primer -->
@@ -1437,10 +1536,10 @@
         <condition>
             <or>
                 <not>
-                    <property>/fdm/jsbsim/gear/unit[0]/WOW</property>
+                    <property>fdm/jsbsim/gear/unit[0]/WOW</property>
                 </not>
                 <greater-than>
-                    <property>/fdm/jsbsim/gear/unit[0]/wheel-speed-fps</property>
+                    <property>fdm/jsbsim/gear/unit[0]/wheel-speed-fps</property>
                     <value>0.5</value>
                 </greater-than>
             </or>
@@ -1465,10 +1564,10 @@
         <condition>
             <or>
                 <not>
-                    <property>/fdm/jsbsim/gear/unit[28]/WOW</property>
+                    <property>fdm/jsbsim/gear/unit[28]/WOW</property>
                 </not>
                 <greater-than>
-                    <property>/fdm/jsbsim/gear/unit[28]/wheel-speed-fps</property>
+                    <property>fdm/jsbsim/gear/unit[28]/wheel-speed-fps</property>
                     <value>.5</value>
                 </greater-than>
             </or>
@@ -3610,6 +3709,8 @@
     </animation>
 
     <!-- Amphibious Front Gear -->
+
+    <!-- Amphibious Front Left Gear Animation -->
     <animation>
         <name>LeftFrontGear</name>
         <object-name>Lstrut.001</object-name>
@@ -3617,15 +3718,7 @@
         <object-name>LAxle</object-name>
         <object-name>LFrontWheel</object-name>
     </animation>
-    <animation>
-        <name>RightFrontGear</name>
-        <object-name>Rstrut.001</object-name>
-        <object-name>Rdamper</object-name>
-        <object-name>RAxle</object-name>
-        <object-name>RFrontWheel</object-name>
-    </animation>
 
-    <!-- Amphibious Front Left Gear Animation -->
     <animation>
         <type>rotate</type>
         <object-name>Ldamper</object-name>
@@ -3645,57 +3738,61 @@
         </axis>
     </animation>
     <animation>
+        <type>rotate</type>
+        <object-name>Lstrut.002</object-name>
+        <object-name>LeftFrontGear</object-name>
+        <property alias="/params/gear-amphibious/front-left-position-norm"/>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>65.0</dep>
+            </entry>
+            <entry>
+                <ind>1.0</ind>
+                <dep>0</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>-1.59795</x-m>
+            <y-m> 1.04412</y-m>
+            <z-m>-1.98022</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+    </animation>
+    <animation>
         <type>translate</type>
         <object-name>LeftFrontGear</object-name>
         <property alias="/params/gear-amphibious/front-left-position-norm"/>
         <interpolation>
             <entry>
                 <ind>0.0</ind>
-                <dep>0.200</dep>
+                <dep>0.2</dep>
             </entry>
             <entry>
                 <ind>1.0</ind>
                 <dep>0.0</dep>
             </entry>
         </interpolation>
-        <center>
-            <x-m>-1.6019</x-m>
-            <y-m>-1.0092</y-m>
-            <z-m>-2.2574</z-m>
-        </center>
         <axis>
-            <x>0.342</x>
+            <x>0.34</x>
             <y>0</y>
-            <z>0.940</z>
-        </axis>
-    </animation>
-    <animation>
-        <type>translate</type>
-        <object-name>Lstrut.002</object-name>
-        <property alias="/params/gear-amphibious/front-left-position-norm"/>
-        <interpolation>
-            <entry>
-                <ind>0.0</ind>
-                <dep>0.115</dep>
-            </entry>
-            <entry>
-                <ind>1.0</ind>
-                <dep>0.0</dep>
-            </entry>
-        </interpolation>
-        <center>
-            <x-m>-1.5364</x-m>
-            <y-m>-1.0092</y-m>
-            <z-m>-2.0215</z-m>
-        </center>
-        <axis>
-            <x>0.342</x>
-            <y>0</y>
-            <z>0.940</z>
+            <z>1.0</z>
         </axis>
     </animation>
 
     <!-- Amphibious Front Right Gear Animation -->
+    <animation>
+        <name>RightFrontGear</name>
+        <object-name>Rstrut.001</object-name>
+        <object-name>Rdamper</object-name>
+        <object-name>RAxle</object-name>
+        <object-name>RFrontWheel</object-name>
+    </animation>
+
     <animation>
         <type>rotate</type>
         <object-name>Rdamper</object-name>
@@ -3715,53 +3812,49 @@
         </axis>
     </animation>
     <animation>
+        <type>rotate</type>
+        <object-name>Rstrut.002</object-name>
+        <object-name>RightFrontGear</object-name>
+        <property alias="/params/gear-amphibious/front-right-position-norm"/>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>65.0</dep>
+            </entry>
+            <entry>
+                <ind>1.0</ind>
+                <dep>0</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>-1.59795</x-m>
+            <y-m> 1.04412</y-m>
+            <z-m>-1.98022</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+    </animation>
+    <animation>
         <type>translate</type>
         <object-name>RightFrontGear</object-name>
         <property alias="/params/gear-amphibious/front-right-position-norm"/>
         <interpolation>
             <entry>
                 <ind>0.0</ind>
-                <dep>0.200</dep>
+                <dep>0.2</dep>
             </entry>
             <entry>
                 <ind>1.0</ind>
                 <dep>0.0</dep>
             </entry>
         </interpolation>
-        <center>
-            <x-m>-1.6042</x-m>
-            <y-m> 1.0429</y-m>
-            <z-m>-2.2515</z-m>
-        </center>
         <axis>
-            <x>0.342</x>
+            <x>0.34</x>
             <y>0</y>
-            <z>0.940</z>
-        </axis>
-    </animation>
-    <animation>
-        <type>translate</type>
-        <object-name>Rstrut.002</object-name>
-        <property alias="/params/gear-amphibious/front-right-position-norm"/>
-        <interpolation>
-            <entry>
-                <ind>0.0</ind>
-                <dep>0.115</dep>
-            </entry>
-            <entry>
-                <ind>1.0</ind>
-                <dep>0.0</dep>
-            </entry>
-        </interpolation>
-        <center>
-            <x-m>-1.5387</x-m>
-            <y-m> 1.0429</y-m>
-            <z-m>-2.0156</z-m>
-        </center>
-        <axis>
-            <x>0.342</x>
-            <y>0</y>
-            <z>0.940</z>
+            <z>1.0</z>
         </axis>
     </animation>
 
@@ -3823,7 +3916,7 @@
                         </entry>
                         <entry>
                             <ind>0</ind>
-                            <dep>30</dep>
+                            <dep>50</dep>
                         </entry>
                     </table>
                 </product>
@@ -3863,7 +3956,7 @@
                         </entry>
                         <entry>
                             <ind>0</ind>
-                            <dep>30</dep>
+                            <dep>50</dep>
                         </entry>
                     </table>
                 </product>
@@ -5469,6 +5562,7 @@
       <type>pick</type>
       <object-name>door_handle</object-name>
       <object-name>door_interior</object-name>
+      <object-name>door_glass_latch</object-name>
       <action>
         <button>0</button>
         <repeatable>false</repeatable>
@@ -5488,6 +5582,11 @@
   <type>rotate</type>
   <object-name>door</object-name>
   <object-name>door_interior</object-name>
+  <object-name>door_frame_glass</object-name>
+  <object-name>door_glass</object-name>
+  <object-name>door_interior_glass</object-name>
+  <object-name>door_glass_latch</object-name>
+  <object-name>door_glass_latch_bar</object-name>
   <property alias="../../params/door/property"/>
   <interpolation>
     <entry>
@@ -5581,6 +5680,7 @@
       <object-name>window_handle</object-name>
       <object-name>window_r_1</object-name>
       <object-name>window_r_1_interior</object-name>
+      <object-name>windlocket_glass</object-name>
       <action>
         <button>0</button>
         <repeatable>false</repeatable>
@@ -5597,6 +5697,7 @@
         <type>rotate</type>
         <object-name>window_r.group</object-name>
         <object-name>window_handle</object-name>
+        <object-name>windlocket_glass</object-name>
         <property alias="../../params/window/property"/>
         <factor>89</factor>
         <center>
@@ -5607,6 +5708,93 @@
         <axis>
             <x>1.00</x>
             <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>windlocket_glass</object-name>
+        <property alias="../../params/window/property"/>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.5</ind>
+                <dep>90</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>90.0</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m> 0.501142</x-m>
+            <y-m> 0.350015</y-m>
+            <z-m>-0.471354</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>1.00</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+
+    <animation>
+        <type>translate</type>
+        <object-name>door_glass_latch_bar</object-name>
+        <property alias="../../params/door/property"/>
+        <!--factor>-0.012074</factor-->
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.5</ind>
+                <dep>-0.012074</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>-0.012074</dep>
+            </entry>
+        </interpolation>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>door_glass_latch</object-name>
+        <property alias="../../params/door/property"/>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.5</ind>
+                <dep>35</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>35.0</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m> 0.373383</x-m>
+            <y-m> 0.340217</y-m>
+            <z-m>-0.493333</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>1.00</y>
             <z>0</z>
         </axis>
     </animation>
@@ -5646,9 +5834,9 @@
         <property>controls/flight/elevator-trim</property>
         <factor>500</factor>
         <center>
-            <x-m>0.414</x-m>
-            <y-m>0.0</y-m>
-            <z-m>-0.804</z-m>
+            <x-m> 0.418031</x-m>
+            <y-m>-0.343704</y-m>
+            <z-m>-0.898378</z-m>
         </center>
         <axis>
             <y>1</y>
@@ -6107,6 +6295,58 @@
         </axis>
     </animation>
 
+    <!-- tail rudder linkage -->
+    <!--animation>
+        <type>locked-track</type>
+        <object-name>rudder_cable_l</object-name>
+        <center>
+            <x-m> 4.41712 </x-m>
+            <y-m>-0.083178</y-m>
+            <z-m>-0.508356</z-m>
+        </center>
+        <lock-axis>
+            <x>0</x>
+            <y>0</y>
+            <z>1</z>
+        </lock-axis>
+        <track-axis>
+            <x>0</x>
+            <y>0</y>
+            <z>1</z>
+        </track-axis>
+        <target-name>rudder</target-name>
+        <target-center>
+            <x-m> 4.9062</x-m>
+            <y-m>-0.068315</y-m>
+            <z-m>-0.410136</z-m>
+        </target-center>
+    </animation>
+    <animation>
+        <type>locked-track</type>
+        <object-name>rudder_cable_l</object-name>
+        <center>
+            <x-m> 4.41712 </x-m>
+            <y-m>-0.083178</y-m>
+            <z-m>-0.508356</z-m>
+        </center>
+        <lock-axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </lock-axis>
+        <track-axis>
+            <x>0</x>
+            <y>0</y>
+            <z>1</z>
+        </track-axis>
+        <target-name>rudde</target-name>
+        <target-center>
+            <x-m> 4.9062</x-m>
+            <y-m>-0.068315</y-m>
+            <z-m>-0.410136</z-m>
+        </target-center>
+    </animation-->
+
 <!-- External Effects -->
     <!-- Wing Scrape -->
     <model>
@@ -6120,9 +6360,9 @@
     <model>
         <path>Effects/damage/wing-right.xml</path>
         <offsets>
-            <x-m> .59 </x-m>
+            <x-m>  0.0 </x-m>
             <y-m> 5.21 </y-m>
-            <z-m> 0.10 </z-m>
+            <z-m>  0.0 </z-m>
         </offsets>
     </model>
 
@@ -6462,6 +6702,9 @@
         <object-name>elevator_p18</object-name>
         <object-name>tailplane_p18</object-name>
         <object-name>rudder_p18</object-name>
+        <object-name>fuselage_p18_solid</object-name>
+        <object-name>fuselage_interior_p18_solid</object-name>
+        <object-name>propeller_1_p18</object-name>
 
         <object-name>nose_wheel_bush_tri</object-name>
         <object-name>tyre_l_bush_tri</object-name>
