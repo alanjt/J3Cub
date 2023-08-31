@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>carb-heat.ac</path>
+
+    <effect>
+        <inherits-from>../../Effects/interior/j3cub-interior</inherits-from>
+        <object-name>carb_heat</object-name>
+        <object-name>carb_heat_case</object-name>
+    </effect>
+
+    <animation>
+        <type>select</type>
+        <object-name>carb_heat</object-name>
+        <object-name>carb_heat_case</object-name>
+        <condition>
+            <or>
+                <not>
+                   <property>sim/model/j3cub/pa-18</property>
+                </not>
+                <property>sim/model/preload</property>
+            </or>
+        </condition>
+    </animation>
+
+</PropertyList>

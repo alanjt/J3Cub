@@ -19,7 +19,7 @@
     <resizable>false</resizable>
     <modal>false</modal>
     <draggable>true</draggable>
-    <pref-width>300</pref-width>
+    <pref-width>380</pref-width>
 
     <group>
         <layout>hbox</layout>
@@ -61,11 +61,11 @@
                     <or>
                         <equals>
                             <property>/fdm/jsbsim/bushkit</property>
-                            <value>3</value>
+                            <value>2</value>
                         </equals>
                         <equals>
                             <property>/fdm/jsbsim/bushkit</property>
-                            <value>4</value>
+                            <value>3</value>
                         </equals>
                     </or>
                 </and>

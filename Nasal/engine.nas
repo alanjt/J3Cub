@@ -1,10 +1,71 @@
 # Manages the engine
 #
+# Hobbs meter
+
 # =============================== DEFINITIONS ===========================================
 
 # set the update period
 
 var UPDATE_PERIOD = 0.3;
+
+# =============================== Hobbs meter =======================================
+
+# this property is saved by aircraft.timer
+var hobbsmeter_engine_65hp  = aircraft.timer.new("/sim/time/hobbs/engine[0]", 60, 1);
+var hobbsmeter_engine_95hp  = aircraft.timer.new("/sim/time/hobbs/engine[1]", 60, 1);
+var hobbsmeter_engine_150hp = aircraft.timer.new("/sim/time/hobbs/engine[2]", 60, 1);
+
+var init_hobbs_meter = func(index, meter) {
+    setlistener("/engines/engine[" ~ index ~ "]/running", func {
+        if (getprop("/engines/engine[" ~ index ~ "]/running")) {
+            meter.start();
+            print("Hobbs system started");
+        } else {
+            meter.stop();
+            print("Hobbs system stopped");
+        }
+    }, 1, 0);
+};
+
+init_hobbs_meter(0, hobbsmeter_engine_65hp);
+init_hobbs_meter(1, hobbsmeter_engine_95hp);
+init_hobbs_meter(2, hobbsmeter_engine_150hp);
+
+var update_hobbs_meter = func {
+    # in seconds
+	var hobbs_65hp = getprop("/sim/time/hobbs/engine[0]") or 0.0;
+    var hobbs_95hp = getprop("/sim/time/hobbs/engine[1]") or 0.0;
+    var hobbs_150hp = getprop("/sim/time/hobbs/engine[2]") or 0.0;
+    # This uses minutes, for testing
+    #hobbs = hobbs / 60.0;
+    # in hours
+    #var hobbs = (hobbs_65hp + hobbs_95hp + hobbs_150hp) / 3600.0;
+
+	var hobbs = 0;
+	var current_engine = getprop("controls/engines/active-engine");
+	if (current_engine == 0) {
+		hobbs = hobbs_65hp / 3600.0;
+	} else
+	if (current_engine == 1) {
+		hobbs = hobbs_95hp / 3600.0;
+	} else
+	if (current_engine == 2) {
+		hobbs = hobbs_150hp / 3600.0;
+	}
+
+    # tenths of hour
+    setprop("/instrumentation/hobbs-meter/digits0", math.mod(int(hobbs * 10), 10));
+    # rest of digits
+    setprop("/instrumentation/hobbs-meter/digits1", math.mod(int(hobbs), 10));
+    setprop("/instrumentation/hobbs-meter/digits2", math.mod(int(hobbs / 10), 10));
+    setprop("/instrumentation/hobbs-meter/digits3", math.mod(int(hobbs / 100), 10));
+    setprop("/instrumentation/hobbs-meter/digits4", math.mod(int(hobbs / 1000), 10));
+};
+
+setlistener("/sim/time/hobbs/engine[0]", update_hobbs_meter, 1, 0);
+setlistener("/sim/time/hobbs/engine[1]", update_hobbs_meter, 1, 0);
+setlistener("/sim/time/hobbs/engine[2]", update_hobbs_meter, 1, 0);
+setlistener("/controls/engines/active-engine", update_hobbs_meter, 1, 0);
 
 # ================================ Initalize ====================================== 
 # Make sure all needed properties are present and accounted 
@@ -68,21 +129,112 @@ controls.mixtureAxis = func {
 
 controls.stepMagnetos = func {
     var old_value = getprop("/controls/switches/magnetos");
-    var new_value = std.max(0, std.min(old_value + arg[0], 4));
+    var new_value = std.max(0, std.min(old_value + arg[0], 3));
     setprop("/controls/switches/magnetos", new_value);
 };
+
+# ========== primer stuff ======================
+
+# Toggles the state of the primer
+var pumpPrimer = func {
+    var push = getprop("/controls/engines/engine/primer-lever") or 0;
+
+    if (push) {
+        var pump = getprop("/controls/engines/engine/primer") or 0;
+        setprop("/controls/engines/engine/primer", pump + 1);
+        setprop("/controls/engines/engine/primer-lever", 0);
+    }
+    else {
+        setprop("/controls/engines/engine/primer-lever", 1);
+    }
+};
+
+# Primes the engine automatically. This function takes several seconds
+var autoPrime = func {
+    var p = getprop("/controls/engines/engine/primer") or 0;
+    if (p < 3) {
+        pumpPrimer();
+        settimer(autoPrime, 1);
+    }
+};
+
+# Mixture will be calculated using the primer during 5 seconds AFTER the pilot used the starter
+# This prevents the engine to start just after releasing the starter: the propeller will be running
+# thanks to the electric starter, but carburator has not yet enough mixture
+var primerTimer = maketimer(5, func {
+    setprop("/controls/engines/engine/use-primer", 0);
+    # Reset the number of times the pilot used the primer only AFTER using the starter
+    setprop("/controls/engines/engine/primer", 0);
+    print("Primer reset to 0");
+    primerTimer.stop();
+});
+
+# ========== Main loop ======================
+
+var update = func {
+
+    var usePrimer = getprop("/controls/engines/engine/use-primer") or 0;
+    var engine_running = getprop("/engines/active-engine/running");
+    var magneto_settings = getprop("/controls/switches/magnetos");
+
+    #use if engine oil system is ever added
+    #if (usePrimer and !engine_running and getprop("/engines/active-engine/oil-temperature-degf") <= 75) {
+    if (usePrimer and !engine_running) {
+        # Mixture is controlled by start conditions
+        var primer = getprop("/controls/engines/engine/primer");
+        if (!getprop("/fdm/jsbsim/fcs/mixture-primer-cmd") and getprop("/controls/switches/starter") and getprop("/controls/switches/master-bat")) {
+            if (primer < 3) {
+                print("Use the primer!");
+                gui.popupTip("Use the primer!");
+            }
+            elsif (primer > 6) {
+                print("Flooded engine!");
+                gui.popupTip("Flooded engine!");
+            }
+            elsif (magneto_settings < 1) {
+                print("Check Magnetos Switch!");
+                gui.popupTip("Check Magnetos Switch!");
+            } else {
+                print("Check the throttle!");
+                gui.popupTip("Check the throttle!");
+            }
+        }
+    }
+};
+
+setlistener("/controls/switches/starter", func {
+    var v = getprop("/controls/switches/starter") or 0;
+    if (v == 0) {
+        print("Starter off");
+        # notice the starter will be reset after 5 seconds
+        primerTimer.restart(5);
+    }
+    else {
+        print("Starter on");
+        setprop("/controls/engines/engine/use-primer", 1);
+        if (primerTimer.isRunning) {
+            primerTimer.stop();
+        }
+    }
+}, 1, 0);
+
+# ========== end primer stuff ======================
 
 # key 's' calls to this function when it is pressed DOWN even if I overwrite the binding in the -set.xml file!
 # fun fact: the key UP event can be overwriten!
 controls.startEngine = func(v = 1) {
+    # Only operate in non-walker mode ('s' is also bound to walk-backward)
+    #var view_name = getprop("/sim/current-view/name");
+    #if (view_name == getprop("/sim/view[110]/name") or view_name == getprop("/sim/view[111]/name")) {
+    #    return;
+    #}
     if (getprop("/engines/active-engine/running"))
     {
         setprop("/controls/switches/starter", 0);
         return;
     }
     else {
-        setprop("/controls/switches/magnetos", 4);
-        setprop("/controls/engines/current-engine/starter", v);
+        setprop("/controls/switches/starter", v);
     }
 };
 
@@ -184,7 +336,10 @@ var engine_coughing = func(){
 var coughing_timer = maketimer(1, engine_coughing);
 coughing_timer.singleShot = 1;
 
+var engine_timer = maketimer(UPDATE_PERIOD, func { update(); });
+
 setlistener("/sim/signals/fdm-initialized", func {
+    engine_timer.start();
     carb_icing_function.start();
     coughing_timer.start();
 });

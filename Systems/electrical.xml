@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<PropertyList>
+
+    <filter>
+        <name>Wave Amplitude</name>
+        <type>noise-spike</type>
+        <max-rate-of-change>0.5</max-rate-of-change>
+        <enable>
+            <condition>
+                <not>
+                    <property>/sim/freeze/replay-state</property>
+                </not>
+            </condition>
+        </enable>
+        <input>
+            <property>/fdm/jsbsim/hydro/environment/wave-amplitude-ft-step</property>
+        </input>
+        <output>
+            <property>/fdm/jsbsim/hydro/environment/wave-amplitude-ft</property>
+        </output>
+    </filter>
+	
+    <filter>
+        <name>AMP draw procedural limitier</name>
+        <type>noise-spike</type>
+        <max-rate-of-change>.3</max-rate-of-change>
+        <enable>
+            <condition>
+                <not>
+                    <property>/sim/freeze/replay-state</property>
+                </not>
+            </condition>
+        </enable>
+        <input>
+            <property>/sim/model/pa-18/lighting/instrument-proc-step</property>
+        </input>
+        <output>
+            <property>/sim/model/pa-18/lighting/instrument-proc</property>
+        </output>
+    </filter>
+    <filter>
+        <name>AMP draw lightmap limitier</name>
+        <type>noise-spike</type>
+        <max-rate-of-change>.3</max-rate-of-change>
+        <enable>
+            <condition>
+                <not>
+                    <property>/sim/freeze/replay-state</property>
+                </not>
+            </condition>
+        </enable>
+        <input>
+            <property>/controls/lighting/instruments-norm-step</property>
+        </input>
+        <output>
+            <property>/controls/lighting/instruments-norm</property>
+        </output>
+    </filter>
+    <filter>
+        <name>AMP draw radio stack limitier</name>
+        <type>noise-spike</type>
+        <max-rate-of-change>.3</max-rate-of-change>
+        <enable>
+            <condition>
+                <not>
+                    <property>/sim/freeze/replay-state</property>
+                </not>
+            </condition>
+        </enable>
+        <input>
+            <property>/controls/lighting/radio-norm-step</property>
+        </input>
+        <output>
+            <property>/controls/lighting/radio-norm</property>
+        </output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>100.0</gain>
+        <input>
+            <property>/systems/electrical/battery-charge-percent</property> <!-- this property ranges from 0.0 to 1.0 despite its name -->
+        </input>
+        <output>
+            <property>/systems/electrical/battery-charge-percent-100</property>
+        </output>
+    </filter>
+
+    <logic>
+        <name>Low Voltage LED</name>
+        <input>
+            <and>
+                <greater-than>
+                    <property>systems/electrical/volts</property>
+                    <value>0.0</value>
+                </greater-than>
+                <less-than>
+                    <property>systems/electrical/amps</property>
+                    <value>0.0</value>
+                </less-than>
+            </and>
+        </input>
+        <output>
+            <property>/instrumentation/low-voltage-led</property>
+        </output>
+    </logic>
+
+    <logic>
+        <name>Hydraulic On/Off</name>
+        <input>
+            <or>
+                <and>
+                    <less-than>
+                        <property>systems/electrical/outputs/hydraulic-pump</property>
+                        <value>31.5</value>
+                    </less-than>
+                    <greater-than>
+                        <property>systems/electrical/outputs/hydraulic-pump</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <property>/controls/switches/master-bat</property>
+                    <equals>
+                        <property>sim/model/j3cub/pa-18</property>
+                        <value>1</value>
+                    </equals>
+                </and>
+                <equals>
+                    <property>sim/model/j3cub/pa-18</property>
+                    <value>0</value>
+                </equals>
+            </or>
+        </input>
+        <output>
+            <property>/sim/model/pa-18/hydraulics/hydraulic-pump</property>
+        </output>
+    </logic>
+
+    <logic>
+        <name>Hydraulic Damage</name>
+        <input>
+            <and>
+                <equals>
+                    <property>fdm/jsbsim/pontoon-damage/left-pontoon</property>
+                    <value>0</value>
+                </equals>
+                <equals>
+                    <property>fdm/jsbsim/pontoon-damage/right-pontoon</property>
+                    <value>0</value>
+                </equals>
+                <property>controls/gear/gear-down-command</property>
+            </and>
+        </input>
+        <output>
+            <property>controls/gear/gear-down</property>
+        </output>
+    </logic>
+
+</PropertyList>

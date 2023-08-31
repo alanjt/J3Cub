@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>vsi_pa18.ac</path>
+
+    <!-- als effects -->
+    <effect>
+        <inherits-from>../../Effects/interior/lm-vsi</inherits-from>
+        <object-name>Face</object-name>
+        <object-name>bezelinside</object-name>
+        <object-name>bezeloutside</object-name>
+        <object-name>screws</object-name>
+        <object-name>PointerTip</object-name>
+        <object-name>PointerCentre</object-name>
+    </effect>
+
+    <model>
+        <name>vsi-led</name>
+        <path>../../Effects/interior/procedural_light_instruments_medium.xml</path>
+        <offsets>
+            <x-m>-0.17747</x-m>
+            <y-m>-0.2057</y-m>
+            <z-m>-0.4228</z-m>
+        </offsets>
+        <condition>
+            <and>
+                <greater-than>
+                    <property>/sim/model/material/instruments/factor</property>
+                    <value>0</value>
+                </greater-than>
+                <greater-than>
+                    <property>/sim/rendering/shaders/model</property>
+                    <value>1</value>
+                </greater-than>
+            </and>
+        </condition>
+    </model>
+
+    <!-- default renderer effect -->
+    <animation>
+        <type>material</type>
+        <object-name>Face</object-name>
+        <object-name>bezelinside</object-name>
+        <object-name>PointerTip</object-name>
+        <object-name>PointerCentre</object-name>
+        <condition>
+            <not>
+                <property>/sim/rendering/shaders/skydome</property>
+            </not>
+        </condition>
+        <emission>
+            <red-prop>/sim/model/material/instruments/default-red-combined-factor</red-prop>
+            <green-prop>/sim/model/material/instruments/default-green-combined-factor</green-prop>
+            <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>PointerCentre</object-name>
+        <object-name>PointerTip</object-name>
+        <property>instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+        <interpolation>
+            <entry>
+                <ind>-2000</ind>
+                <dep>-176</dep>
+            </entry>
+            <entry>
+                <ind>-1500</ind>
+                <dep>-133</dep>
+            </entry>
+            <entry>
+                <ind>-1000</ind>
+                <dep>-88</dep>
+            </entry>
+            <entry>
+                <ind>-500</ind>
+                <dep>-44</dep>
+            </entry>
+            <entry>
+                <ind>0</ind>
+                <dep>0</dep>
+            </entry>
+            <entry>
+                <ind>500</ind>
+                <dep>44</dep>
+            </entry>
+            <entry>
+                <ind>1000</ind>
+                <dep>88</dep>
+            </entry>
+            <entry>
+                <ind>1500</ind>
+                <dep>133</dep>
+            </entry>
+            <entry>
+                <ind>2000</ind>
+                <dep>176</dep>
+            </entry>
+        </interpolation>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-0.17302</x-m>
+            <y-m>-0.20822</y-m>
+            <z-m>-0.44058</z-m>
+        </center>
+    </animation>
+
+</PropertyList>

@@ -77,9 +77,13 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <!--property>controls/switches/starter</property-->
-                <property>controls/engines/current-engine/starter</property>
+                <property>controls/switches/starter</property>
                 <value>1</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>/controls/switches/magnetos</property>
+                <value>3</value>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -88,8 +92,8 @@
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <!--property>controls/switches/starter</property-->
-                    <property>controls/engines/current-engine/starter</property>
+                    <property>controls/switches/starter</property>
+                    <value>0</value>
                 </binding>
                 <binding>
                     <command>nasal</command>
@@ -129,9 +133,9 @@
             </sum>
         </expression>
         <center>
-            <x-m>-0.15943</x-m>
-            <y-m> 0.22843</y-m>
-            <z-m>-0.5623</z-m>
+            <x-m>-0.17013</x-m>
+            <y-m> 0.28779</y-m>
+            <z-m>-0.48077</z-m>
         </center>
         <axis>
             <x>-1</x>
