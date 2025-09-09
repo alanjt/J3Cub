@@ -2,9 +2,9 @@
 
 <!-- *********** 
 Aerodynamics FDM for J3Cub.
-This is a Datcom based FDM to replace the original by Eric Hofman in the file J3Cub_aero.xml.
+This is a Datcom based FDM to replace the original (J3Cub_aero.xml) by Eric Hofman file called in J3Cub.xml at line 1100.
 
-Author: A J Teeder April 2019
+Author: A J Teeder April 2019, ammended 9 sept 2025.
 
 	*********** -->
 
@@ -140,10 +140,10 @@ Author: A J Teeder April 2019
 				<property>aero/qbar-psf</property>
 				<property>metrics/Sw-sqft</property>
 				<table  name="aero/coefficient/CLground">
-					<independentVar lookup="row">position/h-agl-ft</independentVar>
-					<independentVar lookup="column">velocities/u-fps</independentVar>
+					<independentVar lookup="row">aero/alpha-deg</independentVar>
+					<independentVar lookup="column">position/h-agl-ft</independentVar>
 					<tableData>
-						5.0	10.0	20.0	30.0
+						    5.0	    10.0	20.0	30.0
 						-4	-0.0160	-0.0070	-0.0050	0.0
 						-2	-0.0370	-0.0170	-0.0070	0.0
 						-1	-0.0490	-0.0220	-0.0060	0.0
@@ -202,7 +202,7 @@ Author: A J Teeder April 2019
 			<product>
 				<property>aero/qbar-psf</property>
 				<property>metrics/Sw-sqft</property>
-				<table  name="aero/coefficient/CD">
+				<table  name="aero/coefficient/CD_alpha">
 					<independentVar lookup="row">aero/alpha-deg</independentVar>
 					<independentVar lookup="column">velocities/u-fps</independentVar>
 					<tableData>
@@ -232,10 +232,10 @@ Author: A J Teeder April 2019
 				<property>aero/qbar-psf</property>
 				<property>metrics/Sw-sqft</property>
 				<table  name="aero/coefficient/CDground">
-					<independentVar lookup="row">position/h-agl-ft</independentVar>
-					<independentVar lookup="column">velocities/u-fps</independentVar>
+					<independentVar lookup="row">aero/alpha-deg</independentVar>
+					<independentVar lookup="column">position/h-agl-ft</independentVar>
 					<tableData>
-						5.0	10.0	20.0	30.0
+						    5.0	    10.0	20.0    30.0
 						-4	0.0010	0.0000	0.0000	0.0
 						-2	0.0020	0.0010	0.0000	0.0
 						-1	0.0020	0.0010	0.0000	0.0
@@ -390,7 +390,7 @@ Author: A J Teeder April 2019
 				<property>metrics/Sw-sqft</property>
 				<property>metrics/bw-ft</property>
 				<property>aero/beta-rad</property>
-				<table  name="aero/coefficient/Clb">
+				<table  name="aero/derivative/Clb">
 					<independentVar lookup="row">aero/alpha-deg</independentVar>
 					<independentVar lookup="column">velocities/u-fps</independentVar>
 					<tableData>
@@ -421,7 +421,7 @@ Author: A J Teeder April 2019
 				<property>metrics/bw-ft</property>
 				<property>aero/bi2vel</property>
 				<property>velocities/p-aero-rad_sec</property>
-				<table  name="aero/coefficient/Clp">
+				<table  name="aero/derivative/Clp">
 					<independentVar lookup="row">aero/alpha-deg</independentVar>
 					<independentVar lookup="column">velocities/u-fps</independentVar>
 					<tableData>
@@ -452,7 +452,7 @@ Author: A J Teeder April 2019
 				<property>metrics/bw-ft</property>
 				<property>aero/bi2vel</property>
 				<property>velocities/r-aero-rad_sec</property>
-				<table  name="aero/coefficient/Clr">
+				<table  name="aero/derivative/Clr">
 					<independentVar lookup="row">aero/alpha-deg</independentVar>
 					<independentVar lookup="column">velocities/u-fps</independentVar>
 					<tableData>
@@ -563,7 +563,7 @@ Author: A J Teeder April 2019
 				<property>metrics/cbarw-ft</property>
 				<property>aero/ci2vel</property>
 				<property>velocities/q-aero-rad_sec</property>
-				<table  name="aero/coefficient/CMq">
+				<table  name="aero/derivative/CMq">
 					<independentVar lookup="row">velocities/u-fps</independentVar>
 					<tableData>
 						55.29	-6.0460
@@ -587,7 +587,7 @@ Author: A J Teeder April 2019
 				<property>metrics/cbarw-ft</property>
 				<property>aero/ci2vel</property>
 				<property>aero/alphadot-rad_sec</property>
-				<table  name="aero/coefficient/CMadot">
+				<table  name="aero/derivative/CMadot">
 					<independentVar lookup="row">aero/alpha-deg</independentVar>
 					<independentVar lookup="column">velocities/u-fps</independentVar>
 					<tableData>
@@ -617,10 +617,10 @@ Author: A J Teeder April 2019
 				<property>metrics/Sw-sqft</property>
 				<property>metrics/cbarw-ft</property>
 				<table name="aero/coefficient/CMground">
-					<independentVar lookup="row">position/h-agl-ft</independentVar>
-					<independentVar lookup="column">velocities/u-fps</independentVar>
+					<independentVar lookup="row">aero/alpha-deg</independentVar>
+					<independentVar lookup="column">position/h-agl-ft</independentVar>
 					<tableData>
-						5.0	10.0	20.0	30.0
+						    5.0	    10.0    20.0	30.0
 						-4	0.0058	0.0025	0.0008	0.0
 						-2	0.0132	0.0053	0.0017	0.0
 						-1	0.0213	0.0083	0.0027	0.0
@@ -684,7 +684,7 @@ Author: A J Teeder April 2019
 				<property>metrics/Sw-sqft</property>
 				<property>metrics/bw-ft</property>
 				<property>aero/beta-rad</property>
-				<table  name="aero/coefficient/CNb">
+				<table  name="aero/derivative/CNb">
 					<independentVar lookup="row">aero/alpha-deg</independentVar>
 					<independentVar lookup="column">velocities/u-fps</independentVar>
 					<tableData>
@@ -714,7 +714,7 @@ Author: A J Teeder April 2019
 				<property>metrics/bw-ft</property>
 				<property>aero/bi2vel</property>
 				<property>velocities/p-aero-rad_sec</property>
-				<table  name="aero/coefficient/CNp">
+				<table  name="aero/derivative/CNp">
 					<independentVar lookup="row">aero/alpha-deg</independentVar>
 					<independentVar lookup="column">velocities/u-fps</independentVar>
 					<tableData>
@@ -745,7 +745,7 @@ Author: A J Teeder April 2019
 				<property>metrics/bw-ft</property>
 				<property>aero/bi2vel</property>
 				<property>velocities/r-aero-rad_sec</property>
-				<table  name="aero/coefficient/CNr">
+				<table  name="aero/derivative/CNr">
 					<independentVar lookup="row">aero/alpha-deg</independentVar>
 					<independentVar lookup="column">velocities/u-fps</independentVar>
 					<tableData>
